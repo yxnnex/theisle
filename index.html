@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chango&family=Short+Stack&display=swap" rel="stylesheet">
 
-    <!-- TOM SELECT CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.dark.css" rel="stylesheet">
-
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
@@ -73,25 +70,23 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.9);
         }
 
-        /* CUSTOMIZACIÓN DE TOM SELECT */
-        .ts-control {
-            background-color: rgba(20, 22, 25, 0.9) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            padding: 10px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
+        /* SELECTOR NATIVO ESTILIZADO */
+        select { 
+            width: 100%; 
+            padding: 10px; 
+            background: rgba(20, 22, 25, 0.9);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff; 
+            font-size: 14px; 
+            margin-bottom: 20px; 
+            cursor: pointer; 
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
         }
-        .ts-dropdown {
-            background-color: #141619 !important;
-            border: 1px solid #ff4d4d !important;
-            color: #ffffff !important;
-            border-radius: 8px !important;
-            overflow: hidden;
-        }
-        .ts-dropdown .option { color: #ffffff !important; padding: 8px 12px; }
-        .ts-dropdown .active { background-color: #ff4d4d !important; color: #fff !important; }
-        .ts-dropdown .optgroup-header { color: #ff4d4d; font-weight: bold; background: #0d0e10; }
+        select:focus { border-color: #ff4d4d; }
+        select option, select optgroup { background-color: #1a1a1a; color: #ffffff; }
 
         /* TARJETAS DE BUILD Y GLOSARIO */
         .card, .mutacion-item {
@@ -102,7 +97,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.7);
         }
 
-        .card { padding: 18px; margin-top: 15px; margin-bottom: 25px; border-top: 3px solid #ff4d4d; }
+        .card { padding: 18px; margin-bottom: 25px; border-top: 3px solid #ff4d4d; }
         .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
         .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
 
@@ -115,7 +110,7 @@
             border-left: 3px solid #ff4d4d; 
         }
 
-        /* BADGES Y ETIQUETAS */
+        /* BADGES Y ETIQUETAS DE SINERGIA */
         .badge-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
         .badge {
             font-size: 0.72rem;
@@ -151,6 +146,26 @@
         .grid-mutaciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
         .mutacion-item { padding: 12px; border-left: 4px solid #ff4d4d; }
         .mutacion-item strong { color: #ffffff; display: block; font-size: 0.95rem; margin-bottom: 4px; }
+
+        .map-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 1000;
+        }
+        .map-btn:hover { background-color: #e63939; transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -159,14 +174,45 @@
         <button class="lang-btn" id="lang-toggle" onclick="toggleIdioma()">🌐 Switch to English</button>
     </div>
 
+    <a href="https://www.islemaps.com/" target="_blank" rel="noopener noreferrer" class="map-btn" id="btn-mapa">
+        🗺️ Abrir IsleMaps
+    </a>
+
     <h1>The Isle: Evrima - Build Manager</h1>
     <p class="subtitle" id="txt-subtitulo">Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.</p>
 
-    <label for="select-dino" id="lbl-select">Buscar o Seleccionar Dinosaurio:</label>
-    <select id="select-dino" placeholder="Escribe para buscar..."></select>
+    <label for="select-dino" id="lbl-select">Seleccionar Dinosaurio:</label>
+    <select id="select-dino" onchange="mostrarBuild()">
+        <option value="" id="opt-default">-- Elige una opción --</option>
+        <optgroup label="Herbi/Omnívoros" id="grp-herbi">
+            <option value="Dryosaurus">Dryosaurus</option>
+            <option value="Hypsilophodon">Hypsilophodon</option>
+            <option value="Gallimimus">Gallimimus</option>
+            <option value="Diabloceratops">Diabloceratops</option>
+            <option value="Beipiaosaurus">Beipiaosaurus</option>
+            <option value="Pachycephalosaurus">Pachycephalosaurus</option>
+            <option value="Tenontosaurus">Tenontosaurus</option>
+            <option value="Stegosaurus">Stegosaurus</option>
+            <option value="Kentrosaurus">Kentrosaurus</option>
+            <option value="Maiasaura">Maiasaura</option>
+            <option value="Triceratops">Triceratops</option>
+        </optgroup>
+        <optgroup label="Carnívoros" id="grp-carni">
+            <option value="Pteranodon">Pteranodon</option>
+            <option value="Troodon">Troodon</option>
+            <option value="Herrerasaurus">Herrerasaurus</option>
+            <option value="Omniraptor">Omniraptor</option>
+            <option value="Dilophosaurus">Dilophosaurus</option>
+            <option value="Ceratosaurus">Ceratosaurus</option>
+            <option value="Carnotaurus">Carnotaurus</option>
+            <option value="Allosaurus">Allosaurus</option>
+            <option value="Deinosuchus">Deinosuchus</option>
+            <option value="Tyrannosaurus">Tyrannosaurus</option>
+        </optgroup>
+    </select>
 
     <div id="resultado-build">
-        <p style="text-align: center; color: #d1d1d1; margin-top: 20px;" id="txt-placeholder">
+        <p style="text-align: center; color: #d1d1d1;" id="txt-placeholder">
             <em>Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.</em>
         </p>
     </div>
@@ -174,154 +220,112 @@
     <hr>
 
     <h2 class="section-title" id="titulo-glosario">Glosario Completo de <span class="highlight-red">Mutaciones</span></h2>
-    <p id="subtitulo-glosario">Lista completa para armar y personalizar tu propia build:</p>
+    <p id="subtitulo-glosario">Lista completa extraída del servidor para armar y personalizar tu propia build:</p>
 
     <div id="contenedor-glosario"></div>
 
-    <!-- TOM SELECT JS -->
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-
     <script>
       let idiomaActual = 'es';
-      let tomSelectInstance = null;
 
-      // --- BASE DE DATOS ESTRUCTURADA DE MUTACIONES ---
+      // --- BASE DE DATOS EXACTA DE LAS 29 MUTACIONES SOLICITADAS ---
       const mutacionesDB = [
-        // SUPERVIVENCIA Y METABOLISMO
-        {
-          id: "Cellular Regeneration",
-          categoria: 1,
-          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
-          desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." },
-          restriccion: null,
-          sinergia: ["Gastronomic Regeneration", "Hydroregenerative"],
-          pocaSinergia: [],
-          situacional: ["Combat Builds"],
-          unlock: null
-        },
-        {
-          id: "Efficient Digestion",
-          categoria: 1,
-          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
-          desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." },
-          restriccion: null,
-          sinergia: ["Sustained Hydration"],
-          pocaSinergia: ["Hypermetabolic Inanition"],
-          situacional: ["Viajes largos / Exploración"],
-          unlock: null
-        },
-        {
-          id: "Hypermetabolic Inanition",
-          categoria: 1,
-          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
-          desc: { es: "Mientras menos hambre tengas, más daño infligís (Valor: 15%).", en: "The less hunger you have, the more damage you deal. Value: 15%" },
-          restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" },
-          sinergia: ["Accelerated Prey Drive", "Hemomania"],
-          pocaSinergia: ["Efficient Digestion"],
-          situacional: ["PvP Agresivo"],
-          unlock: null
-        },
-        {
-          id: "Reniculate Kidneys",
-          categoria: 1,
-          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
-          desc: { es: "Riñones adaptados para procesar agua salada o contaminada.", en: "Kidneys adapted to process saltwater or contaminated water." },
-          restriccion: null,
-          sinergia: ["Sustained Hydration"],
-          pocaSinergia: [],
-          situacional: ["Zonas costeras o pantanos salobres"],
-          unlock: {
+        // Categoria 1: Supervivencia y Metabolismo
+        { id: "Cellular Regeneration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." }, sinergia: ["Gastronomic Regeneration", "Hydroregenerative"], situacional: ["Builds de combate sustentable"] },
+        { id: "Efficient Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." }, sinergia: ["Sustained Hydration"], pocaSinergia: ["Hypermetabolic Inanition"], situacional: ["Viajes largos / Exploración"] },
+        { id: "Enhanced Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (Valor: 10%).", en: "Decrease nutrition decay rate. Value: 10%" }, sinergia: ["Efficient Digestion"] },
+        { id: "Sustained Hydration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." }, sinergia: ["Efficient Digestion"] },
+        { id: "Heightened Ghrelin", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Aumenta el apetito y acelera el proceso de crecimiento/nutrientes.", en: "Increases appetite and accelerates growth/nutrient processing." } },
+        { id: "Hypermetabolic Inanition", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Mientras menos hambre tengas, más daño infligís (Valor: 15%).", en: "The less hunger you have, the more damage you deal. Value: 15%" }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" }, sinergia: ["Accelerated Prey Drive", "Hemomania"], pocaSinergia: ["Efficient Digestion"], situacional: ["PvP Agresivo"] },
+        { id: "Reabsorption", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Reabsorción eficiente de agua/nutrientes corporales.", en: "Efficient reabsorption of body water and nutrients." } },
+        { 
+          id: "Reniculate Kidneys", 
+          cat: 1, 
+          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, 
+          desc: { es: "Riñones adaptados para procesar agua salada o contaminada.", en: "Kidneys adapted to process saltwater or contaminated water." }, 
+          sinergia: ["Sustained Hydration"], 
+          situacional: ["Zonas costeras"], 
+          unlock: { 
             es: [
-              "Bebé agua salada hasta llenar la barra.",
+              "Bebé agua salada hasta enfermarte.",
               "Obtené el estado 'Fluid Deficient'.",
-              "Eliminá el estado hidratándote correctamente con agua dulce.",
+              "Eliminá el estado lamiendo una roca salada.",
+              "Repetí el proceso hasta que al beber agua salada ya no te enfermes.",
               "La mutación quedará disponible para equipar."
-            ],
+            ], 
             en: [
-              "Drink saltwater until the bar fills up.",
+              "Drink saltwater until you get sick.",
               "Obtain the 'Fluid Deficient' status.",
-              "Remove the status by properly hydrating with fresh water.",
+              "Cure the status by licking a salt rock.",
+              "Repeat the process until drinking saltwater no longer makes you sick.",
               "The mutation will become available to equip."
-            ]
-          }
+            ] 
+          } 
         },
 
-        // COMBATE Y RESISTENCIA
-        {
-          id: "Epidermal Fibrosis",
-          categoria: 2,
-          catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" },
-          desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." },
-          restriccion: null,
-          sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"],
-          pocaSinergia: [],
-          situacional: ["Contra carnívoros con sangrado (Raptors/Dilo)"],
-          unlock: null
-        },
-        {
-          id: "Osteosclerosis",
-          categoria: 2,
-          catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" },
-          desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." },
-          restriccion: null,
-          sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"],
-          pocaSinergia: [],
-          situacional: ["Brawlers Apex (Rex/Triceratops)"],
-          unlock: null
-        },
+        // Categoria 2: Combate y Resistencia
+        { id: "Epidermal Fibrosis", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
+        { id: "Osteosclerosis", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
+        { id: "Enlarged Meniscus", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el daño por impacto tras caídas altas.", en: "Reduces fall impact damage." } },
+        { id: "Reinforced Tendons", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reinforced que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
+        { id: "Congenital Hypoalgesia", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido.", en: "Pain resistance; lowers movement penalties while injured." } },
+        { id: "Multichambered Lungs", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Pulmones multicámara para mayor reserva de estamina.", en: "Multichambered lungs for larger stamina reserve." } },
 
-        // CAZA Y DIETA
-        {
-          id: "Cannibalistic",
-          categoria: 3,
-          catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" },
-          desc: { es: "Permite alimentarte de tu misma especie sin penalizaciones.", en: "Allows feeding on your own species without sickness penalties." },
-          restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" },
-          sinergia: ["Gastronomic Regeneration"],
-          pocaSinergia: [],
-          situacional: ["Servidores con superpoblación de la misma especie"],
-          unlock: null
-        },
+        // Categoria 3: Caza y Dieta
+        { id: "Accelerated Prey Drive", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "+10% de daño extra contra presas débiles o heridas.", en: "+10% extra damage against weak or injured prey." } },
+        { id: "Hemomania", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
+        { id: "Hematophagy", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Recupera agua al alimentarse de cadáveres.", en: "Restores water when feeding on corpses." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
+        { id: "Cannibalistic", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Permite alimentarte de tu misma especie sin penalizaciones.", en: "Allows feeding on your own species without sickness penalties." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
+        { id: "Gastronomic Regeneration", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Regenera salud rápidamente durante el proceso de digestión.", en: "Regenerates health quickly while digesting food." }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" } },
 
-        // NIDIFICACIÓN Y REPRODUCCIÓN
-        {
-          id: "Parthenogenesis",
-          categoria: 5,
-          catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" },
-          desc: { es: "Habilidad de reproducción/puesta de huevos sin necesidad de pareja.", en: "Ability to reproduce/lay eggs without a mate." },
-          restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" },
-          sinergia: ["Advanced Gestation", "Prolific Reproduction"],
-          pocaSinergia: [],
-          situacional: ["Jugadores solitarios que quieren crear manada"],
-          unlock: null
-        }
+        // Categoria 4: Movilidad y Entorno
+        { id: "Hydrodynamic", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% de velocidad de nado en agua.", en: "+15% swim speed in water." } },
+        { id: "Hydroregenerative", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Regeneración acelerada sumergido o bajo la lluvia.", en: "Accelerated regeneration submerged or during rain." } },
+        { id: "Wader", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor velocidad de desplazamiento en aguas poco profundas/pantanos.", en: "Higher movement speed in shallow waters and swamps." } },
+        { id: "Increased Inspiratory Capacity", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor capacidad de aguantar la respiración bajo el agua o corriendo.", en: "Increased ability to hold breath underwater or sprinting." } },
+        { id: "Submerged Optical Retention", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Claridad y rango de visión bajo el agua.", en: "Clarity and visual range underwater." } },
+        { id: "Featherweight", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Las huellas y rastros se borran más rápido.", en: "Footprints and tracks disappear faster." } },
+        { id: "Nocturnal", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión y sentidos mejorados durante la noche.", en: "Enhanced vision and senses at night." } },
+        { id: "Augmented Tapetum", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión nocturna mejorada (brillo ocular).", en: "Enhanced night vision (eye shine)." } },
+        { id: "Photosynthetic Tissue", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Beneficios ligeros al exponerse a la luz solar.", en: "Slight buffs when exposed to sunlight." } },
+
+        // Categoria 5: Nidificación y Reproducción
+        { id: "Advanced Gestation", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Gestación, incubación y tiempo de recarga de huevos más rápido (Valor: 5%).", en: "Faster Egg Gestation/Incubation/Cooldown Rate. Value: 5%" }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
+        { id: "Prolific Reproduction", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Tus crías tienen más regeneración de salud/estamina, consumen menos comida y crecen más rápido.", en: "Your babies have increased health/stamina regen, require less food and grow faster." }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
+        { id: "Parthenogenesis", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Habilidad de reproducción/puesta de huevos sin necesidad de pareja.", en: "Ability to reproduce/lay eggs without a mate." }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
+        { id: "Infrasound Communication", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Comunicación a larga distancia mediante infrasonido.", en: "Long-distance communication using infrasound." } }
       ];
 
       // --- BASE DE DATOS DE DINOSAURIOS ---
       const dinosauriosDB = [
-        {
-          nombre: "Diabloceratops",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", slots: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] },
-            en: { desc: "Defensive tank and heavy counter-attacker.", slots: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] }
-          }
-        },
-        {
-          nombre: "Triceratops",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Apex herbívoro: Máximo daño frontal y resistencia al dolor.", slots: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis", "Cellular Regeneration"] },
-            en: { desc: "Apex herbivore: Maximum frontal damage and pain tolerance.", slots: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis", "Cellular Regeneration"] }
-          }
-        }
+        { nombre: "Dryosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Build de evasión rápida y construcción de madrigueras.", s: ["Featherweight", "Sustained Hydration", "Enlarged Meniscus", "Osteosclerosis"] }, en: { desc: "Fast evasion and burrowing build.", s: ["Featherweight", "Sustained Hydration", "Enlarged Meniscus", "Osteosclerosis"] } } },
+        { nombre: "Hypsilophodon", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Agilidad en las alturas y escape veloz.", s: ["Enlarged Meniscus", "Reinforced Tendons", "Featherweight", "Sustained Hydration"] }, en: { desc: "High agility and quick escape.", s: ["Enlarged Meniscus", "Reinforced Tendons", "Featherweight", "Sustained Hydration"] } } },
+        { nombre: "Gallimimus", tipo: { es: "Omnívoro", en: "Omnivore" }, build: { es: { desc: "Velocidad máxima y resistencia de estamina extrema para viajes largos.", s: ["Reinforced Tendons", "Multichambered Lungs", "Enhanced Digestion", "Featherweight"] }, en: { desc: "Top speed and extreme stamina efficiency for long travel.", s: ["Reinforced Tendons", "Multichambered Lungs", "Enhanced Digestion", "Featherweight"] } } },
+        { nombre: "Diabloceratops", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] }, en: { desc: "Defensive tank and heavy counter-attacker.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] } } },
+        { nombre: "Beipiaosaurus", tipo: { es: "Omnívoro", en: "Omnivore" }, build: { es: { desc: "Movilidad semi-acuática y rápida recolección.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] }, en: { desc: "Semi-aquatic mobility and fast foraging.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] } } },
+        { nombre: "Pachycephalosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Especialista en cabezazos y fracturas de huesos a rivales.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] }, en: { desc: "Headbutt specialist focused on bone breaking.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] } } },
+        { nombre: "Tenontosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Combate de cola y defensa equilibrada contra raptores.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] }, en: { desc: "Tail-whip combatant and anti-raptor defense.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] } } },
+        { nombre: "Stegosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable y resistencia extrema al sangrado.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress with high bleed resistance.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] } } },
+        { nombre: "Kentrosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Castigo por contacto con púas y rápida recuperación.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] }, en: { desc: "Punishing spike-counter and fast recovery.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] } } },
+        { nombre: "Maiasaura", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Crecimiento rápido de manada y movilidad constante.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] }, en: { desc: "Fast herd reproduction and sustained mobility.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] } } },
+        { nombre: "Triceratops", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Apex herbívoro: Máximo daño frontal y resistencia al dolor.", s: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia", "Osteosclerosis"] }, en: { desc: "Apex herbivore: Maximum frontal damage and pain tolerance.", s: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia", "Osteosclerosis"] } } },
+        
+        // Carnívoros
+        { nombre: "Pteranodon", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Dominio aéreo, pesca efectiva y visión clara.", s: ["Increased Inspiratory Capacity", "Submerged Optical Retention", "Featherweight", "Heightened Ghrelin"] }, en: { desc: "Aerial scouting, efficient fishing and vision.", s: ["Increased Inspiratory Capacity", "Submerged Optical Retention", "Featherweight", "Heightened Ghrelin"] } } },
+        { nombre: "Troodon", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Guerrilla nocturna y veneno coordinado.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] }, en: { desc: "Night hit-and-run tactics with coordinated venom.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] } } },
+        { nombre: "Herrerasaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada desde los árboles y resistencia a caídas.", s: ["Enlarged Meniscus", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] }, en: { desc: "Tree ambush specialist with fall damage reduction.", s: ["Enlarged Meniscus", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] } } },
+        { nombre: "Omniraptor", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Caza en jauría, salto prolongado y desangrado.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Pack hunting, high leaps and bleed damage.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
+        { nombre: "Dilophosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Terror nocturno y alucinaciones prolongadas.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Night terror and persistent hallucination pressure.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
+        { nombre: "Ceratosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carroñero agresivo con inmunidad a bacterias.", s: ["Cannibalistic", "Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition"] }, en: { desc: "Aggressive scavenger with bacteria resistance.", s: ["Cannibalistic", "Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition"] } } },
+        { nombre: "Carnotaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carga a máxima velocidad e impacto devastador.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] }, en: { desc: "High-speed charge and heavy initial impact.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] } } },
+        { nombre: "Allosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Cazador versátil centrado en desangrar presas grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Versatile hunter focused on bleeding big targets.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
+        { nombre: "Deinosuchus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática y absoluto control de ríos.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] }, en: { desc: "Aquatic ambush and river zone control.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] } } },
+        { nombre: "Tyrannosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Depredador alfa: Fuerza bruta, rotura de huesos y daño masivo.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] }, en: { desc: "Apex predator: Raw power, bone breaking and high damage.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] } } }
       ];
 
       // --- FUNCIONES RENDERIZADORAS ---
-
       function renderBadges(mut) {
+        if (!mut) return '';
         let html = '<div class="badge-container">';
-        
         if (mut.restriccion) {
           html += `<span class="badge badge-restriction">${mut.restriccion[idiomaActual]}</span>`;
         }
@@ -334,7 +338,6 @@
         if (mut.situacional && mut.situacional.length > 0) {
           html += `<span class="badge badge-situacional">🟡 ${idiomaActual === 'es' ? 'Situacional' : 'Situational'}: ${mut.situacional.join(', ')}</span>`;
         }
-
         html += '</div>';
         return html;
       }
@@ -358,7 +361,7 @@
         let html = '';
 
         categorias.forEach(catId => {
-          const mutsCat = mutacionesDB.filter(m => m.categoria === catId);
+          const mutsCat = mutacionesDB.filter(m => m.cat === catId);
           if (mutsCat.length > 0) {
             html += `<h3>${mutsCat[0].catNombre[idiomaActual]}</h3><div class="grid-mutaciones">`;
             mutsCat.forEach(mut => {
@@ -383,7 +386,7 @@
         const contenedor = document.getElementById("resultado-build");
 
         if (!valorSeleccionado) {
-            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1; margin-top:20px;"><em>${
+            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1;" id="txt-placeholder"><em>${
                 idiomaActual === 'es' 
                 ? 'Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.' 
                 : 'Choose a dinosaur from the list to display its 4-mutation build and strategy.'
@@ -398,7 +401,7 @@
             const tipoDino = dinoEncontrado.tipo[idiomaActual];
             
             let listHtml = '<ul class="build-list">';
-            info.slots.forEach((mutId, index) => {
+            info.s.forEach((mutId, index) => {
               const mutData = mutacionesDB.find(m => m.id === mutId);
               const desc = mutData ? mutData.desc[idiomaActual] : '';
               listHtml += `
@@ -422,41 +425,38 @@
         }
       }
 
-      function inicializarTomSelect() {
-        if (tomSelectInstance) tomSelectInstance.destroy();
-
-        const selectEl = document.getElementById("select-dino");
-        selectEl.innerHTML = '<option value="">-- ' + (idiomaActual === 'es' ? 'Elige o busca un dino' : 'Choose or search a dino') + ' --</option>';
-
-        dinosauriosDB.forEach(dino => {
-          const opt = document.createElement("option");
-          opt.value = dino.nombre;
-          opt.textContent = dino.nombre;
-          selectEl.appendChild(opt);
-        });
-
-        tomSelectInstance = new TomSelect("#select-dino", {
-          create: false,
-          sortField: { field: "text", direction: "asc" },
-          onChange: function() { mostrarBuild(); }
-        });
-      }
-
       function toggleIdioma() {
         idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
-        document.getElementById("lang-toggle").innerText = idiomaActual === 'es' ? "🌐 Switch to English" : "🌐 Cambiar a Español";
-        document.getElementById("txt-subtitulo").innerHTML = idiomaActual === 'es' 
-          ? 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.'
-          : 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
-        
+        const btn = document.getElementById("lang-toggle");
+
+        if (idiomaActual === 'en') {
+            btn.innerText = "🌐 Cambiar a Español";
+            document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
+            document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
+            document.getElementById("lbl-select").innerText = "Select Dinosaur:";
+            document.getElementById("opt-default").innerText = "-- Choose an option --";
+            document.getElementById("grp-herbi").label = "Herbi/Omnivores";
+            document.getElementById("grp-carni").label = "Carnivores";
+            document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
+            document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
+        } else {
+            btn.innerText = "🌐 Switch to English";
+            document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
+            document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
+            document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
+            document.getElementById("opt-default").innerText = "-- Elige una opción --";
+            document.getElementById("grp-herbi").label = "Herbi/Omnívoros";
+            document.getElementById("grp-carni").label = "Carnívoros";
+            document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
+            document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
+        }
+
         renderGlosario();
-        inicializarTomSelect();
         mostrarBuild();
       }
 
-      // --- INICIALIZACIÓN ---
+      // Cargar glosario inicial
       renderGlosario();
-      inicializarTomSelect();
     </script>
 </body>
 </html>
