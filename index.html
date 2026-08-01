@@ -564,3 +564,16 @@
     </script>
 </body>
 </html>
+<!-- CORTAR Y PEGAR EN EL HTML -->
+<div class="counter-container">
+  <span>👁️ Visitas totales: </span>
+  <span id="visit-count">Cargando...</span>
+</div>
+
+<script>
+  function cb(response) {
+    document.getElementById('visit-count').innerText = response.value;
+  }
+</script>
+<!-- Reemplaza 'midominio.com' por el nombre de tu sitio o un identificador único -->
+<script async src="https://api.countapi.xyz/hit/midominio.com/visitas?callback=cb"></script>
