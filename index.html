@@ -61,6 +61,34 @@
         }
         p.subtitle { text-align: center; }
 
+        /* SECCIÓN INFORMATIVA DE SISTEMA DE SLOTS Y ETAPAS */
+        .info-system-box {
+            background: rgba(18, 20, 24, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .info-system-box summary {
+            font-family: 'Short Stack', cursive;
+            font-size: 1.1rem;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-system-box summary:hover { color: #ff6666; }
+        .system-content { margin-top: 15px; color: #e0e0e0; font-size: 0.88rem; line-height: 1.6; }
+        .system-content h4 { color: #ff4d4d; margin: 12px 0 4px 0; font-family: 'Short Stack', cursive; font-size: 1rem; }
+        .system-content ul { margin-left: 20px; margin-bottom: 10px; }
+        .system-content li { margin-bottom: 4px; }
+        .highlight-nesting { background: rgba(46, 204, 113, 0.15); border-left: 3px solid #2ecc71; padding: 8px 12px; border-radius: 4px; margin: 10px 0; }
+
         label {
             font-family: 'Short Stack', cursive;
             display: block;
@@ -111,14 +139,15 @@
         }
 
         /* BADGES Y ETIQUETAS DE SINERGIA */
-        .badge-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+        .badge-container { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
         .badge {
-            font-size: 0.72rem;
-            padding: 2px 8px;
+            font-size: 0.75rem;
+            padding: 3px 8px;
             border-radius: 12px;
             font-weight: bold;
             display: inline-flex;
             align-items: center;
+            width: fit-content;
         }
         .badge-sinergia { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
         .badge-poca { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
@@ -181,6 +210,27 @@
     <h1>The Isle: Evrima - Build Manager</h1>
     <p class="subtitle" id="txt-subtitulo">Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.</p>
 
+    <!-- GUÍA DE SISTEMA DE ETAPAS Y SLOTS -->
+    <details class="info-system-box" id="sys-box" open>
+        <summary id="sys-title">🧬 ¿Cómo funciona el Sistema de Mutaciones y Slots en Evrima?</summary>
+        <div class="system-content" id="sys-body">
+            <p>En Evrima, las mutaciones no se eligen todas de golpe. Se van desbloqueando progresivamente en tu ADN a medida que tu dinosaurio crece (dieta consumida, supervivencia, combate o exploración,reproducción) .</p>
+            
+            <div class="highlight-nesting">
+                <strong>🥚 Ventaja de Nacer de Huevo (Heredadas):</strong>
+                Nacer desde un nido te otorga una enorme ventaja competitiva. Te permite heredar mutaciones de tus padres directamente a tu ADN, habilitándote a equipar más mutaciones en total o acceder a combinaciones más potentes desde edad temprana.
+            </div>
+
+            <h4>Distribución de Mutaciones por Slots y Etapas:</h4>
+            <ul>
+                <li><strong>Slot 1 - Crecimiento Temprano (Juvenil):</strong> Orientadas a la supervivencia básica, manejo de recursos y movilidad rápida (ej. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
+                <li><strong>Slot 2 - Etapa Media (Sub-Adulto / Crecimiento Avanzado):</strong> Modificaciones directas al metabolismo y combate especializado (ej. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
+                <li><strong>Slot 3 - Etapa Adulta / Late Game:</strong> Efectos pesados pensados para enfrentamientos directos entre adultos, resistencia a estados alterados y combate final (ej. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
+            </ul>
+            <p><em>Nota sobre el meta:</em> La orientación de tu build dependerá del rol de tu dinosaurio: combate directo, migración/viaje largo o reproducción y crianza. Además, tené en cuenta que algunas mutaciones son mutuamente excluyentes.</p>
+        </div>
+    </details>
+
     <label for="select-dino" id="lbl-select">Seleccionar Dinosaurio:</label>
     <select id="select-dino" onchange="mostrarBuild()">
         <option value="" id="opt-default">-- Elige una opción --</option>
@@ -227,15 +277,27 @@
     <script>
       let idiomaActual = 'es';
 
-      // --- BASE DE DATOS EXACTA DE LAS 29 MUTACIONES SOLICITADAS ---
+      // --- BASE DE DATOS EXACTA DE LAS 29 MUTACIONES ---
       const mutacionesDB = [
         // Categoria 1: Supervivencia y Metabolismo
-        { id: "Cellular Regeneration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." }, sinergia: ["Gastronomic Regeneration", "Hydroregenerative"], situacional: ["Builds de combate sustentable"] },
-        { id: "Efficient Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." }, sinergia: ["Sustained Hydration"], pocaSinergia: ["Hypermetabolic Inanition"], situacional: ["Viajes largos / Exploración"] },
-        { id: "Enhanced Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (Valor: 10%).", en: "Decrease nutrition decay rate. Value: 10%" }, sinergia: ["Efficient Digestion"] },
-        { id: "Sustained Hydration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." }, sinergia: ["Efficient Digestion"] },
+        { id: "Cellular Regeneration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." }, sinergia: ["Gastronomic Regeneration", "Hydroregenerative"], situacional: ["Builds de combate sustentable"] },
+        { id: "Efficient Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "El hambre se reduce más lento (mantiene la barra llena por más tiempo).", en: "Hunger drains slower (keeps food bar full longer)." }, sinergia: ["Sustained Hydration"], pocaSinergia: ["Hypermetabolic Inanition (Retrasa el bono de daño al no dejar bajar el alimento)"], situacional: ["Viajes largos / Exploración"] },
+        { id: "Enhanced Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (Valor: 10%).", en: "Decrease nutrition decay rate. Value: 10%" }, sinergia: ["Efficient Digestion"] },
+        { id: "Sustained Hydration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." }, sinergia: ["Efficient Digestion"] },
         { id: "Heightened Ghrelin", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Aumenta el apetito y acelera el proceso de crecimiento/nutrientes.", en: "Increases appetite and accelerates growth/nutrient processing." } },
-        { id: "Hypermetabolic Inanition", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Mientras menos hambre tengas, más daño infligís (Valor: 15%).", en: "The less hunger you have, the more damage you deal. Value: 15%" }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" }, sinergia: ["Accelerated Prey Drive", "Hemomania"], pocaSinergia: ["Efficient Digestion"], situacional: ["PvP Agresivo"] },
+        { 
+          id: "Hypermetabolic Inanition", 
+          cat: 1, 
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 2)", en: "Survival & Metabolism (Slot 2)" }, 
+          desc: { 
+            es: "Cuanta menos comida tengas (más baja la barra de alimento), más daño infligís (hasta +15%). ⚠️ Nota: La descripción oficial del juego en inglés dice 'less hunger', lo cual causa confusión; pero mecánicamente funciona teniendo MÁS hambre/menos comida.", 
+            en: "The less food you have (the lower your food bar), the more damage you deal (up to +15%). ⚠️ Note: In-game text uses 'less hunger' causing confusion, but in practice it rewards having lower food levels." 
+          }, 
+          restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" }, 
+          sinergia: ["Accelerated Prey Drive", "Hemomania"], 
+          pocaSinergia: ["Efficient Digestion (Retrasa el tiempo necesario para bajar la comida y activar el daño)"], 
+          situacional: ["PvP Agresivo"] 
+        },
         { id: "Reabsorption", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Reabsorción eficiente de agua/nutrientes corporales.", en: "Efficient reabsorption of body water and nutrients." } },
         { 
           id: "Reniculate Kidneys", 
@@ -263,23 +325,23 @@
         },
 
         // Categoria 2: Combate y Resistencia
-        { id: "Epidermal Fibrosis", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
-        { id: "Osteosclerosis", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
+        { id: "Epidermal Fibrosis", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
+        { id: "Osteosclerosis", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
         { id: "Enlarged Meniscus", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el daño por impacto tras caídas altas.", en: "Reduces fall impact damage." } },
         { id: "Reinforced Tendons", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reinforced que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
-        { id: "Congenital Hypoalgesia", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido.", en: "Pain resistance; lowers movement penalties while injured." } },
+        { id: "Congenital Hypoalgesia", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido.", en: "Pain resistance; lowers movement penalties while injured." } },
         { id: "Multichambered Lungs", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Pulmones multicámara para mayor reserva de estamina.", en: "Multichambered lungs for larger stamina reserve." } },
 
         // Categoria 3: Caza y Dieta
-        { id: "Accelerated Prey Drive", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "+10% de daño extra contra presas débiles o heridas.", en: "+10% extra damage against weak or injured prey." } },
-        { id: "Hemomania", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
+        { id: "Accelerated Prey Drive", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+10% de daño extra contra presas débiles o heridas.", en: "+10% extra damage against weak or injured prey." } },
+        { id: "Hemomania", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
         { id: "Hematophagy", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Recupera agua al alimentarse de cadáveres.", en: "Restores water when feeding on corpses." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
         { id: "Cannibalistic", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Permite alimentarte de tu misma especie sin penalizaciones.", en: "Allows feeding on your own species without sickness penalties." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
-        { id: "Gastronomic Regeneration", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Regenera salud rápidamente durante el proceso de digestión.", en: "Regenerates health quickly while digesting food." }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" } },
+        { id: "Gastronomic Regeneration", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "Regenera salud rápidamente durante el proceso de digestión.", en: "Regenerates health quickly while digesting food." }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" } },
 
         // Categoria 4: Movilidad y Entorno
         { id: "Hydrodynamic", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% de velocidad de nado en agua.", en: "+15% swim speed in water." } },
-        { id: "Hydroregenerative", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Regeneración acelerada sumergido o bajo la lluvia.", en: "Accelerated regeneration submerged or during rain." } },
+        { id: "Hydroregenerative", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión (Slot 1)", en: "Mobility, Environment & Vision (Slot 1)" }, desc: { es: "Regeneración acelerada sumergido o bajo la lluvia.", en: "Accelerated regeneration submerged or during rain." } },
         { id: "Wader", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor velocidad de desplazamiento en aguas poco profundas/pantanos.", en: "Higher movement speed in shallow waters and swamps." } },
         { id: "Increased Inspiratory Capacity", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor capacidad de aguantar la respiración bajo el agua o corriendo.", en: "Increased ability to hold breath underwater or sprinting." } },
         { id: "Submerged Optical Retention", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Claridad y rango de visión bajo el agua.", en: "Clarity and visual range underwater." } },
@@ -439,6 +501,23 @@
             document.getElementById("grp-carni").label = "Carnivores";
             document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
             document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
+            
+            // Texto del panel explicativo del sistema
+            document.getElementById("sys-title").innerText = "🧬 How does the Mutation & Slot System work in Evrima?";
+            document.getElementById("sys-body").innerHTML = `
+                <p>In Evrima, mutations aren't unlocked all at once. They unlock progressively in your DNA as your dinosaur grows and performs specific actions (diet consumed, survival, combat, or exploration).</p>
+                <div class="highlight-nesting">
+                    <strong>🥚 Egg Hatching Advantage (Inherited):</strong>
+                    Hatching from a nest gives you a huge competitive edge. It allows you to inherit mutations directly from your parents into your DNA, enabling you to equip more mutations in total or access stronger setups from early growth stages.
+                </div>
+                <h4>Mutation Distribution by Slots & Stages:</h4>
+                <ul>
+                    <li><strong>Slot 1 - Early Growth (Juvenile):</strong> Focused on basic survival, resource management, and mobility (e.g. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
+                    <li><strong>Slot 2 - Mid Growth (Sub-Adult):</strong> Direct alterations to metabolism, stat bar behavior, and specialized combat (e.g. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
+                    <li><strong>Slot 3 - Adult / Late Game:</strong> Heavy status effect resistances, bone density, and final endgame combat (e.g. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
+                </ul>
+                <p><em>Meta note:</em> Build orientation depends on your dinosaur's role (direct combat, migration/long travel, or breeding/nesting). Also note that some mutations are mutually exclusive.</p>
+            `;
         } else {
             btn.innerText = "🌐 Switch to English";
             document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
@@ -449,6 +528,23 @@
             document.getElementById("grp-carni").label = "Carnívoros";
             document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
             document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
+            
+            // Texto del panel explicativo en español
+            document.getElementById("sys-title").innerText = "🧬 ¿Cómo funciona el Sistema de Mutaciones y Slots en Evrima?";
+            document.getElementById("sys-body").innerHTML = `
+                <p>En Evrima, las mutaciones no se eligen todas de golpe. Se van desbloqueando progresivamente en tu ADN a medida que tu dinosaurio crece y realiza acciones específicas en el juego (dieta consumida, supervivencia, combate o exploración).</p>
+                <div class="highlight-nesting">
+                    <strong>🥚 Ventaja de Nacer de Huevo (Heredadas):</strong>
+                    Nacer desde un nido te otorga una enorme ventaja competitiva. Te permite heredar mutaciones de tus padres directamente a tu ADN, habilitándote a equipar más mutaciones en total o acceder a combinaciones más potentes desde edad temprana.
+                </div>
+                <h4>Distribución de Mutaciones por Slots y Etapas:</h4>
+                <ul>
+                    <li><strong>Slot 1 - Crecimiento Temprano (Juvenil):</strong> Orientadas a la supervivencia básica, manejo de recursos y movilidad rápida (ej. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
+                    <li><strong>Slot 2 - Etapa Media (Sub-Adulto / Crecimiento Avanzado):</strong> Modificaciones directas al metabolismo, comportamiento de barras y combate especializado (ej. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
+                    <li><strong>Slot 3 - Etapa Adulta / Late Game:</strong> Efectos pesados pensados para enfrentamientos directos entre adultos, resistencia a estados alterados y combate final (ej. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
+                </ul>
+                <p><em>Nota sobre el meta:</em> La orientación de tu build dependerá del rol de tu dinosaurio: combate directo, migración/viaje largo o reproducción y crianza. Además, tené en cuenta que algunas mutaciones son mutuamente excluyentes.</p>
+            `;
         }
 
         renderGlosario();
