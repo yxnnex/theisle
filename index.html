@@ -10,12 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chango&family=Short+Stack&display=swap" rel="stylesheet">
 
+    <!-- TOM SELECT CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.dark.css" rel="stylesheet">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background: #0a0a0a url('theislefondo.jpg') no-repeat center center fixed; 
@@ -28,11 +27,7 @@
             font-size: 14px;
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
-        }
+        .top-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; }
         .lang-btn {
             background-color: rgba(30, 32, 35, 0.9);
             color: #ffffff;
@@ -44,21 +39,11 @@
             font-size: 0.85rem;
             transition: all 0.2s ease;
             backdrop-filter: blur(5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
-        .lang-btn:hover {
-            background-color: #ff4d4d;
-            transform: scale(1.05);
-        }
+        .lang-btn:hover { background-color: #ff4d4d; transform: scale(1.05); }
 
-        .highlight-red {
-            border-bottom: 2px solid #ff4d4d;
-            padding-bottom: 1px;
-            color: #ffffff;
-            font-weight: bold;
-        }
+        .highlight-red { border-bottom: 2px solid #ff4d4d; padding-bottom: 1px; color: #ffffff; font-weight: bold; }
 
-        /* TÍTULO PRINCIPAL */
         h1 {
             font-family: 'Chango', cursive;
             font-size: 1.8rem;
@@ -67,26 +52,17 @@
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.95), 0 0 15px rgba(0,0,0,0.9);
+            text-shadow: 0 3px 10px rgba(0,0,0,0.95);
         }
 
-        /* SUBTÍTULOS */
         p.subtitle, p#subtitulo-glosario {
             font-family: 'Short Stack', cursive;
             color: #ffffff;
             margin-bottom: 20px;
             font-size: 0.95rem;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 10px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.95);
         }
         p.subtitle { text-align: center; }
-
-        .card, ul, select, .mutacion-item {
-            background: rgba(20, 22, 25, 0.9);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-        }
 
         label {
             font-family: 'Short Stack', cursive;
@@ -97,99 +73,84 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.9);
         }
 
-        select { 
-            width: 100%; 
-            padding: 10px; 
-            color: #ffffff; 
-            font-size: 14px; 
-            margin-bottom: 20px; 
-            cursor: pointer; 
-            outline: none;
+        /* CUSTOMIZACIÓN DE TOM SELECT */
+        .ts-control {
+            background-color: rgba(20, 22, 25, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            padding: 10px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
         }
-        select:focus { border-color: #ff4d4d; }
-        select option, select optgroup { background-color: #1a1a1a; color: #ffffff; }
+        .ts-dropdown {
+            background-color: #141619 !important;
+            border: 1px solid #ff4d4d !important;
+            color: #ffffff !important;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+        .ts-dropdown .option { color: #ffffff !important; padding: 8px 12px; }
+        .ts-dropdown .active { background-color: #ff4d4d !important; color: #fff !important; }
+        .ts-dropdown .optgroup-header { color: #ff4d4d; font-weight: bold; background: #0d0e10; }
 
-        .card { 
-            padding: 18px; 
-            margin-bottom: 25px; 
-            border-top: 3px solid #ff4d4d;
+        /* TARJETAS DE BUILD Y GLOSARIO */
+        .card, .mutacion-item {
+            background: rgba(20, 22, 25, 0.9);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
         }
-        .card h2 { 
-            font-family: 'Short Stack', cursive; 
-            font-size: 1.5rem; 
-            color: #ffffff; 
-            margin-bottom: 8px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-        .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
 
-        ul { padding: 12px 20px; list-style-type: none; background: rgba(15, 15, 18, 0.95); }
-        li { margin-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 5px; color: #e0e0e0; font-size: 0.9rem; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
-        li:last-child { border-bottom: none; margin-bottom: 0; }
-        li strong { color: #ff4d4d; }
-        li .mut-desc { color: #b0b0b0; font-size: 0.85rem; font-style: italic; }
+        .card { padding: 18px; margin-top: 15px; margin-bottom: 25px; border-top: 3px solid #ff4d4d; }
+        .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
+        .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
+
+        ul.build-list { padding: 0; list-style-type: none; }
+        ul.build-list li { 
+            background: rgba(15, 15, 18, 0.6); 
+            padding: 10px 14px; 
+            margin-bottom: 8px; 
+            border-radius: 6px; 
+            border-left: 3px solid #ff4d4d; 
+        }
+
+        /* BADGES Y ETIQUETAS */
+        .badge-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+        .badge {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        .badge-sinergia { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+        .badge-poca { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+        .badge-situacional { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+        .badge-restriction { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; }
+
+        /* ACORDEÓN DE DESBLOQUEO */
+        .unlock-box {
+            margin-top: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+        .unlock-box summary { cursor: pointer; color: #ff4d4d; font-weight: bold; outline: none; }
+        .unlock-box summary:hover { color: #ff6666; }
+        .unlock-steps { margin-top: 6px; margin-left: 18px; color: #d1d1d1; }
 
         hr { border: 0; height: 1px; background: rgba(255, 255, 255, 0.2); margin: 30px 0; }
 
-        /* SECCIONES Y CATEGORÍAS */
-        h2.section-title { 
-            font-family: 'Short Stack', cursive; 
-            color: #ffffff; 
-            margin-bottom: 12px; 
-            font-size: 1.6rem;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.95), 0 0 15px rgba(0,0,0,0.9);
-        }
+        h2.section-title { font-family: 'Short Stack', cursive; color: #ffffff; margin-bottom: 12px; font-size: 1.6rem; }
+        h3 { font-family: 'Short Stack', cursive; color: #ffffff; font-size: 1.25rem; margin: 20px 0 12px 0; border-bottom: 2px solid #ff4d4d; display: inline-block; }
 
-        h3 { 
-            font-family: 'Short Stack', cursive; 
-            color: #ffffff; 
-            font-size: 1.25rem; 
-            margin-top: 20px; 
-            margin-bottom: 12px;
-            display: inline-block; 
-            padding: 0 0 3px 0;
-            background: transparent;
-            border-bottom: 2px solid #ff4d4d;
-            border-left: none;
-            box-shadow: none;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.95), 0 0 10px rgba(0,0,0,0.9);
-        }
-
-        .grid-mutaciones { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 12px; 
-            margin-top: 5px;
-        }
-        .mutacion-item { 
-            padding: 10px 12px; 
-            border-left: 4px solid #ff4d4d; 
-            color: #d1d1d1;
-            font-size: 0.85rem;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-        }
-        .mutacion-item strong { color: #ffffff; display: block; margin-bottom: 3px; font-size: 0.9rem; }
-
-        .map-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff4d4d;
-            color: #ffffff;
-            padding: 10px 16px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: transform 0.2s, background-color 0.2s;
-            z-index: 1000;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-        }
-        .map-btn:hover { background-color: #e63939; transform: translateY(-3px); }
+        .grid-mutaciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+        .mutacion-item { padding: 12px; border-left: 4px solid #ff4d4d; }
+        .mutacion-item strong { color: #ffffff; display: block; font-size: 0.95rem; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -198,45 +159,16 @@
         <button class="lang-btn" id="lang-toggle" onclick="toggleIdioma()">🌐 Switch to English</button>
     </div>
 
-    <a href="https://www.islemaps.com/" target="_blank" rel="noopener noreferrer" class="map-btn" id="btn-mapa">
-        🗺️ Abrir IsleMaps
-    </a>
-
     <h1>The Isle: Evrima - Build Manager</h1>
     <p class="subtitle" id="txt-subtitulo">Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.</p>
 
-    <label for="select-dino" id="lbl-select">Seleccionar Dinosaurio:</label>
-    <select id="select-dino" onchange="mostrarBuild()">
-        <option value="" id="opt-default">-- Elige una opción --</option>
-        <optgroup label="Herbi/Omnívoros" id="grp-herbi">
-            <option value="Dryosaurus">Dryosaurus</option>
-            <option value="Hypsilophodon">Hypsilophodon</option>
-            <option value="Gallimimus">Gallimimus</option>
-            <option value="Diabloceratops">Diabloceratops</option>
-            <option value="Beipiaosaurus">Beipiaosaurus</option>
-            <option value="Pachycephalosaurus">Pachycephalosaurus</option>
-            <option value="Tenontosaurus">Tenontosaurus</option>
-            <option value="Stegosaurus">Stegosaurus</option>
-            <option value="Kentrosaurus">Kentrosaurus</option>
-            <option value="Maiasaura">Maiasaura</option>
-            <option value="Triceratops">Triceratops</option>
-        </optgroup>
-        <optgroup label="Carnívoros" id="grp-carni">
-            <option value="Pteranodon">Pteranodon</option>
-            <option value="Troodon">Troodon</option>
-            <option value="Herrerasaurus">Herrerasaurus</option>
-            <option value="Omniraptor">Omniraptor</option>
-            <option value="Dilophosaurus">Dilophosaurus</option>
-            <option value="Ceratosaurus">Ceratosaurus</option>
-            <option value="Carnotaurus">Carnotaurus</option>
-            <option value="Allosaurus">Allosaurus</option>
-            <option value="Deinosuchus">Deinosuchus</option>
-            <option value="Tyrannosaurus">Tyrannosaurus</option>
-        </optgroup>
-    </select>
+    <label for="select-dino" id="lbl-select">Buscar o Seleccionar Dinosaurio:</label>
+    <select id="select-dino" placeholder="Escribe para buscar..."></select>
 
     <div id="resultado-build">
-        <p style="text-align: center; color: #d1d1d1; text-shadow: 0 1px 4px rgba(0,0,0,0.8);" id="txt-placeholder"><em>Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.</em></p>
+        <p style="text-align: center; color: #d1d1d1; margin-top: 20px;" id="txt-placeholder">
+            <em>Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.</em>
+        </p>
     </div>
 
     <hr>
@@ -246,338 +178,203 @@
 
     <div id="contenedor-glosario"></div>
 
+    <!-- TOM SELECT JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
     <script>
       let idiomaActual = 'es';
+      let tomSelectInstance = null;
 
-      // --- GLOSARIO COMPLETO ---
-      const glosarioData = {
-        es: {
-          cat1: "Supervivencia y Metabolismo",
-          m1: [
-            { nombre: "Cellular Regeneration", desc: "+15% velocidad de regeneración de salud." },
-            { nombre: "Efficient Digestion", desc: "El hambre se reduce más lento." },
-            { nombre: "Enhanced Digestion", desc: "Reduce la tasa de pérdida de nutrientes (Valor: 10%)." },
-            { nombre: "Sustained Hydration", desc: "La sed se reduce más lento." },
-            { nombre: "Heightened Ghrelin", desc: "Aumenta el apetito y acelera el proceso de crecimiento/nutrientes." },
-            { nombre: "Hypermetabolic Inanition", desc: "Mientras menos hambre tengas, más daño infligís (Valor: 15%)." },
-            { nombre: "Reabsorption", desc: "Reabsorción eficiente de agua/nutrientes corporales." },
-            { nombre: "Reniculate Kidneys", desc: "Riñones adaptados para procesar agua salada o contaminada." }
-          ],
-          cat2: "Combate y Resistencia",
-          m2: [
-            { nombre: "Epidermal Fibrosis", desc: "+15% de resistencia al sangrado." },
-            { nombre: "Osteosclerosis", desc: "Reduce/evita el daño por fracturas óseas." },
-            { nombre: "Enlarged Meniscus", desc: "Reduce el daño por impacto tras caídas altas." },
-            { nombre: "Reinforced Tendons", desc: "Tendones reforzados que reducen el gasto de estamina al saltar/correr." },
-            { nombre: "Congenital Hypoalgesia", desc: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido." },
-            { nombre: "Multichambered Lungs", desc: "Pulmones multicámara para mayor reserva de estamina." },
-            { nombre: "Increased Inspiratory Capacity", desc: "Mayor capacidad de aguantar la respiración bajo el agua o corriendo." }
-          ],
-          cat3: "Caza, Dieta y Ataque",
-          m3: [
-            { nombre: "Accelerated Prey Drive", desc: "+10% de daño extra contra presas débiles o heridas." },
-            { nombre: "Hemomania", desc: "+5% de daño adicional contra enemigos sangrando." },
-            { nombre: "Hematophagy", desc: "Recupera agua al alimentarse de cadáveres." },
-            { nombre: "Cannibalistic", desc: "Permite alimentarte de tu misma especie sin penalizaciones." },
-            { nombre: "Gastronomic Regeneration", desc: "Regenera salud rápidamente durante el proceso de digestión." }
-          ],
-          cat4: "Movilidad, Entorno y Visión",
-          m4: [
-            { nombre: "Hydrodynamic", desc: "+15% de velocidad de nado en agua." },
-            { nombre: "Hydroregenerative", desc: "Regeneración acelerada sumergido o bajo la lluvia." },
-            { nombre: "Wader", desc: "Mayor velocidad de desplazamiento en aguas poco profundas/pantanos." },
-            { nombre: "Submerged Optical Retention", desc: "Claridad y rango de visión bajo el agua." },
-            { nombre: "Featherweight", desc: "Las huellas y rastros se borran más rápido." },
-            { nombre: "Nocturnal", desc: "Visión y sentidos mejorados durante la noche." },
-            { nombre: "Augmented Tapetum", desc: "Visión nocturna mejorada (brillo ocular)." },
-            { nombre: "Photosynthetic Tissue", desc: "Beneficios ligeros al exponerse a la luz solar." }
-          ],
-          cat5: "Nidificación, Cría y Comunicación",
-          m5: [
-            { nombre: "Advanced Gestation", desc: "Gestación, incubación y tiempo de recarga de huevos más rápido (Valor: 5%)." },
-            { nombre: "Prolific Reproduction", desc: "Tus crías tienen más regeneración de salud y estamina, requieren menos comida y crecen más rápido (Valor: 5%)." },
-            { nombre: "Parthenogenesis", desc: "Habilidad de reproducción/puesta de huevos sin necesidad de pareja." },
-            { nombre: "Infrasound Communication", desc: "Comunicación a larga distancia mediante infrasonido." }
-          ]
+      // --- BASE DE DATOS ESTRUCTURADA DE MUTACIONES ---
+      const mutacionesDB = [
+        // SUPERVIVENCIA Y METABOLISMO
+        {
+          id: "Cellular Regeneration",
+          categoria: 1,
+          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
+          desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." },
+          restriccion: null,
+          sinergia: ["Gastronomic Regeneration", "Hydroregenerative"],
+          pocaSinergia: [],
+          situacional: ["Combat Builds"],
+          unlock: null
         },
-        en: {
-          cat1: "Survival & Metabolism",
-          m1: [
-            { nombre: "Cellular Regeneration", desc: "+15% health regeneration speed." },
-            { nombre: "Efficient Digestion", desc: "Hunger drains slower." },
-            { nombre: "Enhanced Digestion", desc: "Decrease nutrition decay rate. Value: 10%" },
-            { nombre: "Sustained Hydration", desc: "Thirst drains slower." },
-            { nombre: "Heightened Ghrelin", desc: "Increases appetite and accelerates growth/nutrient processing." },
-            { nombre: "Hypermetabolic Inanition", desc: "The less hunger you have, the more damage you deal. Value: 15%" },
-            { nombre: "Reabsorption", desc: "Efficient reabsorption of body water and nutrients." },
-            { nombre: "Reniculate Kidneys", desc: "Kidneys adapted to process saltwater or contaminated water." }
-          ],
-          cat2: "Combat & Resistance",
-          m2: [
-            { nombre: "Epidermal Fibrosis", desc: "+15% bleed resistance." },
-            { nombre: "Osteosclerosis", desc: "Reduces/prevents bone fracture damage." },
-            { nombre: "Enlarged Meniscus", desc: "Reduces fall impact damage." },
-            { nombre: "Reinforced Tendons", desc: "Reinforced tendons reduce stamina cost when jumping/running." },
-            { nombre: "Congenital Hypoalgesia", desc: "Pain resistance; lowers movement penalties while injured." },
-            { nombre: "Multichambered Lungs", desc: "Multichambered lungs for larger stamina reserve." },
-            { nombre: "Increased Inspiratory Capacity", desc: "Increased ability to hold breath underwater or sprinting." }
-          ],
-          cat3: "Hunting, Diet & Attack",
-          m3: [
-            { nombre: "Accelerated Prey Drive", desc: "+10% extra damage against weak or injured prey." },
-            { nombre: "Hemomania", desc: "+5% bonus damage against bleeding targets." },
-            { nombre: "Hematophagy", desc: "Restores water when feeding on corpses." },
-            { nombre: "Cannibalistic", desc: "Allows feeding on your own species without sickness penalties." },
-            { nombre: "Gastronomic Regeneration", desc: "Regenerates health quickly while digesting food." }
-          ],
-          cat4: "Mobility, Environment & Vision",
-          m4: [
-            { nombre: "Hydrodynamic", desc: "+15% swim speed in water." },
-            { nombre: "Hydroregenerative", desc: "Accelerated regeneration submerged or during rain." },
-            { nombre: "Wader", desc: "Higher movement speed in shallow waters and swamps." },
-            { nombre: "Submerged Optical Retention", desc: "Clarity and visual range underwater." },
-            { nombre: "Featherweight", desc: "Footprints and tracks disappear faster." },
-            { nombre: "Nocturnal", desc: "Enhanced vision and senses at night." },
-            { nombre: "Augmented Tapetum", desc: "Enhanced night vision (eye shine)." },
-            { nombre: "Photosynthetic Tissue", desc: "Slight buffs when exposed to sunlight." }
-          ],
-          cat5: "Nesting, Breeding & Communication",
-          m5: [
-            { nombre: "Advanced Gestation", desc: "Faster Egg Gestation/Incubation/Cooldown Rate. Value: 5%" },
-            { nombre: "Prolific Reproduction", desc: "Your babies have increased health and stamina regen. Your babies require less food. Your babies grow faster. Value: 5%" },
-            { nombre: "Parthenogenesis", desc: "Ability to reproduce/lay eggs without a mate." },
-            { nombre: "Infrasound Communication", desc: "Long-distance communication using infrasound." }
-          ]
+        {
+          id: "Efficient Digestion",
+          categoria: 1,
+          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
+          desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." },
+          restriccion: null,
+          sinergia: ["Sustained Hydration"],
+          pocaSinergia: ["Hypermetabolic Inanition"],
+          situacional: ["Viajes largos / Exploración"],
+          unlock: null
+        },
+        {
+          id: "Hypermetabolic Inanition",
+          categoria: 1,
+          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
+          desc: { es: "Mientras menos hambre tengas, más daño infligís (Valor: 15%).", en: "The less hunger you have, the more damage you deal. Value: 15%" },
+          restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" },
+          sinergia: ["Accelerated Prey Drive", "Hemomania"],
+          pocaSinergia: ["Efficient Digestion"],
+          situacional: ["PvP Agresivo"],
+          unlock: null
+        },
+        {
+          id: "Reniculate Kidneys",
+          categoria: 1,
+          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" },
+          desc: { es: "Riñones adaptados para procesar agua salada o contaminada.", en: "Kidneys adapted to process saltwater or contaminated water." },
+          restriccion: null,
+          sinergia: ["Sustained Hydration"],
+          pocaSinergia: [],
+          situacional: ["Zonas costeras o pantanos salobres"],
+          unlock: {
+            es: [
+              "Bebé agua salada hasta llenar la barra.",
+              "Obtené el estado 'Fluid Deficient'.",
+              "Eliminá el estado hidratándote correctamente con agua dulce.",
+              "La mutación quedará disponible para equipar."
+            ],
+            en: [
+              "Drink saltwater until the bar fills up.",
+              "Obtain the 'Fluid Deficient' status.",
+              "Remove the status by properly hydrating with fresh water.",
+              "The mutation will become available to equip."
+            ]
+          }
+        },
+
+        // COMBATE Y RESISTENCIA
+        {
+          id: "Epidermal Fibrosis",
+          categoria: 2,
+          catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" },
+          desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." },
+          restriccion: null,
+          sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"],
+          pocaSinergia: [],
+          situacional: ["Contra carnívoros con sangrado (Raptors/Dilo)"],
+          unlock: null
+        },
+        {
+          id: "Osteosclerosis",
+          categoria: 2,
+          catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" },
+          desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." },
+          restriccion: null,
+          sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"],
+          pocaSinergia: [],
+          situacional: ["Brawlers Apex (Rex/Triceratops)"],
+          unlock: null
+        },
+
+        // CAZA Y DIETA
+        {
+          id: "Cannibalistic",
+          categoria: 3,
+          catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" },
+          desc: { es: "Permite alimentarte de tu misma especie sin penalizaciones.", en: "Allows feeding on your own species without sickness penalties." },
+          restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" },
+          sinergia: ["Gastronomic Regeneration"],
+          pocaSinergia: [],
+          situacional: ["Servidores con superpoblación de la misma especie"],
+          unlock: null
+        },
+
+        // NIDIFICACIÓN Y REPRODUCCIÓN
+        {
+          id: "Parthenogenesis",
+          categoria: 5,
+          catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" },
+          desc: { es: "Habilidad de reproducción/puesta de huevos sin necesidad de pareja.", en: "Ability to reproduce/lay eggs without a mate." },
+          restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" },
+          sinergia: ["Advanced Gestation", "Prolific Reproduction"],
+          pocaSinergia: [],
+          situacional: ["Jugadores solitarios que quieren crear manada"],
+          unlock: null
         }
-      };
+      ];
 
-      // BASE DE DATOS DE DINOSAURIOS
-      const dinosaurios = [
-        {
-          nombre: "Dryosaurus",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Build de evasión rápida y construcción de madrigueras.", s1: "Featherweight", s2: "Sustained Hydration", s3: "Enlarged Meniscus", s4: "Osteosclerosis" },
-            en: { desc: "Fast evasion and burrowing build.", s1: "Featherweight", s2: "Sustained Hydration", s3: "Enlarged Meniscus", s4: "Osteosclerosis" }
-          }
-        },
-        {
-          nombre: "Hypsilophodon",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Agilidad en las alturas y escape veloz.", s1: "Enlarged Meniscus", s2: "Reinforced Tendons", s3: "Featherweight", s4: "Sustained Hydration" },
-            en: { desc: "High agility and quick escape.", s1: "Enlarged Meniscus", s2: "Reinforced Tendons", s3: "Featherweight", s4: "Sustained Hydration" }
-          }
-        },
-        {
-          nombre: "Gallimimus",
-          tipo: { es: "Omnívoro", en: "Omnivore" },
-          build: {
-            es: { desc: "Velocidad máxima y resistencia de estamina extrema para viajes largos.", s1: "Reinforced Tendons", s2: "Multichambered Lungs", s3: "Enhanced Digestion", s4: "Featherweight" },
-            en: { desc: "Top speed and extreme stamina efficiency for long travel.", s1: "Reinforced Tendons", s2: "Multichambered Lungs", s3: "Enhanced Digestion", s4: "Featherweight" }
-          }
-        },
+      // --- BASE DE DATOS DE DINOSAURIOS ---
+      const dinosauriosDB = [
         {
           nombre: "Diabloceratops",
           tipo: { es: "Herbívoro", en: "Herbivore" },
           build: {
-            es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", s1: "Epidermal Fibrosis", s2: "Osteosclerosis", s3: "Congenital Hypoalgesia", s4: "Hypermetabolic Inanition" },
-            en: { desc: "Defensive tank and heavy counter-attacker.", s1: "Epidermal Fibrosis", s2: "Osteosclerosis", s3: "Congenital Hypoalgesia", s4: "Hypermetabolic Inanition" }
-          }
-        },
-        {
-          nombre: "Beipiaosaurus",
-          tipo: { es: "Omnívoro", en: "Omnivore" },
-          build: {
-            es: { desc: "Movilidad semi-acuática y rápida recolección.", s1: "Hydrodynamic", s2: "Wader", s3: "Enhanced Digestion", s4: "Submerged Optical Retention" },
-            en: { desc: "Semi-aquatic mobility and fast foraging.", s1: "Hydrodynamic", s2: "Wader", s3: "Enhanced Digestion", s4: "Submerged Optical Retention" }
-          }
-        },
-        {
-          nombre: "Pachycephalosaurus",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Especialista en cabezazos y fracturas de huesos a rivales.", s1: "Osteosclerosis", s2: "Reinforced Tendons", s3: "Accelerated Prey Drive", s4: "Congenital Hypoalgesia" },
-            en: { desc: "Headbutt specialist focused on bone breaking.", s1: "Osteosclerosis", s2: "Reinforced Tendons", s3: "Accelerated Prey Drive", s4: "Congenital Hypoalgesia" }
-          }
-        },
-        {
-          nombre: "Tenontosaurus",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Combate de cola y defensa equilibrada contra raptores.", s1: "Epidermal Fibrosis", s2: "Congenital Hypoalgesia", s3: "Multichambered Lungs", s4: "Osteosclerosis" },
-            en: { desc: "Tail-whip combatant and anti-raptor defense.", s1: "Epidermal Fibrosis", s2: "Congenital Hypoalgesia", s3: "Multichambered Lungs", s4: "Osteosclerosis" }
-          }
-        },
-        {
-          nombre: "Stegosaurus",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Fortaleza impenetrable y resistencia extrema al sangrado.", s1: "Epidermal Fibrosis", s2: "Osteosclerosis", s3: "Hypermetabolic Inanition", s4: "Cellular Regeneration" },
-            en: { desc: "Impenetrable fortress with high bleed resistance.", s1: "Epidermal Fibrosis", s2: "Osteosclerosis", s3: "Hypermetabolic Inanition", s4: "Cellular Regeneration" }
-          }
-        },
-        {
-          nombre: "Kentrosaurus",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Castigo por contacto con púas y rápida recuperación.", s1: "Epidermal Fibrosis", s2: "Congenital Hypoalgesia", s3: "Reinforced Tendons", s4: "Cellular Regeneration" },
-            en: { desc: "Punishing spike-counter and fast recovery.", s1: "Epidermal Fibrosis", s2: "Congenital Hypoalgesia", s3: "Reinforced Tendons", s4: "Cellular Regeneration" }
-          }
-        },
-        {
-          nombre: "Maiasaura",
-          tipo: { es: "Herbívoro", en: "Herbivore" },
-          build: {
-            es: { desc: "Crecimiento rápido de manada y movilidad constante.", s1: "Prolific Reproduction", s2: "Advanced Gestation", s3: "Multichambered Lungs", s4: "Enhanced Digestion" },
-            en: { desc: "Fast herd reproduction and sustained mobility.", s1: "Prolific Reproduction", s2: "Advanced Gestation", s3: "Multichambered Lungs", s4: "Enhanced Digestion" }
+            es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", slots: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] },
+            en: { desc: "Defensive tank and heavy counter-attacker.", slots: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] }
           }
         },
         {
           nombre: "Triceratops",
           tipo: { es: "Herbívoro", en: "Herbivore" },
           build: {
-            es: { desc: "Apex herbívoro: Máximo daño frontal y resistencia al dolor.", s1: "Epidermal Fibrosis", s2: "Hypermetabolic Inanition", s3: "Congenital Hypoalgesia", s4: "Osteosclerosis" },
-            en: { desc: "Apex herbivore: Maximum frontal damage and pain tolerance.", s1: "Epidermal Fibrosis", s2: "Hypermetabolic Inanition", s3: "Congenital Hypoalgesia", s4: "Osteosclerosis" }
-          }
-        },
-        {
-          nombre: "Pteranodon",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Dominio aéreo, pesca efectiva y visión clara.", s1: "Increased Inspiratory Capacity", s2: "Submerged Optical Retention", s3: "Featherweight", s4: "Heightened Ghrelin" },
-            en: { desc: "Aerial scouting, efficient fishing and vision.", s1: "Increased Inspiratory Capacity", s2: "Submerged Optical Retention", s3: "Featherweight", s4: "Heightened Ghrelin" }
-          }
-        },
-        {
-          nombre: "Troodon",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Guerrilla nocturna y veneno coordinado.", s1: "Featherweight", s2: "Hemomania", s3: "Nocturnal", s4: "Accelerated Prey Drive" },
-            en: { desc: "Night hit-and-run tactics with coordinated venom.", s1: "Featherweight", s2: "Hemomania", s3: "Nocturnal", s4: "Accelerated Prey Drive" }
-          }
-        },
-        {
-          nombre: "Herrerasaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Emboscada desde los árboles y resistencia a caídas.", s1: "Enlarged Meniscus", s2: "Accelerated Prey Drive", s3: "Osteosclerosis", s4: "Featherweight" },
-            en: { desc: "Tree ambush specialist with fall damage reduction.", s1: "Enlarged Meniscus", s2: "Accelerated Prey Drive", s3: "Osteosclerosis", s4: "Featherweight" }
-          }
-        },
-        {
-          nombre: "Omniraptor",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Caza en jauría, salto prolongado y desangrado.", s1: "Reinforced Tendons", s2: "Hemomania", s3: "Accelerated Prey Drive", s4: "Featherweight" },
-            en: { desc: "Pack hunting, high leaps and bleed damage.", s1: "Reinforced Tendons", s2: "Hemomania", s3: "Accelerated Prey Drive", s4: "Featherweight" }
-          }
-        },
-        {
-          nombre: "Dilophosaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Terror nocturno y alucinaciones prolongadas.", s1: "Nocturnal", s2: "Hemomania", s3: "Accelerated Prey Drive", s4: "Featherweight" },
-            en: { desc: "Night terror and persistent hallucination pressure.", s1: "Nocturnal", s2: "Hemomania", s3: "Accelerated Prey Drive", s4: "Featherweight" }
-          }
-        },
-        {
-          nombre: "Ceratosaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Carroñero agresivo con inmunidad a bacterias.", s1: "Cannibalistic", s2: "Gastronomic Regeneration", s3: "Epidermal Fibrosis", s4: "Hypermetabolic Inanition" },
-            en: { desc: "Aggressive scavenger with bacteria resistance.", s1: "Cannibalistic", s2: "Gastronomic Regeneration", s3: "Epidermal Fibrosis", s4: "Hypermetabolic Inanition" }
-          }
-        },
-        {
-          nombre: "Carnotaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Carga a máxima velocidad e impacto devastador.", s1: "Multichambered Lungs", s2: "Hypermetabolic Inanition", s3: "Reinforced Tendons", s4: "Accelerated Prey Drive" },
-            en: { desc: "High-speed charge and heavy initial impact.", s1: "Multichambered Lungs", s2: "Hypermetabolic Inanition", s3: "Reinforced Tendons", s4: "Accelerated Prey Drive" }
-          }
-        },
-        {
-          nombre: "Allosaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Cazador versátil centrado en desangrar presas grandes.", s1: "Hemomania", s2: "Accelerated Prey Drive", s3: "Epidermal Fibrosis", s4: "Cellular Regeneration" },
-            en: { desc: "Versatile hunter focused on bleeding big targets.", s1: "Hemomania", s2: "Accelerated Prey Drive", s3: "Epidermal Fibrosis", s4: "Cellular Regeneration" }
-          }
-        },
-        {
-          nombre: "Deinosuchus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Emboscada acuática y absoluto control de ríos.", s1: "Hydrodynamic", s2: "Submerged Optical Retention", s3: "Increased Inspiratory Capacity", s4: "Hydroregenerative" },
-            en: { desc: "Aquatic ambush and river zone control.", s1: "Hydrodynamic", s2: "Submerged Optical Retention", s3: "Increased Inspiratory Capacity", s4: "Hydroregenerative" }
-          }
-        },
-        {
-          nombre: "Tyrannosaurus",
-          tipo: { es: "Carnívoro", en: "Carnivore" },
-          build: {
-            es: { desc: "Depredador alfa: Fuerza bruta, rotura de huesos y daño masivo.", s1: "Hypermetabolic Inanition", s2: "Osteosclerosis", s3: "Epidermal Fibrosis", s4: "Congenital Hypoalgesia" },
-            en: { desc: "Apex predator: Raw power, bone breaking and high damage.", s1: "Hypermetabolic Inanition", s2: "Osteosclerosis", s3: "Epidermal Fibrosis", s4: "Congenital Hypoalgesia" }
+            es: { desc: "Apex herbívoro: Máximo daño frontal y resistencia al dolor.", slots: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis", "Cellular Regeneration"] },
+            en: { desc: "Apex herbivore: Maximum frontal damage and pain tolerance.", slots: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis", "Cellular Regeneration"] }
           }
         }
       ];
 
-      // FUNCIÓN AUXILIAR PARA OBTENER LA DESCRIPCIÓN DE UNA MUTACIÓN POR NOMBRE
-      function obtenerDescMutacion(nombreMutacion) {
-        const data = glosarioData[idiomaActual];
-        for (let i = 1; i <= 5; i++) {
-          const encontrada = data['m' + i].find(m => m.nombre.toLowerCase() === nombreMutacion.toLowerCase());
-          if (encontrada) return encontrada.desc;
+      // --- FUNCIONES RENDERIZADORAS ---
+
+      function renderBadges(mut) {
+        let html = '<div class="badge-container">';
+        
+        if (mut.restriccion) {
+          html += `<span class="badge badge-restriction">${mut.restriccion[idiomaActual]}</span>`;
         }
-        return '';
+        if (mut.sinergia && mut.sinergia.length > 0) {
+          html += `<span class="badge badge-sinergia">🟢 ${idiomaActual === 'es' ? 'Sinergia con' : 'Synergy with'}: ${mut.sinergia.join(', ')}</span>`;
+        }
+        if (mut.pocaSinergia && mut.pocaSinergia.length > 0) {
+          html += `<span class="badge badge-poca">🔴 ${idiomaActual === 'es' ? 'Baja sinergia' : 'Low synergy'}: ${mut.pocaSinergia.join(', ')}</span>`;
+        }
+        if (mut.situacional && mut.situacional.length > 0) {
+          html += `<span class="badge badge-situacional">🟡 ${idiomaActual === 'es' ? 'Situacional' : 'Situational'}: ${mut.situacional.join(', ')}</span>`;
+        }
+
+        html += '</div>';
+        return html;
+      }
+
+      function renderUnlockAccordion(unlockData) {
+        if (!unlockData) return '';
+        const steps = unlockData[idiomaActual];
+        return `
+          <details class="unlock-box">
+            <summary>🔓 ${idiomaActual === 'es' ? 'Requiere desbloqueo (Cómo obtenerla)' : 'Unlock required (How to get)'}</summary>
+            <ol class="unlock-steps">
+              ${steps.map(step => `<li>${step}</li>`).join('')}
+            </ol>
+          </details>
+        `;
       }
 
       function renderGlosario() {
-        const data = glosarioData[idiomaActual];
         const container = document.getElementById("contenedor-glosario");
-        
+        const categorias = [1, 2, 3, 4, 5];
         let html = '';
-        for (let i = 1; i <= 5; i++) {
-          html += `<h3>${data['cat' + i]}</h3><div class="grid-mutaciones">`;
-          data['m' + i].forEach(item => {
-            html += `<div class="mutacion-item"><strong>${item.nombre}:</strong> ${item.desc}</div>`;
-          });
-          html += `</div>`;
-        }
+
+        categorias.forEach(catId => {
+          const mutsCat = mutacionesDB.filter(m => m.categoria === catId);
+          if (mutsCat.length > 0) {
+            html += `<h3>${mutsCat[0].catNombre[idiomaActual]}</h3><div class="grid-mutaciones">`;
+            mutsCat.forEach(mut => {
+              html += `
+                <div class="mutacion-item">
+                  <strong>${mut.id}</strong>
+                  <p style="color: #d1d1d1; font-size: 0.85rem;">${mut.desc[idiomaActual]}</p>
+                  ${renderBadges(mut)}
+                  ${renderUnlockAccordion(mut.unlock)}
+                </div>
+              `;
+            });
+            html += `</div>`;
+          }
+        });
         container.innerHTML = html;
-      }
-
-      function toggleIdioma() {
-        idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
-        const btn = document.getElementById("lang-toggle");
-
-        if (idiomaActual === 'en') {
-            btn.innerText = "🌐 Cambiar a Español";
-            document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
-            document.getElementById("lbl-select").innerText = "Select Dinosaur:";
-            document.getElementById("opt-default").innerText = "-- Choose an option --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnivores";
-            document.getElementById("grp-carni").label = "Carnivores";
-            document.getElementById("txt-placeholder").innerText = "Choose a dinosaur from the list to display its 4-mutation build and strategy.";
-            document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
-            document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
-        } else {
-            btn.innerText = "🌐 Switch to English";
-            document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
-            document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
-            document.getElementById("opt-default").innerText = "-- Elige una opción --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnívoros";
-            document.getElementById("grp-carni").label = "Carnívoros";
-            document.getElementById("txt-placeholder").innerText = "Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.";
-            document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
-            document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
-        }
-
-        renderGlosario();
-        mostrarBuild();
       }
 
       function mostrarBuild() {
@@ -586,7 +383,7 @@
         const contenedor = document.getElementById("resultado-build");
 
         if (!valorSeleccionado) {
-            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1; text-shadow: 0 1px 4px rgba(0,0,0,0.8);"><em>${
+            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1; margin-top:20px;"><em>${
                 idiomaActual === 'es' 
                 ? 'Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.' 
                 : 'Choose a dinosaur from the list to display its 4-mutation build and strategy.'
@@ -594,29 +391,72 @@
             return;
         }
 
-        const dinoEncontrado = dinosaurios.find(d => d.nombre === valorSeleccionado);
+        const dinoEncontrado = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
 
         if (dinoEncontrado) {
             const info = dinoEncontrado.build[idiomaActual];
             const tipoDino = dinoEncontrado.tipo[idiomaActual];
             
+            let listHtml = '<ul class="build-list">';
+            info.slots.forEach((mutId, index) => {
+              const mutData = mutacionesDB.find(m => m.id === mutId);
+              const desc = mutData ? mutData.desc[idiomaActual] : '';
+              listHtml += `
+                <li>
+                  <strong style="color: #ff4d4d;">Slot ${index + 1}:</strong> <span style="font-weight:bold; color:#fff;">${mutId}</span>
+                  <div style="font-size: 0.85rem; color: #b0b0b0; margin-top:2px;"><em>${desc}</em></div>
+                  ${mutData ? renderBadges(mutData) : ''}
+                  ${mutData ? renderUnlockAccordion(mutData.unlock) : ''}
+                </li>
+              `;
+            });
+            listHtml += '</ul>';
+
             contenedor.innerHTML = `
               <div class="card">
                 <h2>${dinoEncontrado.nombre} <small style="font-size: 13px; color: #ff4d4d;">(${tipoDino})</small></h2>
                 <p><strong>${idiomaActual === 'es' ? 'Estrategia principal:' : 'Main strategy:'}</strong> ${info.desc}</p>
-                <ul>
-                  <li><strong>Slot 1:</strong> ${info.s1} <span class="mut-desc">— ${obtenerDescMutacion(info.s1)}</span></li>
-                  <li><strong>Slot 2:</strong> ${info.s2} <span class="mut-desc">— ${obtenerDescMutacion(info.s2)}</span></li>
-                  <li><strong>Slot 3:</strong> ${info.s3} <span class="mut-desc">— ${obtenerDescMutacion(info.s3)}</span></li>
-                  <li><strong>Slot 4:</strong> ${info.s4} <span class="mut-desc">— ${obtenerDescMutacion(info.s4)}</span></li>
-                </ul>
+                ${listHtml}
               </div>
             `;
         }
       }
 
-      // Cargar glosario al iniciar
+      function inicializarTomSelect() {
+        if (tomSelectInstance) tomSelectInstance.destroy();
+
+        const selectEl = document.getElementById("select-dino");
+        selectEl.innerHTML = '<option value="">-- ' + (idiomaActual === 'es' ? 'Elige o busca un dino' : 'Choose or search a dino') + ' --</option>';
+
+        dinosauriosDB.forEach(dino => {
+          const opt = document.createElement("option");
+          opt.value = dino.nombre;
+          opt.textContent = dino.nombre;
+          selectEl.appendChild(opt);
+        });
+
+        tomSelectInstance = new TomSelect("#select-dino", {
+          create: false,
+          sortField: { field: "text", direction: "asc" },
+          onChange: function() { mostrarBuild(); }
+        });
+      }
+
+      function toggleIdioma() {
+        idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
+        document.getElementById("lang-toggle").innerText = idiomaActual === 'es' ? "🌐 Switch to English" : "🌐 Cambiar a Español";
+        document.getElementById("txt-subtitulo").innerHTML = idiomaActual === 'es' 
+          ? 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.'
+          : 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
+        
+        renderGlosario();
+        inicializarTomSelect();
+        mostrarBuild();
+      }
+
+      // --- INICIALIZACIÓN ---
       renderGlosario();
+      inicializarTomSelect();
     </script>
 </body>
 </html>
