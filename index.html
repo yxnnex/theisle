@@ -3,556 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Isle: Evrima - Build Manager & Mutaciones</title>
-    
-    <!-- FUENTES DE GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chango&family=Short+Stack&display=swap" rel="stylesheet">
-
+    <title>Glosario de Mutaciones - The Isle EVRIMA</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: #0a0a0a url('theislefondo.jpg') no-repeat center center fixed; 
-            background-size: cover;
-            color: #ffffff; 
-            padding: 20px; 
-            max-width: 950px; 
-            margin: 0 auto; 
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --card-border: #1f293d;
+            --accent-color: #06b6d4;
+            --accent-hover: #0891b2;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --badge-carni: #ef4444;
+            --badge-herbi: #22c55e;
+            --badge-ambos: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem;
             line-height: 1.5;
-            font-size: 14px;
         }
 
-        .top-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; }
-        .lang-btn {
-            background-color: rgba(30, 32, 35, 0.9);
-            color: #ffffff;
-            border: 1px solid #ff4d4d;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(5px);
-        }
-        .lang-btn:hover { background-color: #ff4d4d; transform: scale(1.05); }
-
-        .highlight-red { border-bottom: 2px solid #ff4d4d; padding-bottom: 1px; color: #ffffff; font-weight: bold; }
-
-        h1 {
-            font-family: 'Chango', cursive;
-            font-size: 1.8rem;
-            color: #ffffff;
-            margin-bottom: 8px;
+        header {
             text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.95);
+            letter-spacing: 1.5px;
         }
 
-        p.subtitle, p#subtitulo-glosario {
-            font-family: 'Short Stack', cursive;
-            color: #ffffff;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.95);
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
         }
-        p.subtitle { text-align: center; }
 
-        /* SECCIÓN INFORMATIVA DE SISTEMA DE SLOTS Y ETAPAS */
-        .info-system-box {
-            background: rgba(18, 20, 24, 0.92);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 77, 77, 0.4);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        /* Paneles de Filtro */
+        .controls-container {
+            max-width: 1100px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
         }
-        .info-system-box summary {
-            font-family: 'Short Stack', cursive;
-            font-size: 1.1rem;
-            color: #ff4d4d;
-            cursor: pointer;
-            font-weight: bold;
-            outline: none;
+
+        .filter-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
-        .info-system-box summary:hover { color: #ff6666; }
-        .system-content { margin-top: 15px; color: #e0e0e0; font-size: 0.88rem; line-height: 1.6; }
-        .system-content h4 { color: #ff4d4d; margin: 12px 0 4px 0; font-family: 'Short Stack', cursive; font-size: 1rem; }
-        .system-content ul { margin-left: 20px; margin-bottom: 10px; }
-        .system-content li { margin-bottom: 4px; }
-        .highlight-nesting { background: rgba(46, 204, 113, 0.15); border-left: 3px solid #2ecc71; padding: 8px 12px; border-radius: 4px; margin: 10px 0; }
 
         label {
-            font-family: 'Short Stack', cursive;
-            display: block;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        select, input[type="text"] {
+            background: #1e293b;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
             font-size: 0.95rem;
-            color: #ffffff;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-
-        /* SELECTOR NATIVO ESTILIZADO */
-        select { 
-            width: 100%; 
-            padding: 10px; 
-            background: rgba(20, 22, 25, 0.9);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #ffffff; 
-            font-size: 14px; 
-            margin-bottom: 20px; 
-            cursor: pointer; 
             outline: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-        }
-        select:focus { border-color: #ff4d4d; }
-        select option, select optgroup { background-color: #1a1a1a; color: #ffffff; }
-
-        /* TARJETAS DE BUILD Y GLOSARIO */
-        .card, .mutacion-item {
-            background: rgba(20, 22, 25, 0.9);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            transition: border-color 0.2s;
         }
 
-        .card { padding: 18px; margin-bottom: 25px; border-top: 3px solid #ff4d4d; }
-        .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
-        .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
-
-        ul.build-list { padding: 0; list-style-type: none; }
-        ul.build-list li { 
-            background: rgba(15, 15, 18, 0.6); 
-            padding: 10px 14px; 
-            margin-bottom: 8px; 
-            border-radius: 6px; 
-            border-left: 3px solid #ff4d4d; 
+        select:focus, input[type="text"]:focus {
+            border-color: var(--accent-color);
         }
 
-        /* BADGES Y ETIQUETAS DE SINERGIA */
-        .badge-container { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+        input[type="text"] {
+            min-width: 250px;
+        }
+
+        /* Grid de Tarjetas */
+        .grid-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+            gap: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .card-value {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .card-body {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--card-border);
+            padding-top: 0.8rem;
+        }
+
         .badge {
             font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            width: fit-content;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
-        .badge-sinergia { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
-        .badge-poca { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
-        .badge-situacional { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
-        .badge-restriction { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; }
 
-        /* ACORDEÓN DE DESBLOQUEO */
-        .unlock-box {
-            margin-top: 8px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
+        .badge-herbi { background: rgba(34, 197, 94, 0.15); color: var(--badge-herbi); }
+        .badge-carni { background: rgba(239, 68, 68, 0.15); color: var(--badge-carni); }
+        .badge-ambos { background: rgba(59, 130, 246, 0.15); color: var(--badge-ambos); }
+        .badge-slot { background: #334155; color: #f1f5f9; }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
         }
-        .unlock-box summary { cursor: pointer; color: #ff4d4d; font-weight: bold; outline: none; }
-        .unlock-box summary:hover { color: #ff6666; }
-        .unlock-steps { margin-top: 6px; margin-left: 18px; color: #d1d1d1; }
-
-        hr { border: 0; height: 1px; background: rgba(255, 255, 255, 0.2); margin: 30px 0; }
-
-        h2.section-title { font-family: 'Short Stack', cursive; color: #ffffff; margin-bottom: 12px; font-size: 1.6rem; }
-        h3 { font-family: 'Short Stack', cursive; color: #ffffff; font-size: 1.25rem; margin: 20px 0 12px 0; border-bottom: 2px solid #ff4d4d; display: inline-block; }
-
-        .grid-mutaciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-        .mutacion-item { padding: 12px; border-left: 4px solid #ff4d4d; }
-        .mutacion-item strong { color: #ffffff; display: block; font-size: 0.95rem; margin-bottom: 4px; }
-
-        .map-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff4d4d;
-            color: #ffffff;
-            padding: 10px 16px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: transform 0.2s, background-color 0.2s;
-            z-index: 1000;
-        }
-        .map-btn:hover { background-color: #e63939; transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <button class="lang-btn" id="lang-toggle" onclick="toggleIdioma()">🌐 Switch to English</button>
-    </div>
+    <header>
+        <h1>Glosario de Mutaciones</h1>
+        <p>Verificación in-game de valores y descripciones reales de The Isle EVRIMA</p>
+    </header>
 
-    <a href="https://www.islemaps.com/" target="_blank" rel="noopener noreferrer" class="map-btn" id="btn-mapa">
-        🗺️ Abrir IsleMaps
-    </a>
-
-    <h1>The Isle: Evrima - Build Manager</h1>
-    <p class="subtitle" id="txt-subtitulo">Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.</p>
-
-    <!-- GUÍA DE SISTEMA DE ETAPAS Y SLOTS -->
-    <details class="info-system-box" id="sys-box" open>
-        <summary id="sys-title">🧬 ¿Cómo funciona el Sistema de Mutaciones y Slots en Evrima?</summary>
-        <div class="system-content" id="sys-body">
-            <p>En Evrima, las mutaciones no se eligen todas de golpe. Se van desbloqueando progresivamente en tu ADN a medida que tu dinosaurio crece (dieta consumida, supervivencia, combate o exploración,reproducción) .</p>
-            
-            <div class="highlight-nesting">
-                <strong>🥚 Ventaja de Nacer de Huevo (Heredadas):</strong>
-                Nacer desde un nido te otorga una enorme ventaja competitiva. Te permite heredar mutaciones de tus padres directamente a tu ADN, habilitándote a equipar más mutaciones en total o acceder a combinaciones más potentes desde edad temprana.
-            </div>
-
-            <h4>Distribución de Mutaciones por Slots y Etapas:</h4>
-            <ul>
-                <li><strong>Slot 1 - Crecimiento Temprano (Juvenil):</strong> Orientadas a la supervivencia básica, manejo de recursos y movilidad rápida (ej. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
-                <li><strong>Slot 2 - Etapa Media (Sub-Adulto / Crecimiento Avanzado):</strong> Modificaciones directas al metabolismo y combate especializado (ej. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
-                <li><strong>Slot 3 - Etapa Adulta / Late Game:</strong> Efectos pesados pensados para enfrentamientos directos entre adultos, resistencia a estados alterados y combate final (ej. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
-            </ul>
-            <p><em>Nota sobre el meta:</em> La orientación de tu build dependerá del rol de tu dinosaurio: combate directo, migración/viaje largo o reproducción y crianza. Además, tené en cuenta que algunas mutaciones son mutuamente excluyentes.</p>
+    <div class="controls-container">
+        <div class="filter-group">
+            <label for="dietaSelect">Dieta:</label>
+            <select id="dietaSelect">
+                <option value="todos">Todas</option>
+                <option value="herbi">Herbívoro (Maiasaura)</option>
+                <option value="carni">Carnívoro</option>
+            </select>
         </div>
-    </details>
 
-    <label for="select-dino" id="lbl-select">Seleccionar Dinosaurio:</label>
-    <select id="select-dino" onchange="mostrarBuild()">
-        <option value="" id="opt-default">-- Elige una opción --</option>
-        <optgroup label="Herbi/Omnívoros" id="grp-herbi">
-            <option value="Dryosaurus">Dryosaurus</option>
-            <option value="Hypsilophodon">Hypsilophodon</option>
-            <option value="Gallimimus">Gallimimus</option>
-            <option value="Diabloceratops">Diabloceratops</option>
-            <option value="Beipiaosaurus">Beipiaosaurus</option>
-            <option value="Pachycephalosaurus">Pachycephalosaurus</option>
-            <option value="Tenontosaurus">Tenontosaurus</option>
-            <option value="Stegosaurus">Stegosaurus</option>
-            <option value="Kentrosaurus">Kentrosaurus</option>
-            <option value="Maiasaura">Maiasaura</option>
-            <option value="Triceratops">Triceratops</option>
-        </optgroup>
-        <optgroup label="Carnívoros" id="grp-carni">
-            <option value="Pteranodon">Pteranodon</option>
-            <option value="Troodon">Troodon</option>
-            <option value="Herrerasaurus">Herrerasaurus</option>
-            <option value="Omniraptor">Omniraptor</option>
-            <option value="Dilophosaurus">Dilophosaurus</option>
-            <option value="Ceratosaurus">Ceratosaurus</option>
-            <option value="Carnotaurus">Carnotaurus</option>
-            <option value="Allosaurus">Allosaurus</option>
-            <option value="Deinosuchus">Deinosuchus</option>
-            <option value="Tyrannosaurus">Tyrannosaurus</option>
-        </optgroup>
-    </select>
+        <div class="filter-group">
+            <label for="faseSelect">Fase / Slot:</label>
+            <select id="faseSelect">
+                <option value="todas">Todas las Fases</option>
+                <option value="1">Fase 1 (Slot 1)</option>
+                <option value="2">Fase 2 (Slot 2)</option>
+                <option value="3">Fase 3 (Slot 3)</option>
+            </select>
+        </div>
 
-    <div id="resultado-build">
-        <p style="text-align: center; color: #d1d1d1;" id="txt-placeholder">
-            <em>Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.</em>
-        </p>
+        <div class="filter-group">
+            <input type="text" id="searchInput" placeholder="Buscar por nombre o efecto...">
+        </div>
     </div>
 
-    <hr>
-
-    <h2 class="section-title" id="titulo-glosario">Glosario Completo de <span class="highlight-red">Mutaciones</span></h2>
-    <p id="subtitulo-glosario">Lista completa para armar y personalizar tu propia build:</p>
-
-    <div id="contenedor-glosario"></div>
+    <div class="grid-container" id="mutationsGrid">
+        <!-- Se genera dinámicamente con JS -->
+    </div>
 
     <script>
-      let idiomaActual = 'es';
+        // Base de Datos Verificada In-Game
+        const mutacionesDB = [
+            // UNIVERSALES / COMPARTIDAS
+            { nombre: "Cellular Regeneration", valor: "10%", desc: "Recupera salud ligeramente más rápido.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Advanced Gestation", valor: "50%", desc: "Acelera el tiempo de gestación, incubación y cooldown de huevos.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Sustained Hydration", valor: "20%", desc: "El agua se consume más lentamente.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Enlarged meniscus", valor: "Especial", desc: "El daño por caída consume estamina antes que vida.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Efficient Digestion", valor: "20%", desc: "La comida se consume más lentamente.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Featherweight", valor: "15%", desc: "Las huellas desaparecen mucho más rápido.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Wader", valor: "25%", desc: "Menos penalización al caminar por aguas poco profundas.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Epidermal Fibrosis", valor: "15%", desc: "Aumenta la resistencia al sangrado.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Congenital Hypoalgesia", valor: "15%", desc: "Reduce el daño recibido al pelear contra especies más grandes.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Photosynthetic Tissue", valor: "5%", desc: "Recuperación de vida/vida bloqueada más rápida de día.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Nocturnal", valor: "5%", desc: "Recuperación de vida/vida bloqueada más rápida de noche.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Hydroregenerative", valor: "25%", desc: "Recupera salud más rápido durante la lluvia.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Increased Inspiratory Capacity", valor: "15%", desc: "Mayor capacidad de oxígeno.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Hydrodynamic", valor: "15%", desc: "Aumenta la velocidad de nado.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Submerged Optical Retention", valor: "5%", desc: "Aumenta el rango de visión bajo el agua.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Reabsorption", valor: "1", desc: "Recupera una pequeña cantidad de agua durante la lluvia o al nadar en agua potable.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Infrasound Communication", valor: "50%", desc: "Hace significativamente menos ruido al hablar en el chat.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Sequential Hermaphroditism", valor: "Especial", desc: "Cambia el sexo de tu personaje. No se hereda a las crías.", dieta: "ambos", fases: [1, 2, 3] },
+            { nombre: "Osteosclerosis", valor: "20%", desc: "Resistencia o reducción de daño por fracturas.", dieta: "ambos", fases: [1, 2, 3] },
 
-      // --- BASE DE DATOS EXACTA DE LAS 29 MUTACIONES ---
-      const mutacionesDB = [
-        // Categoria 1: Supervivencia y Metabolismo
-        { id: "Cellular Regeneration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." }, sinergia: ["Gastronomic Regeneration", "Hydroregenerative"], situacional: ["Builds de combate sustentable"] },
-        { id: "Efficient Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "El hambre se reduce más lento (mantiene la barra llena por más tiempo).", en: "Hunger drains slower (keeps food bar full longer)." }, sinergia: ["Sustained Hydration"], pocaSinergia: ["Hypermetabolic Inanition (Retrasa el bono de daño al no dejar bajar el alimento)"], situacional: ["Viajes largos / Exploración"] },
-        { id: "Enhanced Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (Valor: 10%).", en: "Decrease nutrition decay rate. Value: 10%" }, sinergia: ["Efficient Digestion"] },
-        { id: "Sustained Hydration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." }, sinergia: ["Efficient Digestion"] },
-        { id: "Heightened Ghrelin", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Aumenta el apetito y acelera el proceso de crecimiento/nutrientes.", en: "Increases appetite and accelerates growth/nutrient processing." } },
-        { 
-          id: "Hypermetabolic Inanition", 
-          cat: 1, 
-          catNombre: { es: "Supervivencia y Metabolismo (Slot 2)", en: "Survival & Metabolism (Slot 2)" }, 
-          desc: { 
-            es: "Cuanta menos comida tengas (más baja la barra de alimento), más daño infligís (hasta +15%). ⚠️ Nota: La descripción oficial del juego en inglés dice 'less hunger', lo cual causa confusión; pero mecánicamente funciona teniendo MÁS hambre/menos comida.", 
-            en: "The less food you have (the lower your food bar), the more damage you deal (up to +15%). ⚠️ Note: In-game text uses 'less hunger' causing confusion, but in practice it rewards having lower food levels." 
-          }, 
-          restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" }, 
-          sinergia: ["Accelerated Prey Drive", "Hemomania"], 
-          pocaSinergia: ["Efficient Digestion (Retrasa el tiempo necesario para bajar la comida y activar el daño)"], 
-          situacional: ["PvP Agresivo"] 
-        },
-        { id: "Reabsorption", cat: 1, catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, desc: { es: "Reabsorción eficiente de agua/nutrientes corporales.", en: "Efficient reabsorption of body water and nutrients." } },
-        { 
-          id: "Reniculate Kidneys", 
-          cat: 1, 
-          catNombre: { es: "Supervivencia y Metabolismo", en: "Survival & Metabolism" }, 
-          desc: { es: "Riñones adaptados para procesar agua salada o contaminada.", en: "Kidneys adapted to process saltwater or contaminated water." }, 
-          sinergia: ["Sustained Hydration"], 
-          situacional: ["Zonas costeras"], 
-          unlock: { 
-            es: [
-              "Bebé agua salada hasta enfermarte.",
-              "Obtené el estado 'Fluid Deficient'.",
-              "Eliminá el estado lamiendo una roca salada.",
-              "Repetí el proceso hasta que al beber agua salada ya no te enfermes.",
-              "La mutación quedará disponible para equipar."
-            ], 
-            en: [
-              "Drink saltwater until you get sick.",
-              "Obtain the 'Fluid Deficient' status.",
-              "Cure the status by licking a salt rock.",
-              "Repeat the process until drinking saltwater no longer makes you sick.",
-              "The mutation will become available to equip."
-            ] 
-          } 
-        },
+            // EXCLUSIVAS HERBÍVOROS
+            { nombre: "Photosynthetic Regeneration", valor: "10%", desc: "Regenera estamina más rápido durante el día.", dieta: "herbi", fases: [1, 2, 3] },
+            { nombre: "Truculency", valor: "5% / 50%", desc: "Mayor probabilidad de desmontar animales enganchados al sacudirse (bucking).", dieta: "herbi", fases: [1, 3] },
+            { nombre: "Xerocole Adaptation", valor: "15%", desc: "Gana algo de agua al comer plantas.", dieta: "herbi", fases: [3] },
+            { nombre: "Barometric Sensitivity", valor: "Especial", desc: "Recibe una indicación antes de tormentas o sequías.", dieta: "herbi", fases: [2] },
+            { nombre: "Social Behavior", valor: "1.5", desc: "Aumenta el tamaño de grupo. Solo aplica al líder.", dieta: "herbi", fases: [2] },
+            { nombre: "Tactile Endurance", valor: "25%", desc: "Convierte el daño recibido en estamina.", dieta: "herbi", fases: [2] },
+            { nombre: "Gastronomic Regeneration", valor: "5%", desc: "Comer restaura una pequeña cantidad de salud.", dieta: "herbi", fases: [2] },
+            { nombre: "Prolific Reproduction", valor: "10%", desc: "Crías con más regeneración de vida/estamina, consumen menos comida y crecen más rápido.", dieta: "herbi", fases: [2] },
+            { nombre: "Parthenogenesis", valor: "Especial", desc: "Permite al jugador anidar sin necesidad de una pareja.", dieta: "herbi", fases: [2] },
+            { nombre: "Hypervigilance", valor: "50%", desc: "Aumenta el ángulo de cámara al comer/beber y el audio de pisadas ajenas.", dieta: "herbi", fases: [3] },
 
-        // Categoria 2: Combate y Resistencia
-        { id: "Epidermal Fibrosis", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
-        { id: "Osteosclerosis", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
-        { id: "Enlarged Meniscus", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el daño por impacto tras caídas altas.", en: "Reduces fall impact damage." } },
-        { id: "Reinforced Tendons", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reinforced que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
-        { id: "Congenital Hypoalgesia", cat: 2, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido.", en: "Pain resistance; lowers movement penalties while injured." } },
-        { id: "Multichambered Lungs", cat: 2, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Pulmones multicámara para mayor reserva de estamina.", en: "Multichambered lungs for larger stamina reserve." } },
+            // EXCLUSIVAS CARNÍVOROS
+            { nombre: "Hemomania", valor: "5%", desc: "Hace daño extra a un objetivo que esté sangrando.", dieta: "carni", fases: [1] },
+            { nombre: "Hematophagy", valor: "15%", desc: "Recupera algo de sed al comer carne.", dieta: "carni", fases: [1] },
+            { nombre: "Accelerated Prey Drive", valor: "10%", desc: "Inflige más daño a animales con poca salud.", dieta: "carni", fases: [1] }
+        ];
 
-        // Categoria 3: Caza y Dieta
-        { id: "Accelerated Prey Drive", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+10% de daño extra contra presas débiles o heridas.", en: "+10% extra damage against weak or injured prey." } },
-        { id: "Hemomania", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
-        { id: "Hematophagy", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Recupera agua al alimentarse de cadáveres.", en: "Restores water when feeding on corpses." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
-        { id: "Cannibalistic", cat: 3, catNombre: { es: "Caza, Dieta y Ataque", en: "Hunting, Diet & Attack" }, desc: { es: "Permite alimentarte de tu misma especie sin penalizaciones.", en: "Allows feeding on your own species without sickness penalties." }, restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" } },
-        { id: "Gastronomic Regeneration", cat: 3, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "Regenera salud rápidamente durante el proceso de digestión.", en: "Regenerates health quickly while digesting food." }, restriccion: { es: "🔒 Única de Slot 2", en: "🔒 Slot 2 Unique" } },
+        // Elementos DOM
+        const grid = document.getElementById('mutationsGrid');
+        const dietaSelect = document.getElementById('dietaSelect');
+        const faseSelect = document.getElementById('faseSelect');
+        const searchInput = document.getElementById('searchInput');
 
-        // Categoria 4: Movilidad y Entorno
-        { id: "Hydrodynamic", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% de velocidad de nado en agua.", en: "+15% swim speed in water." } },
-        { id: "Hydroregenerative", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión (Slot 1)", en: "Mobility, Environment & Vision (Slot 1)" }, desc: { es: "Regeneración acelerada sumergido o bajo la lluvia.", en: "Accelerated regeneration submerged or during rain." } },
-        { id: "Wader", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor velocidad de desplazamiento en aguas poco profundas/pantanos.", en: "Higher movement speed in shallow waters and swamps." } },
-        { id: "Increased Inspiratory Capacity", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor capacidad de aguantar la respiración bajo el agua o corriendo.", en: "Increased ability to hold breath underwater or sprinting." } },
-        { id: "Submerged Optical Retention", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Claridad y rango de visión bajo el agua.", en: "Clarity and visual range underwater." } },
-        { id: "Featherweight", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Las huellas y rastros se borran más rápido.", en: "Footprints and tracks disappear faster." } },
-        { id: "Nocturnal", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión y sentidos mejorados durante la noche.", en: "Enhanced vision and senses at night." } },
-        { id: "Augmented Tapetum", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión nocturna mejorada (brillo ocular).", en: "Enhanced night vision (eye shine)." } },
-        { id: "Photosynthetic Tissue", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Beneficios ligeros al exponerse a la luz solar.", en: "Slight buffs when exposed to sunlight." } },
+        // Función de Renderizado
+        function renderMutations() {
+            const dietaVal = dietaSelect.value;
+            const faseVal = faseSelect.value;
+            const searchVal = searchInput.value.toLowerCase().trim();
 
-        // Categoria 5: Nidificación y Reproducción
-        { id: "Advanced Gestation", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Gestación, incubación y tiempo de recarga de huevos más rápido (Valor: 5%).", en: "Faster Egg Gestation/Incubation/Cooldown Rate. Value: 5%" }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
-        { id: "Prolific Reproduction", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Tus crías tienen más regeneración de salud/estamina, consumen menos comida y crecen más rápido.", en: "Your babies have increased health/stamina regen, require less food and grow faster." }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
-        { id: "Parthenogenesis", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Habilidad de reproducción/puesta de huevos sin necesidad de pareja.", en: "Ability to reproduce/lay eggs without a mate." }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
-        { id: "Infrasound Communication", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Comunicación a larga distancia mediante infrasonido.", en: "Long-distance communication using infrasound." } }
-      ];
+            const filtradas = mutacionesDB.filter(m => {
+                // Filtro por Dieta
+                const matchDieta = (dietaVal === 'todos') || (m.dieta === 'ambos') || (m.dieta === dietaVal);
+                
+                // Filtro por Fase
+                const matchFase = (faseVal === 'todas') || m.fases.includes(parseInt(faseVal));
 
-      // --- BASE DE DATOS DE DINOSAURIOS ---
-      const dinosauriosDB = [
-        { nombre: "Dryosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Build de evasión rápida y construcción de madrigueras.", s: ["Featherweight", "Sustained Hydration", "Enlarged Meniscus", "Osteosclerosis"] }, en: { desc: "Fast evasion and burrowing build.", s: ["Featherweight", "Sustained Hydration", "Enlarged Meniscus", "Osteosclerosis"] } } },
-        { nombre: "Hypsilophodon", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Agilidad en las alturas y escape veloz.", s: ["Enlarged Meniscus", "Reinforced Tendons", "Featherweight", "Sustained Hydration"] }, en: { desc: "High agility and quick escape.", s: ["Enlarged Meniscus", "Reinforced Tendons", "Featherweight", "Sustained Hydration"] } } },
-        { nombre: "Gallimimus", tipo: { es: "Omnívoro", en: "Omnivore" }, build: { es: { desc: "Velocidad máxima y resistencia de estamina extrema para viajes largos.", s: ["Reinforced Tendons", "Multichambered Lungs", "Enhanced Digestion", "Featherweight"] }, en: { desc: "Top speed and extreme stamina efficiency for long travel.", s: ["Reinforced Tendons", "Multichambered Lungs", "Enhanced Digestion", "Featherweight"] } } },
-        { nombre: "Diabloceratops", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] }, en: { desc: "Defensive tank and heavy counter-attacker.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] } } },
-        { nombre: "Beipiaosaurus", tipo: { es: "Omnívoro", en: "Omnivore" }, build: { es: { desc: "Movilidad semi-acuática y rápida recolección.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] }, en: { desc: "Semi-aquatic mobility and fast foraging.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] } } },
-        { nombre: "Pachycephalosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Especialista en cabezazos y fracturas de huesos a rivales.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] }, en: { desc: "Headbutt specialist focused on bone breaking.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] } } },
-        { nombre: "Tenontosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Combate de cola y defensa equilibrada contra raptores.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] }, en: { desc: "Tail-whip combatant and anti-raptor defense.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] } } },
-        { nombre: "Stegosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable y resistencia extrema al sangrado.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress with high bleed resistance.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] } } },
-        { nombre: "Kentrosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Castigo por contacto con púas y rápida recuperación.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] }, en: { desc: "Punishing spike-counter and fast recovery.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] } } },
-        { nombre: "Maiasaura", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Crecimiento rápido de manada y movilidad constante.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] }, en: { desc: "Fast herd reproduction and sustained mobility.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] } } },
-        { nombre: "Triceratops", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Apex herbívoro: Máximo daño frontal y resistencia al dolor.", s: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia", "Osteosclerosis"] }, en: { desc: "Apex herbivore: Maximum frontal damage and pain tolerance.", s: ["Epidermal Fibrosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia", "Osteosclerosis"] } } },
-        
-        // Carnívoros
-        { nombre: "Pteranodon", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Dominio aéreo, pesca efectiva y visión clara.", s: ["Increased Inspiratory Capacity", "Submerged Optical Retention", "Featherweight", "Heightened Ghrelin"] }, en: { desc: "Aerial scouting, efficient fishing and vision.", s: ["Increased Inspiratory Capacity", "Submerged Optical Retention", "Featherweight", "Heightened Ghrelin"] } } },
-        { nombre: "Troodon", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Guerrilla nocturna y veneno coordinado.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] }, en: { desc: "Night hit-and-run tactics with coordinated venom.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] } } },
-        { nombre: "Herrerasaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada desde los árboles y resistencia a caídas.", s: ["Enlarged Meniscus", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] }, en: { desc: "Tree ambush specialist with fall damage reduction.", s: ["Enlarged Meniscus", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] } } },
-        { nombre: "Omniraptor", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Caza en jauría, salto prolongado y desangrado.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Pack hunting, high leaps and bleed damage.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
-        { nombre: "Dilophosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Terror nocturno y alucinaciones prolongadas.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Night terror and persistent hallucination pressure.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
-        { nombre: "Ceratosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carroñero agresivo con inmunidad a bacterias.", s: ["Cannibalistic", "Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition"] }, en: { desc: "Aggressive scavenger with bacteria resistance.", s: ["Cannibalistic", "Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition"] } } },
-        { nombre: "Carnotaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carga a máxima velocidad e impacto devastador.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] }, en: { desc: "High-speed charge and heavy initial impact.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] } } },
-        { nombre: "Allosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Cazador versátil centrado en desangrar presas grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Versatile hunter focused on bleeding big targets.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
-        { nombre: "Deinosuchus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática y absoluto control de ríos.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] }, en: { desc: "Aquatic ambush and river zone control.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] } } },
-        { nombre: "Tyrannosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Depredador alfa: Fuerza bruta, rotura de huesos y daño masivo.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] }, en: { desc: "Apex predator: Raw power, bone breaking and high damage.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] } } }
-      ];
+                // Filtro por Búsqueda
+                const matchSearch = m.nombre.toLowerCase().includes(searchVal) || m.desc.toLowerCase().includes(searchVal);
 
-      // --- FUNCIONES RENDERIZADORAS ---
-      function renderBadges(mut) {
-        if (!mut) return '';
-        let html = '<div class="badge-container">';
-        if (mut.restriccion) {
-          html += `<span class="badge badge-restriction">${mut.restriccion[idiomaActual]}</span>`;
-        }
-        if (mut.sinergia && mut.sinergia.length > 0) {
-          html += `<span class="badge badge-sinergia">🟢 ${idiomaActual === 'es' ? 'Sinergia con' : 'Synergy with'}: ${mut.sinergia.join(', ')}</span>`;
-        }
-        if (mut.pocaSinergia && mut.pocaSinergia.length > 0) {
-          html += `<span class="badge badge-poca">🔴 ${idiomaActual === 'es' ? 'Baja sinergia' : 'Low synergy'}: ${mut.pocaSinergia.join(', ')}</span>`;
-        }
-        if (mut.situacional && mut.situacional.length > 0) {
-          html += `<span class="badge badge-situacional">🟡 ${idiomaActual === 'es' ? 'Situacional' : 'Situational'}: ${mut.situacional.join(', ')}</span>`;
-        }
-        html += '</div>';
-        return html;
-      }
-
-      function renderUnlockAccordion(unlockData) {
-        if (!unlockData) return '';
-        const steps = unlockData[idiomaActual];
-        return `
-          <details class="unlock-box">
-            <summary>🔓 ${idiomaActual === 'es' ? 'Requiere desbloqueo (Cómo obtenerla)' : 'Unlock required (How to get)'}</summary>
-            <ol class="unlock-steps">
-              ${steps.map(step => `<li>${step}</li>`).join('')}
-            </ol>
-          </details>
-        `;
-      }
-
-      function renderGlosario() {
-        const container = document.getElementById("contenedor-glosario");
-        const categorias = [1, 2, 3, 4, 5];
-        let html = '';
-
-        categorias.forEach(catId => {
-          const mutsCat = mutacionesDB.filter(m => m.cat === catId);
-          if (mutsCat.length > 0) {
-            html += `<h3>${mutsCat[0].catNombre[idiomaActual]}</h3><div class="grid-mutaciones">`;
-            mutsCat.forEach(mut => {
-              html += `
-                <div class="mutacion-item">
-                  <strong>${mut.id}</strong>
-                  <p style="color: #d1d1d1; font-size: 0.85rem;">${mut.desc[idiomaActual]}</p>
-                  ${renderBadges(mut)}
-                  ${renderUnlockAccordion(mut.unlock)}
-                </div>
-              `;
+                return matchDieta && matchFase && matchSearch;
             });
-            html += `</div>`;
-          }
-        });
-        container.innerHTML = html;
-      }
 
-      function mostrarBuild() {
-        const select = document.getElementById("select-dino");
-        const valorSeleccionado = select.value;
-        const contenedor = document.getElementById("resultado-build");
+            grid.innerHTML = '';
 
-        if (!valorSeleccionado) {
-            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1;" id="txt-placeholder"><em>${
-                idiomaActual === 'es' 
-                ? 'Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.' 
-                : 'Choose a dinosaur from the list to display its 4-mutation build and strategy.'
-            }</em></p>`;
-            return;
-        }
+            if (filtradas.length === 0) {
+                grid.innerHTML = '<div class="no-results">No se encontraron mutaciones con los filtros seleccionados.</div>';
+                return;
+            }
 
-        const dinoEncontrado = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
+            filtradas.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'card';
 
-        if (dinoEncontrado) {
-            const info = dinoEncontrado.build[idiomaActual];
-            const tipoDino = dinoEncontrado.tipo[idiomaActual];
-            
-            let listHtml = '<ul class="build-list">';
-            info.s.forEach((mutId, index) => {
-              const mutData = mutacionesDB.find(m => m.id === mutId);
-              const desc = mutData ? mutData.desc[idiomaActual] : '';
-              listHtml += `
-                <li>
-                  <strong style="color: #ff4d4d;">Slot ${index + 1}:</strong> <span style="font-weight:bold; color:#fff;">${mutId}</span>
-                  <div style="font-size: 0.85rem; color: #b0b0b0; margin-top:2px;"><em>${desc}</em></div>
-                  ${mutData ? renderBadges(mutData) : ''}
-                  ${mutData ? renderUnlockAccordion(mutData.unlock) : ''}
-                </li>
-              `;
+                let dietaBadgeClass = m.dieta === 'herbi' ? 'badge-herbi' : (m.dieta === 'carni' ? 'badge-carni' : 'badge-ambos');
+                let dietaBadgeText = m.dieta === 'herbi' ? 'Herbívoro' : (m.dieta === 'carni' ? 'Carnívoro' : 'Ambos');
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="card-title">${m.nombre}</span>
+                            <span class="card-value">${m.valor}</span>
+                        </div>
+                        <div class="card-body">
+                            ${m.desc}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="badge ${dietaBadgeClass}">${dietaBadgeText}</span>
+                        ${m.fases.map(f => `<span class="badge badge-slot">Fase ${f}</span>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-            listHtml += '</ul>';
-
-            contenedor.innerHTML = `
-              <div class="card">
-                <h2>${dinoEncontrado.nombre} <small style="font-size: 13px; color: #ff4d4d;">(${tipoDino})</small></h2>
-                <p><strong>${idiomaActual === 'es' ? 'Estrategia principal:' : 'Main strategy:'}</strong> ${info.desc}</p>
-                ${listHtml}
-              </div>
-            `;
-        }
-      }
-
-      function toggleIdioma() {
-        idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
-        const btn = document.getElementById("lang-toggle");
-
-        if (idiomaActual === 'en') {
-            btn.innerText = "🌐 Cambiar a Español";
-            document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
-            document.getElementById("lbl-select").innerText = "Select Dinosaur:";
-            document.getElementById("opt-default").innerText = "-- Choose an option --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnivores";
-            document.getElementById("grp-carni").label = "Carnivores";
-            document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
-            document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
-            
-            // Texto del panel explicativo del sistema
-            document.getElementById("sys-title").innerText = "🧬 How does the Mutation & Slot System work in Evrima?";
-            document.getElementById("sys-body").innerHTML = `
-                <p>In Evrima, mutations aren't unlocked all at once. They unlock progressively in your DNA as your dinosaur grows and performs specific actions (diet consumed, survival, combat, or exploration).</p>
-                <div class="highlight-nesting">
-                    <strong>🥚 Egg Hatching Advantage (Inherited):</strong>
-                    Hatching from a nest gives you a huge competitive edge. It allows you to inherit mutations directly from your parents into your DNA, enabling you to equip more mutations in total or access stronger setups from early growth stages.
-                </div>
-                <h4>Mutation Distribution by Slots & Stages:</h4>
-                <ul>
-                    <li><strong>Slot 1 - Early Growth (Juvenile):</strong> Focused on basic survival, resource management, and mobility (e.g. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
-                    <li><strong>Slot 2 - Mid Growth (Sub-Adult):</strong> Direct alterations to metabolism, stat bar behavior, and specialized combat (e.g. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
-                    <li><strong>Slot 3 - Adult / Late Game:</strong> Heavy status effect resistances, bone density, and final endgame combat (e.g. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
-                </ul>
-                <p><em>Meta note:</em> Build orientation depends on your dinosaur's role (direct combat, migration/long travel, or breeding/nesting). Also note that some mutations are mutually exclusive.</p>
-            `;
-        } else {
-            btn.innerText = "🌐 Switch to English";
-            document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
-            document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
-            document.getElementById("opt-default").innerText = "-- Elige una opción --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnívoros";
-            document.getElementById("grp-carni").label = "Carnívoros";
-            document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
-            document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
-            
-            // Texto del panel explicativo en español
-            document.getElementById("sys-title").innerText = "🧬 ¿Cómo funciona el Sistema de Mutaciones y Slots en Evrima?";
-            document.getElementById("sys-body").innerHTML = `
-                <p>En Evrima, las mutaciones no se eligen todas de golpe. Se van desbloqueando progresivamente en tu ADN a medida que tu dinosaurio crece y realiza acciones específicas en el juego (dieta consumida, supervivencia, combate o exploración).</p>
-                <div class="highlight-nesting">
-                    <strong>🥚 Ventaja de Nacer de Huevo (Heredadas):</strong>
-                    Nacer desde un nido te otorga una enorme ventaja competitiva. Te permite heredar mutaciones de tus padres directamente a tu ADN, habilitándote a equipar más mutaciones en total o acceder a combinaciones más potentes desde edad temprana.
-                </div>
-                <h4>Distribución de Mutaciones por Slots y Etapas:</h4>
-                <ul>
-                    <li><strong>Slot 1 - Crecimiento Temprano (Juvenil):</strong> Orientadas a la supervivencia básica, manejo de recursos y movilidad rápida (ej. <em>Cellular Regeneration, Sustained Hydration, Efficient Digestion, Hydroregenerative</em>).</li>
-                    <li><strong>Slot 2 - Etapa Media (Sub-Adulto / Crecimiento Avanzado):</strong> Modificaciones directas al metabolismo, comportamiento de barras y combate especializado (ej. <em>Hypermetabolic Inanition, Accelerated Prey Drive, Hemomania, Gastronomic Regeneration</em>).</li>
-                    <li><strong>Slot 3 - Etapa Adulta / Late Game:</strong> Efectos pesados pensados para enfrentamientos directos entre adultos, resistencia a estados alterados y combate final (ej. <em>Epidermal Fibrosis, Osteosclerosis, Congenital Hypoalgesia</em>).</li>
-                </ul>
-                <p><em>Nota sobre el meta:</em> La orientación de tu build dependerá del rol de tu dinosaurio: combate directo, migración/viaje largo o reproducción y crianza. Además, tené en cuenta que algunas mutaciones son mutuamente excluyentes.</p>
-            `;
         }
 
-        renderGlosario();
-        mostrarBuild();
-      }
+        // Event Listeners
+        dietaSelect.addEventListener('change', renderMutations);
+        faseSelect.addEventListener('change', renderMutations);
+        searchInput.addEventListener('input', renderMutations);
 
-      // Cargar glosario inicial
-      renderGlosario();
+        // Render Inicial
+        renderMutations();
     </script>
 </body>
 </html>
