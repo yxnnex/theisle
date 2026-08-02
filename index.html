@@ -1,3 +1,18 @@
+¡Anotado! Actualicé ambas mutaciones en la base de datos JavaScript de tu HTML:
+
+1. **Submerged Optical Retention** (de la imagen):
+* Texto exacto: *"Increased underwater vision range. Value: 5%"* / *"Aumenta el rango de visión bajo el agua (Valor: 5%)"*.
+
+
+2. **Augmented Tapetum** (de tus notas):
+* Marcada como **Mutación Oculta** (`oculta: true`) y restringida a **Solo Carnívoros**.
+* Se le agregó el acordeón explicativo para desbloquearla (Matar de 4 a 12 jugadores durante la noche).
+
+
+
+Acá tenés el archivo HTML completo listo para copiar y pegar:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -386,19 +401,55 @@
         { id: "Epidermal Fibrosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
         { id: "Osteosclerosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
         { id: "Enlarged Meniscus", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el daño por impacto tras caídas altas.", en: "Reduces fall impact damage." } },
-        { id: "Reinforced Tendons", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reforzados que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
+        { id: "Reinforced Tendons", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reinforced que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
         { id: "Congenital Hypoalgesia", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Resistencia al dolor; reduce las penalizaciones de movimiento estando herido.", en: "Pain resistance; lowers movement penalties while injured." } },
         { id: "Multichambered Lungs", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Pulmones multicámara para mayor reserva de estamina.", en: "Multichambered lungs for larger stamina reserve." } },
 
         // Categoria 4: Movilidad y Entorno
         { id: "Hydrodynamic", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% de velocidad de nado en agua.", en: "+15% swim speed in water." } },
-        { id: "Hydroregenerative", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión (Slot 1)", en: "Mobility, Environment & Vision (Slot 1)" }, desc: { es: "Regeneración acelerada sumergido o bajo la lluvia.", en: "Accelerated regeneration submerged or during rain." } },
+        { 
+          id: "Hydroregenerative", 
+          cat: 4, 
+          catNombre: { es: "Movilidad, Entorno y Visión (Slot 1)", en: "Mobility, Environment & Vision (Slot 1)" }, 
+          desc: { 
+            es: "Recupera salud más rápido durante la lluvia (Valor: 25%).", 
+            en: "Recover health faster during rain. Value: 25%" 
+          } 
+        },
         { id: "Wader", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor velocidad de desplazamiento en aguas poco profundas/pantanos.", en: "Higher movement speed in shallow waters and swamps." } },
         { id: "Increased Inspiratory Capacity", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor capacidad de aguantar la respiración bajo el agua o corriendo.", en: "Increased ability to hold breath underwater or sprinting." } },
-        { id: "Submerged Optical Retention", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Claridad y rango de visión bajo el agua.", en: "Clarity and visual range underwater." } },
+        { 
+          id: "Submerged Optical Retention", 
+          cat: 4, 
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, 
+          desc: { 
+            es: "Aumenta el rango de visión bajo el agua (Valor: 5%).", 
+            en: "Increased underwater vision range. Value: 5%" 
+          } 
+        },
         { id: "Featherweight", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Las huellas y rastros se borran más rápido.", en: "Footprints and tracks disappear faster." } },
         { id: "Nocturnal", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión y sentidos mejorados durante la noche.", en: "Enhanced vision and senses at night." } },
-        { id: "Augmented Tapetum", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Visión nocturna mejorada (brillo ocular).", en: "Enhanced night vision (eye shine)." } },
+        { 
+          id: "Augmented Tapetum", 
+          cat: 4, 
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, 
+          desc: { 
+            es: "Extiende de manera considerable tu campo de visión y claridad en la oscuridad total de la noche.", 
+            en: "Considerably extends your visual range and clarity in complete night darkness." 
+          },
+          restriccion: { es: "🥩 Solo Carnívoros", en: "🥩 Carnivores Only" },
+          oculta: true,
+          unlock: {
+            es: [
+              "Debes eliminar entre 4 y 12 jugadores (dinosaurios) durante la noche / en la oscuridad.",
+              "Una vez completado el objetivo, la mutación estará disponible para equipar."
+            ],
+            en: [
+              "You must kill between 4 and 12 players (dinosaurs) during the night / in darkness.",
+              "Once achieved, the mutation will become available to equip."
+            ]
+          }
+        },
         { id: "Photosynthetic Tissue", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Recuperación de salud/salud bloqueada más rápida durante el día (Valor: 5%).", en: "Faster health / locked health recovery during the day. Value: 5%" } },
 
         // Categoria 5: Nidificación y Reproducción
@@ -619,3 +670,5 @@
     </script>
 </body>
 </html>
+
+```
