@@ -132,6 +132,19 @@
         .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
         .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
 
+        /* NOTA TÁCTICA Y DE SUPERVIVENCIA SOLITARIA */
+        .solo-note {
+            background: rgba(241, 196, 15, 0.12);
+            border-left: 4px solid #f1c40f;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.88rem;
+            color: #fefefe;
+            line-height: 1.5;
+        }
+        .solo-note strong { color: #f1c40f; font-family: 'Short Stack', cursive; font-size: 0.95rem; }
+
         ul.build-list { padding: 0; list-style-type: none; }
         ul.build-list li { 
             background: rgba(15, 15, 18, 0.6); 
@@ -288,6 +301,7 @@
         { id: "Efficient Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "El hambre se reduce más lento (mantiene la barra llena por más tiempo).", en: "Hunger drains slower (keeps food bar full longer)." }, sinergia: ["Sustained Hydration"], pocaSinergia: ["Hypermetabolic Inanition (Retrasa el bono de daño al no dejar bajar el alimento)"], situacional: ["Viajes largos / Exploración"] },
         { id: "Enhanced Digestion", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (Valor: 10%).", en: "Decrease nutrition decay rate. Value: 10%" }, sinergia: ["Efficient Digestion"] },
         { id: "Sustained Hydration", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." }, sinergia: ["Efficient Digestion"] },
+        { id: "Xerocole Adaptation", cat: 1, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la velocidad de pérdida de agua en un 20% u otorga hidratación al consumir plantas.", en: "Reduces water loss rate by 20% or grants hydration upon eating plants." }, sinergia: ["Sustained Hydration"], situacional: ["Herbívoros solitarios / Zonas secas"] },
         { 
           id: "Reabsorption", 
           cat: 1, 
@@ -366,8 +380,8 @@
           cat: 2, 
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, 
           desc: { 
-            es: "Inflige más daño a animales con poca salud (Valor: 10%).", 
-            en: "Deal more damage to animals with low health. Value: 10%" 
+            es: "Inflige un 10% más de daño a animales con menos del 35% de su vida. Asegura castigar severamente con golpes finales al intentar huir.", 
+            en: "Deals 10% more damage to animals with low health (<35%). Ensures harsh punishment when targets try to flee." 
           } 
         },
         { id: "Hemomania", cat: 2, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
@@ -394,8 +408,9 @@
         },
 
         // Categoria 3: Combate y Resistencia (Slot 3)
-        { id: "Epidermal Fibrosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." }, sinergia: ["Osteosclerosis", "Congenital Hypoalgesia"] },
-        { id: "Osteosclerosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Reduce/evita el daño por fracturas óseas.", en: "Reduces/prevents bone fracture damage." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
+        { id: "Epidermal Fibrosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado. Vital contra cazadores rápidos.", en: "+15% bleed resistance. Crucial against fast bleeders." }, sinergia: ["Osteosclerosis", "Traumatic Thrombosis", "Congenital Hypoalgesia"] },
+        { id: "Traumatic Thrombosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Evita morir por pérdida de sangre siempre y cuando te sientes a descansar.", en: "Prevents death from blood loss as long as you sit down to rest." }, sinergia: ["Epidermal Fibrosis"], situacional: ["Peleas brutales / Supervivencia in extremis"] },
+        { id: "Osteosclerosis", cat: 3, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "20% de probabilidad de mitigar o evitar fracturas óseas. Mantiene la movilidad en combate.", en: "20% chance to mitigate or prevent bone fractures." }, sinergia: ["Enlarged Meniscus", "Epidermal Fibrosis"] },
         { id: "Enlarged Meniscus", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el daño por impacto tras caídas altas.", en: "Reduces fall impact damage." } },
         { id: "Reinforced Tendons", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Tendones reinforced que reducen el gasto de estamina al saltar/correr.", en: "Reinforced tendons reduce stamina cost when jumping/running." } },
         { 
@@ -407,9 +422,10 @@
             en: "Reduce incoming damage when fighting larger species. Value: 15%" 
           } 
         },
-        { id: "Multichambered Lungs", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Pulmones multicámara para mayor reserva de estamina.", en: "Multichambered lungs for larger stamina reserve." } },
+        { id: "Multichambered Lungs", cat: 3, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Disminuye el umbral requerido para que la estamina comience a regenerarse.", en: "Decreases threshold required for stamina to start regenerating." } },
 
         // Categoria 4: Movilidad y Entorno
+        { id: "Hypervigilance", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+50% de rango de audición de pisadas y amplía la cámara al comer/beber.", en: "+50% footstep hearing range and wider camera view when eating/drinking." }, situacional: ["Detección temprana de emboscadas"] },
         { id: "Hydrodynamic", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% de velocidad de nado en agua.", en: "+15% swim speed in water." } },
         { 
           id: "Hydroregenerative", 
@@ -454,7 +470,7 @@
             ]
           }
         },
-        { id: "Photosynthetic Tissue", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Recuperación de salud/salud bloqueada más rápida durante el día (Valor: 5%).", en: "Faster health / locked health recovery during the day. Value: 5%" } },
+        { id: "Photosynthetic Tissue", cat: 4, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Aumenta la velocidad de movimiento y acelera la recuperación de salud durante el día.", en: "Increases movement speed and health regen during daytime." } },
 
         // Categoria 5: Nidificación y Reproducción
         { id: "Advanced Gestation", cat: 5, catNombre: { es: "Nidificación, Cría y Comunicación", en: "Nesting, Breeding & Communication" }, desc: { es: "Gestación, incubación y tiempo de recarga de huevos más rápido (Valor: 5%).", en: "Faster Egg Gestation/Incubation/Cooldown Rate. Value: 5%" }, restriccion: { es: "♀️ Solo Hembras", en: "♀️ Females Only" } },
@@ -480,7 +496,18 @@
         { nombre: "Diabloceratops", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Tanque defensivo y contraataque brutal con cuernos.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] }, en: { desc: "Defensive tank and heavy counter-attacker.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Congenital Hypoalgesia"] } } },
         { nombre: "Beipiaosaurus", tipo: { es: "Omnívoro", en: "Omnivore" }, build: { es: { desc: "Movilidad semi-acuática y rápida recolección.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] }, en: { desc: "Semi-aquatic mobility and fast foraging.", s: ["Hydrodynamic", "Wader", "Enhanced Digestion", "Submerged Optical Retention"] } } },
         { nombre: "Pachycephalosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Especialista en cabezazos y fracturas de huesos a rivales.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] }, en: { desc: "Headbutt specialist focused on bone breaking.", s: ["Osteosclerosis", "Reinforced Tendons", "Accelerated Prey Drive", "Congenital Hypoalgesia"] } } },
-        { nombre: "Tenontosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Combate de cola y defensa equilibrada contra raptores.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] }, en: { desc: "Tail-whip combatant and anti-raptor defense.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Multichambered Lungs", "Osteosclerosis"] } } },
+        { 
+          nombre: "Tenontosaurus", 
+          tipo: { es: "Herbívoro", en: "Herbivore" }, 
+          soloNote: {
+            es: "💡 <strong>Mutaciones para Sobrevivir Solo:</strong> <em>Hypervigilance, Sustained Hydration o Xerocole Adaptation, Photosynthetic Tissue, Multichambered Lungs</em>.<br>El éxito de un Tenontosaurus solitario radica en el sentido del juego y la evasión. Al escuchar los peligros antes de que te vean y reducir la dependencia de fuentes de agua expuestas, dejas de ser un blanco fácil para los superdepredadores.",
+            en: "💡 <strong>Solo Survival Mutations:</strong> <em>Hypervigilance, Sustained Hydration or Xerocole Adaptation, Photosynthetic Tissue, Multichambered Lungs</em>.<br>The success of a solo Tenontosaurus lies in game sense and evasion. By hearing dangers before they see you and reducing reliance on exposed water sources, you stop being an easy target for apex predators."
+          },
+          build: { 
+            es: { desc: "Tanque reactivo enfocado a peleas: mitiga sangrado, evita quedar lisiado por fracturas y castiga severamente a carnívoros al huir.", s: ["Epidermal Fibrosis", "Traumatic Thrombosis", "Accelerated Prey Drive", "Osteosclerosis"] }, 
+            en: { desc: "Reactive tank for combat: mitigates bleed, avoids fracture crippling and heavily punishes fleeing carnivores.", s: ["Epidermal Fibrosis", "Traumatic Thrombosis", "Accelerated Prey Drive", "Osteosclerosis"] } 
+          } 
+        },
         { nombre: "Stegosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable y resistencia extrema al sangrado.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress with high bleed resistance.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Hypermetabolic Inanition", "Cellular Regeneration"] } } },
         { nombre: "Kentrosaurus", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Castigo por contacto con púas y rápida recuperación.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] }, en: { desc: "Punishing spike-counter and fast recovery.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Reinforced Tendons", "Cellular Regeneration"] } } },
         { nombre: "Maiasaura", tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Crecimiento rápido de manada y movilidad constante.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] }, en: { desc: "Fast herd reproduction and sustained mobility.", s: ["Prolific Reproduction", "Advanced Gestation", "Multichambered Lungs", "Enhanced Digestion"] } } },
@@ -496,7 +523,7 @@
         { nombre: "Carnotaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carga a máxima velocidad e impacto devastador.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] }, en: { desc: "High-speed charge and heavy initial impact.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Reinforced Tendons", "Accelerated Prey Drive"] } } },
         { nombre: "Allosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Cazador versátil centrado en desangrar presas grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Versatile hunter focused on bleeding big targets.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
         { nombre: "Deinosuchus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática y absoluto control de ríos.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] }, en: { desc: "Aquatic ambush and river zone control.", s: ["Hydrodynamic", "Submerged Optical Retention", "Increased Inspiratory Capacity", "Hydroregenerative"] } } },
-        { nombre: "Tyrannosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Depredador alfa: Fuerza bruta, rotura de huesos y daño masivo.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] }, en: { desc: "Apex predator: Raw power, bone breaking and high damage.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] } } }
+        { nombre: "Tyrannosaurus", tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Apex depredador: Fuerza bruta, rotura de huesos y daño masivo.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] }, en: { desc: "Apex predator: Raw power, bone breaking and high damage.", s: ["Hypermetabolic Inanition", "Osteosclerosis", "Epidermal Fibrosis", "Congenital Hypoalgesia"] } } }
       ];
 
       // --- FUNCIONES RENDERIZADORAS ---
@@ -595,11 +622,17 @@
             });
             listHtml += '</ul>';
 
+            let soloNoteHtml = '';
+            if (dinoEncontrado.soloNote) {
+                soloNoteHtml = `<div class="solo-note">${dinoEncontrado.soloNote[idiomaActual]}</div>`;
+            }
+
             contenedor.innerHTML = `
               <div class="card">
                 <h2>${dinoEncontrado.nombre} <small style="font-size: 13px; color: #ff4d4d;">(${tipoDino})</small></h2>
                 <p><strong>${idiomaActual === 'es' ? 'Estrategia principal:' : 'Main strategy:'}</strong> ${info.desc}</p>
                 ${listHtml}
+                ${soloNoteHtml}
               </div>
             `;
         }
