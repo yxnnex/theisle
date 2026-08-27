@@ -158,12 +158,12 @@
         ul.build-list li { 
             background: rgba(15, 15, 18, 0.6); 
             padding: 10px 14px; 
-            margin-bottom: 8px; 
+            margin-bottom: 10px; 
             border-radius: 6px; 
             border-left: 3px solid #ff4d4d; 
         }
 
-        .badge-container { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+        .badge-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
         .badge {
             font-size: 0.75rem;
             padding: 3px 8px;
@@ -305,32 +305,170 @@
     <script>
       let idiomaActual = 'es';
 
-      // BASE DE DATOS DE MUTACIONES CON FILTROS TÉCNICOS Y RESTRICCIONES
+      // BASE DE DATOS DE MUTACIONES CON DETALLES DE DESBLOQUEO Y BADGES
       const mutacionesDB = [
-        { id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." } },
-        { id: "Efficient Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." } },
-        { id: "Enhanced Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la tasa de pérdida de nutrientes (10%).", en: "Decrease nutrition decay rate (10%)." } },
-        { id: "Sustained Hydration", cat: 1, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." } },
-        { id: "Xerocole Adaptation", cat: 1, restriccionTipo: "herbivoro", soloSalto: false, catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" }, desc: { es: "Reduce la pérdida de agua al comer vegetación.", en: "Reduces water loss when eating plants." } },
-        { id: "Hypermetabolic Inanition", cat: 2, restriccionTipo: "carnivoro", soloSalto: false, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "Cuanta menos comida tengas, más daño infligís (hasta +15%).", en: "The lower your food bar, the more damage you deal (up to +15%)." } },
-        { id: "Heightened Ghrelin", cat: 2, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "Aumenta la capacidad máxima del estómago.", en: "Increases maximum stomach capacity." } },
-        { id: "Accelerated Prey Drive", cat: 2, restriccionTipo: "carnivoro", soloSalto: false, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+10% de daño a objetivos con menos del 35% de vida.", en: "+10% damage to targets with under 35% health." } },
-        { id: "Hemomania", cat: 2, restriccionTipo: "carnivoro", soloSalto: false, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." } },
-        { id: "Gastronomic Regeneration", cat: 2, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" }, desc: { es: "Comer restaura una pequeña cantidad de salud.", en: "Eating restores a small amount of health." } },
-        { id: "Epidermal Fibrosis", cat: 3, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." } },
-        { id: "Traumatic Thrombosis", cat: 3, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Evita morir por pérdida de sangre si te sientas a descansar.", en: "Prevents death from blood loss while sitting down." } },
-        { id: "Osteosclerosis", cat: 3, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "20% de probabilidad de mitigar o evitar fracturas.", en: "20% chance to prevent or mitigate bone fractures." } },
-        { id: "Reinforced Tendons", cat: 3, restriccionTipo: "universal", soloSalto: true, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Reduce el gasto de estamina al saltar o brincar.", en: "Reduces stamina cost when jumping." } },
-        { id: "Congenital Hypoalgesia", cat: 3, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" }, desc: { es: "Reduce el daño recibido al luchar contra especies más grandes (15%).", en: "Reduces incoming damage from larger species (15%)." } },
-        { id: "Multichambered Lungs", cat: 3, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Combate y Resistencia", en: "Combat & Resistance" }, desc: { es: "Disminuye el tiempo requerido para empezar a regenerar estamina.", en: "Reduces the delay threshold before stamina starts regenerating." } },
-        { id: "Hypervigilance", cat: 4, restriccionTipo: "herbivoro", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+50% de rango auditivo y amplía la cámara al comer/beber.", en: "+50% hearing range and wider view while eating/drinking." } },
-        { id: "Hydrodynamic", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "+15% velocidad de nado.", en: "+15% swim speed." } },
-        { id: "Hydroregenerative", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Recupera salud 25% más rápido durante la lluvia.", en: "Recover health 25% faster during rain." } },
-        { id: "Wader", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor velocidad en aguas poco profundas/pantanos.", en: "Higher speed in shallow waters/swamps." } },
-        { id: "Featherweight", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Las huellas desaparecen más rápido.", en: "Footprints disappear faster." } },
-        { id: "Nocturnal", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mayor regeneración de salud durante la noche.", en: "Faster health recovery during night." } },
-        { id: "Augmented Tapetum", cat: 4, restriccionTipo: "carnivoro", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Mejora significativamente el campo de visión nocturno.", en: "Extends vision range in total darkness." } },
-        { id: "Photosynthetic Tissue", cat: 4, restriccionTipo: "universal", soloSalto: false, catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" }, desc: { es: "Aumenta la velocidad y regeneración diurna.", en: "Increases daytime movement speed and health regen." } }
+        { 
+          id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." },
+          sinergia: { es: "Excelente con sanación acelerada y curación rápida en descanso.", en: "Combines well with fast healing and resting recovery." },
+          unlock: { es: ["Mantén tus nutrientes de la dieta por arriba del 50%.", "Sana daño de vida de manera continua mientras descansas."], en: ["Keep diet nutrients above 50%.", "Heal health damage continuously while resting."] }
+        },
+        { 
+          id: "Efficient Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." },
+          sinergia: { es: "Útil para especies viajeras de larga distancia.", en: "Useful for long-distance roaming species." },
+          unlock: { es: ["Mantenlos nutrientes llenos por tiempo prolongado.", "Rellena tu estómago al 100% varias veces."], en: ["Keep nutrients full for extended periods.", "Fill stomach to 100% multiple times."] }
+        },
+        { 
+          id: "Enhanced Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "Reduce la tasa de pérdida de nutrientes (10%).", en: "Decrease nutrition decay rate (10%)." },
+          sinergia: { es: "Mantiene los buffos de la dieta por más tiempo.", en: "Maintains diet buffs for longer durations." },
+          unlock: { es: ["Consume los 3 nutrientes diferentes de tu dieta.", "Mantén los 3 íconos activos durante la fase juvenil."], en: ["Consume all 3 diet nutrient types.", "Keep all 3 icons active during juvenile phase."] }
+        },
+        { 
+          id: "Sustained Hydration", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." },
+          sinergia: { es: "Ideal para zonas secas o cruces de mapa.", en: "Ideal for dry areas or map travel." },
+          unlock: { es: ["Manten la barra de agua por encima del 80%.", "Bebe de fuentes de agua limpia recurrentemente."], en: ["Keep water bar above 80%.", "Drink from clean water sources repeatedly."] }
+        },
+        { 
+          id: "Xerocole Adaptation", cat: 1, restriccionTipo: "herbivoro", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "Reduce la pérdida de agua al comer vegetación.", en: "Reduces water loss when eating plants." },
+          restriccion: { es: "Solo Herbívoros", en: "Herbivores Only" },
+          unlock: { es: ["Comer vegetación mientras la sed está baja.", "Consumir plantas de bioma seco."], en: ["Eat plants while thirst is low.", "Consume dry biome vegetation."] }
+        },
+        { 
+          id: "Hypermetabolic Inanition", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Cuanta menos comida tengas, más daño infligís (hasta +15%).", en: "The lower your food bar, the more damage you deal (up to +15%)." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          sinergia: { es: "Permite remontar peleas extremas en estado crítico.", en: "Allows comeback potential in critical situations." },
+          unlock: { es: ["Atacar u orquestar combates con el hambre por debajo del 30%.", "Infligir daño estando hambriento."], en: ["Attack or fight with hunger under 30%.", "Deal damage while starving."] }
+        },
+        { 
+          id: "Heightened Ghrelin", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Aumenta la capacidad máxima del estómago.", en: "Increases maximum stomach capacity." },
+          unlock: { es: ["Comer hasta el límite máximo de saciedad.", "Comer más allá de estar lleno con frecuencia."], en: ["Eat to maximum satiety limits.", "Overeat frequently when full."] }
+        },
+        { 
+          id: "Accelerated Prey Drive", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "+10% de daño a objetivos con menos del 35% de vida.", en: "+10% damage to targets with under 35% health." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          sinergia: { es: "Asegura remates rápidos de presas debilitadas.", en: "Ensures fast executes on weak prey." },
+          unlock: { es: ["Atacar y rematar presas con salud crítica.", "Participar en la muerte de múltiples carcasas."], en: ["Attack and finish low health prey.", "Participate in killing multiple targets."] }
+        },
+        { 
+          id: "Hemomania", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          sinergia: { es: "Potencia letal en cazadores de sangrado como Raptor u Allosaurus.", en: "Deadly synergy for bleeder hunters like Raptor or Allo." },
+          unlock: { es: ["Garantizar mordiscos sobre presas sangrando.", "Causar sangrado continuo en combate."], en: ["Land hits on bleeding prey.", "Cause continuous bleed status in combat."] }
+        },
+        { 
+          id: "Gastronomic Regeneration", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Comer restaura una pequeña cantidad de salud.", en: "Eating restores a small amount of health." },
+          unlock: { es: ["Comer inmediatamente después de recibir daño.", "Sana salud mientras te alimentas."], en: ["Eat immediately after taking damage.", "Heal health while eating."] }
+        },
+        { 
+          id: "Epidermal Fibrosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." },
+          sinergia: { es: "Mitiga el daño pasivo frente a carnívoros de sangrado.", en: "Mitigates passive damage against bleeders." },
+          unlock: { es: ["Sobrevivir a múltiples estados de sangrado severo.", "Sustentar combates recibiendo sangrado."], en: ["Survive severe bleeding status multiple times.", "Endure fights while bleeding."] }
+        },
+        { 
+          id: "Traumatic Thrombosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "Evita morir por pérdida de sangre si te sientas a descansar.", en: "Prevents death from blood loss while sitting down." },
+          sinergia: { es: "Salvavidas esencial en escapadas a vida o muerte.", en: "Essential lifesaver when escaping critical fights." },
+          unlock: { es: ["Sentarse a descansar con el nivel de sangrado al máximo.", "Evitar morir por sangre al descansar."], en: ["Sit to rest with maximum bleed intensity.", "Avoid death by bleeding out while resting."] }
+        },
+        { 
+          id: "Osteosclerosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "20% de probabilidad de mitigar o evitar fracturas.", en: "20% chance to prevent or mitigate bone fractures." },
+          sinergia: { es: "Indispensable contra rompehuesos como Pachy o T-Rex.", en: "Essential against bonebreakers like Pachy or T-Rex." },
+          unlock: { es: ["Recibir golpes contundentes en las piernas o cuerpo.", "Sobrevivir y curar fracturas óseas."], en: ["Take heavy impacts to body or legs.", "Survive and heal broken bone status."] }
+        },
+        { 
+          id: "Reinforced Tendons", cat: 3, restriccionTipo: "universal", soloSalto: true,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "Reduce el gasto de estamina al saltar o brincar.", en: "Reduces stamina cost when jumping." },
+          soloSaltoNote: { es: "Requiere capacidad de salto", en: "Requires jump ability" },
+          unlock: { es: ["Efectuar saltos continuos gastando estamina.", "Realizar saltos desde alturas medias."], en: ["Perform continuous jumps using stamina.", "Jump from medium heights."] }
+        },
+        { 
+          id: "Congenital Hypoalgesia", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "Reduce el daño recibido al luchar contra especies más grandes (15%).", en: "Reduces incoming damage from larger species (15%)." },
+          sinergia: { es: "Crucial en especies medianas que enfrentan Ápex.", en: "Crucial for mid-tiers facing Apexes." },
+          unlock: { es: ["Recibir daño y sobrevivir ataques de dinosaurios con mayor peso.", "Pelear contra dinosaurios más grandes."], en: ["Take damage and survive hits from heavier dinos.", "Fight larger species."] }
+        },
+        { 
+          id: "Multichambered Lungs", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "Disminuye el tiempo requerido para empezar a regenerar estamina.", en: "Reduces the delay threshold before stamina starts regenerating." },
+          unlock: { es: ["Agotar completamente la barra de estamina.", "Empezar a regenerar estamina desde cero múltiples veces."], en: ["Completely drain stamina bar.", "Start regenerating stamina from zero repeatedly."] }
+        },
+        { 
+          id: "Hypervigilance", cat: 4, restriccionTipo: "herbivoro", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "+50% de rango auditivo y amplía la cámara al comer/beber.", en: "+50% hearing range and wider view while eating/drinking." },
+          restriccion: { es: "Solo Herbívoros", en: "Herbivores Only" },
+          unlock: { es: ["Comer o beber detectando sonido en los alrededores.", "Mantenerse en alerta en zonas de agua."], en: ["Eat or drink while detecting nearby sounds.", "Stay alert around water bodies."] }
+        },
+        { 
+          id: "Hydrodynamic", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "+15% velocidad de nado.", en: "+15% swim speed." },
+          unlock: { es: ["Nadar distancias largas en ríos o mar.", "Cruzar cuerpos de agua profunda."], en: ["Swim long distances in rivers or ocean.", "Cross deep water bodies."] }
+        },
+        { 
+          id: "Hydroregenerative", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Recupera salud 25% más rápido durante la lluvia.", en: "Recover health 25% faster during rain." },
+          unlock: { es: ["Recibir daño y permanecer a la intemperie mientras llueve.", "Curar vida bajo la tormenta."], en: ["Take damage and remain outdoors during rain.", "Heal health during storms."] }
+        },
+        { 
+          id: "Wader", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Mayor velocidad en aguas poco profundas/pantanos.", en: "Higher speed in shallow waters/swamps." },
+          unlock: { es: ["Caminar y correr en orillas o pantanos de poca profundidad.", "Desplazarse por deltas de agua."], en: ["Walk and run along shallow shores or swamps.", "Travel through water deltas."] }
+        },
+        { 
+          id: "Featherweight", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Las huellas desaparecen más rápido.", en: "Footprints disappear faster." },
+          unlock: { es: ["Caminar sigilosamente o esprintar por terreno barro/tierra.", "Moverse sin ser detectado."], en: ["Walk stealthily or sprint across muddy soil.", "Move undetected."] }
+        },
+        { 
+          id: "Nocturnal", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Mayor regeneración de salud durante la noche.", en: "Faster health recovery during night." },
+          unlock: { es: ["Permanecer activo y recuperarse durante el ciclo nocturno.", "Estar al aire libre en la oscuridad."], en: ["Stay active and heal during night cycle.", "Be outdoors in full darkness."] }
+        },
+        { 
+          id: "Augmented Tapetum", cat: 4, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Mejora significativamente el campo de visión nocturno.", en: "Extends vision range in total darkness." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          unlock: { es: ["Usar la visión nocturna de forma constante.", "Cazar o desplazarse en plena noche."], en: ["Use night vision constantly.", "Hunt or navigate in total darkness."] }
+        },
+        { 
+          id: "Photosynthetic Tissue", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Aumenta la velocidad y regeneración diurna.", en: "Increases daytime movement speed and health regen." },
+          unlock: { es: ["Estar expuesto a la luz solar directa durante el día.", "Realizar actividad en pleno mediodía."], en: ["Be exposed to direct sunlight during daytime.", "Stay active at noon."] }
+        }
       ];
 
       // BASE DE DATOS DE DINOSAURIOS CON ATRIBUTOS TÉCNICOS
@@ -383,9 +521,43 @@
         }
       ];
 
+      // RENDERIZADO DE BADGES DE COMPATIBILIDAD Y SINERGIA
+      function renderBadges(mut) {
+        let html = '<div class="badge-container">';
+        if (mut.sinergia) {
+          html += `<span class="badge badge-sinergia">✨ ${mut.sinergia[idiomaActual]}</span>`;
+        }
+        if (mut.restriccion) {
+          html += `<span class="badge badge-restriction">🔒 ${mut.restriccion[idiomaActual]}</span>`;
+        }
+        if (mut.soloSaltoNote) {
+          html += `<span class="badge badge-situacional">🦘 ${mut.soloSaltoNote[idiomaActual]}</span>`;
+        }
+        html += '</div>';
+        return html;
+      }
+
+      // RENDERIZADO DE ACCORDION CON REQUISITOS DE DESBLOQUEO
+      function renderUnlockAccordion(unlockData) {
+        if (!unlockData) return '';
+        const pasos = unlockData[idiomaActual];
+        let stepsHtml = '<ol class="unlock-steps">';
+        pasos.forEach(p => { stepsHtml += `<li>${p}</li>`; });
+        stepsHtml += '</ol>';
+
+        const titleText = idiomaActual === 'es' ? '🔓 Pasos para desbloquear en juego:' : '🔓 Steps to unlock in-game:';
+
+        return `
+          <details class="unlock-box">
+            <summary>${titleText}</summary>
+            ${stepsHtml}
+          </details>
+        `;
+      }
+
       function renderGlosario() {
         const container = document.getElementById("contenedor-glosario");
-        const categorias = [1, 2, 3, 4, 5];
+        const categorias = [1, 2, 3, 4];
         let html = '';
 
         categorias.forEach(catId => {
@@ -397,6 +569,8 @@
                 <div class="mutacion-item">
                   <strong>${mut.id}</strong>
                   <p style="color: #d1d1d1; font-size: 0.85rem;">${mut.desc[idiomaActual]}</p>
+                  ${renderBadges(mut)}
+                  ${renderUnlockAccordion(mut.unlock)}
                 </div>
               `;
             });
@@ -434,6 +608,8 @@
                 <li>
                   <strong style="color: #ff4d4d;">Slot ${index + 1}:</strong> <span style="font-weight:bold; color:#fff;">${mutId}</span>
                   <div style="font-size: 0.85rem; color: #b0b0b0; margin-top:2px;"><em>${desc}</em></div>
+                  ${mutData ? renderBadges(mutData) : ''}
+                  ${mutData ? renderUnlockAccordion(mutData.unlock) : ''}
                 </li>
               `;
             });
