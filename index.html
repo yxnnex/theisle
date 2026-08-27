@@ -445,6 +445,26 @@
           unlock: { es: ["Caminar y correr en orillas o pantanos de poca profundidad.", "Desplazarse por deltas de agua."], en: ["Walk and run along shallow shores or swamps.", "Travel through water deltas."] }
         },
         { 
+          id: "Reniculate Kidneys", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Permite beber agua de mar o salada sin sufrir deshidratación ni el debuff de Fluid Deficient.", en: "Allows drinking seawater or saltwater without suffering dehydration or the Fluid Deficient debuff." },
+          sinergia: { es: "Perfecta para cazadores costeros, Pteranodon, Deinosuchus o especies viajeras.", en: "Perfect for coastal hunters, Pteranodon, Deinosuchus, or roaming species." },
+          unlock: { 
+            es: [
+              "Encuentra agua de mar o salada (costa del océano).",
+              "Bebe agua salada hasta recibir el debuff 'Fluid Deficient' en el menú (TAB).",
+              "Continúa tomando agua salada / drenando tu sed hasta que el debuff 'Fluid Deficient' desaparezca por completo (acumular aprox. 1250 puntos de sed perdidos).",
+              "Una vez limpiado el debuff, la mutación quedará lista para seleccionarse."
+            ], 
+            en: [
+              "Find a body of saltwater (ocean coast).",
+              "Drink saltwater until you get the 'Fluid Deficient' debuff in your TAB menu.",
+              "Continue consuming saltwater / draining thirst until the 'Fluid Deficient' debuff completely disappears (accumulate approx. 1250 thirst points lost).",
+              "Once cleared, the mutation will be unlocked and ready to select."
+            ] 
+          }
+        },
+        { 
           id: "Featherweight", cat: 4, restriccionTipo: "universal", soloSalto: false,
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Las huellas desaparecen más rápido.", en: "Footprints disappear faster." },
@@ -499,16 +519,16 @@
         { nombre: "Triceratops", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fuerza frontal masiva.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Massive frontal power.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] } } },
         
         // Carnívoros
-        { nombre: "Pteranodon", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Dominio aéreo.", s: ["Featherweight", "Heightened Ghrelin", "Multichambered Lungs", "Hydrodynamic"] }, en: { desc: "Aerial scouting.", s: ["Featherweight", "Heightened Ghrelin", "Multichambered Lungs", "Hydrodynamic"] } } },
+        { nombre: "Pteranodon", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Dominio aéreo.", s: ["Reniculate Kidneys", "Heightened Ghrelin", "Multichambered Lungs", "Hydrodynamic"] }, en: { desc: "Aerial scouting.", s: ["Reniculate Kidneys", "Heightened Ghrelin", "Multichambered Lungs", "Hydrodynamic"] } } },
         { nombre: "Troodon", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Guerrilla nocturna.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] }, en: { desc: "Night hit-and-run tactics.", s: ["Featherweight", "Hemomania", "Nocturnal", "Accelerated Prey Drive"] } } },
         { nombre: "Herrerasaurus", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada arbórea.", s: ["Reinforced Tendons", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] }, en: { desc: "Tree ambush specialist.", s: ["Reinforced Tendons", "Accelerated Prey Drive", "Osteosclerosis", "Featherweight"] } } },
-        { nombre: "Austroraptor", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Cazador semi-acuático y rápido en orillas.", s: ["Wader", "Hemomania", "Accelerated Prey Drive", "Hydrodynamic"] }, en: { desc: "Semi-aquatic fast shoreline hunter.", s: ["Wader", "Hemomania", "Accelerated Prey Drive", "Hydrodynamic"] } } },
+        { nombre: "Austroraptor", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Cazador semi-acuático y rápido en orillas.", s: ["Reniculate Kidneys", "Hemomania", "Accelerated Prey Drive", "Hydrodynamic"] }, en: { desc: "Semi-aquatic fast shoreline hunter.", s: ["Reniculate Kidneys", "Hemomania", "Accelerated Prey Drive", "Hydrodynamic"] } } },
         { nombre: "Omniraptor", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Ataque en jauría y saltos.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Pack hunter and pouncing.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Dilophosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Caza nocturna.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Night hunter.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Ceratosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carroñero agresivo.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] }, en: { desc: "Aggressive scavenger.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] } } },
         { nombre: "Carnotaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Embiste a máxima velocidad.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] }, en: { desc: "High-speed charge.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] } } },
         { nombre: "Allosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Desangrado de objetivos grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Big target bleeder.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
-        { nombre: "Deinosuchus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática.", s: ["Hydrodynamic", "Wader", "Hydroregenerative", "Hypermetabolic Inanition"] }, en: { desc: "Aquatic ambush.", s: ["Hydrodynamic", "Wader", "Hydroregenerative", "Hypermetabolic Inanition"] } } },
+        { nombre: "Deinosuchus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática marina/fluvial.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] }, en: { desc: "Aquatic ambush.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] } } },
         { 
           nombre: "Tyrannosaurus", 
           dieta: "carnivoro",
