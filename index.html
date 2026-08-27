@@ -244,11 +244,6 @@
                 Nacer desde un nido te otorga una enorme ventaja competitiva. Te permite heredar mutaciones de tus padres directamente a tu ADN.
             </div>
 
-            <div class="highlight-entomb" id="entomb-summary-box">
-                <strong>🪨 Nota sobre Mutaciones de Emboscada / Entomb:</strong>
-                <em>Al elegir un dinosaurio se filtrarán automáticamente las 16 mutaciones globales para mostrarte únicamente las compatibles con la especie seleccionada.</em>
-            </div>
-
             <h4>Distribución de Mutaciones por Slots y Etapas:</h4>
             <ul>
                 <li><strong>Slot 1 - Crecimiento Temprano (Juvenil):</strong> Supervivencia básica, recursos y movilidad inicial.</li>
@@ -650,7 +645,7 @@
 
             const entombNoteHtml = `
               <div class="entomb-note">
-                <strong>🪨 ${idiomaActual === 'es' ? '16 Mutaciones recomendadas:' : 'Recommended/Compatible secondary mutations   (Entomb):'}</strong><br>
+                <strong>🪨 ${idiomaActual === 'es' ? '16 Mutaciones recomendadas:' : '16 Recommended mutations:'}</strong><br>
                 <em>${mutacionesCompatibles.join(', ')}</em>
               </div>
             `;
