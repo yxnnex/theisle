@@ -200,10 +200,17 @@
         .mutacion-item { padding: 12px; border-left: 4px solid #ff4d4d; }
         .mutacion-item strong { color: #ffffff; display: block; font-size: 0.95rem; margin-bottom: 4px; }
 
-        .map-btn {
+        .floating-buttons {
             position: fixed;
             bottom: 20px;
             right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .map-btn, .skins-btn {
             background-color: #ff4d4d;
             color: #ffffff;
             padding: 10px 16px;
@@ -216,9 +223,8 @@
             align-items: center;
             gap: 6px;
             transition: transform 0.2s, background-color 0.2s;
-            z-index: 1000;
         }
-        .map-btn:hover { background-color: #e63939; transform: translateY(-3px); }
+        .map-btn:hover, .skins-btn:hover { background-color: #e63939; transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -227,9 +233,14 @@
         <button class="lang-btn" id="lang-toggle" onclick="toggleIdioma()">🌐 Switch to English</button>
     </div>
 
-    <a href="https://www.islemaps.com/" target="_blank" rel="noopener noreferrer" class="map-btn" id="btn-mapa">
-        🗺️ Abrir IsleMaps
-    </a>
+    <div class="floating-buttons">
+        <a href="https://yxnnex.github.io/galeriadeskins/" target="_blank" rel="noopener noreferrer" class="skins-btn" id="btn-skins">
+            🎨 Abrir Skins
+        </a>
+        <a href="https://www.islemaps.com/" target="_blank" rel="noopener noreferrer" class="map-btn" id="btn-mapa">
+            🗺️ Abrir IsleMaps
+        </a>
+    </div>
 
     <h1>The Isle: Evrima - Build Manager</h1>
     <p class="subtitle" id="txt-subtitulo">Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.</p>
@@ -510,7 +521,7 @@
         },
         { nombre: "Stegosaurus", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] } } },
         { nombre: "Kentrosaurus", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Contraataque y castigo.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Spike counter.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] } } },
-        { nombre: "Maiasaura", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Movilidad sostenida.", s: ["Multichambered Lungs", "Enhanced Digestion", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Sustained mobility.", s: ["Multichambered Lungs", "Enhanced Digestion", "Osteosclerosis", "Cellular Regeneration"] } } },
+        { nombre: "Maiasaura", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Movilidad sustained.", s: ["Multichambered Lungs", "Enhanced Digestion", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Sustained mobility.", s: ["Multichambered Lungs", "Enhanced Digestion", "Osteosclerosis", "Cellular Regeneration"] } } },
         { nombre: "Triceratops", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fuerza frontal masiva.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Massive frontal power.", s: ["Epidermal Fibrosis", "Congenital Hypoalgesia", "Osteosclerosis", "Cellular Regeneration"] } } },
         
         // Carnívoros
@@ -668,6 +679,7 @@
 
         if (idiomaActual === 'en') {
             btn.innerText = "🌐 Cambiar a Español";
+            document.getElementById("btn-skins").innerText = "🎨 Open Skins";
             document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
             document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
             document.getElementById("lbl-select").innerText = "Select Dinosaur:";
@@ -678,6 +690,7 @@
             document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
         } else {
             btn.innerText = "🌐 Switch to English";
+            document.getElementById("btn-skins").innerText = "🎨 Abrir Skins";
             document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
             document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
             document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
