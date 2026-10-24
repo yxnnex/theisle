@@ -349,6 +349,12 @@
           unlock: { es: ["Comer vegetación mientras la sed está baja.", "Consumir plantas de bioma seco."], en: ["Eat plants while thirst is low.", "Consume dry biome vegetation."] }
         },
         { 
+          id: "Reabsorption", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
+          desc: { es: "Recupera una pequeña cantidad de sed mientras llueve o al nadar en agua potable.", en: "Recover a small amount of thirst during rain or while swimming in drinkable water." },
+          unlock: { es: ["Permanecer expuesto a la lluvia intensa o nadar en agua dulce."], en: ["Stay exposed to heavy rain or swim in freshwater."] }
+        },
+        { 
           id: "Hypermetabolic Inanition", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Cuanta menos comida tengas, más daño infligís (hasta +15%).", en: "The lower your food bar, the more damage you deal (up to +15%)." },
@@ -359,8 +365,8 @@
         { 
           id: "Heightened Ghrelin", cat: 2, restriccionTipo: "universal", soloSalto: false,
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
-          desc: { es: "Aumenta la capacidad máxima del estómago.", en: "Increases maximum stomach capacity." },
-          unlock: { es: ["Comer hasta el límite máximo de saciedad.", "Comer más allá de estar lleno con frecuencia."], en: ["Eat to maximum satiety limits.", "Overeat frequently when full."] }
+          desc: { es: "Aumenta la capacidad máxima del estómago (permite sobrealimentarse).", en: "Increases maximum stomach capacity." },
+          unlock: { es: ["Comer hasta el límite máximo de saciedad.", "Mantener el estómago parpadeando de lleno durante varios minutos."], en: ["Eat to maximum satiety limits.", "Keep blinking full stomach for several minutes."] }
         },
         { 
           id: "Accelerated Prey Drive", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
@@ -379,10 +385,53 @@
           unlock: { es: ["Garantizar mordiscos sobre presas sangrando.", "Causar sangrado continuo en combate."], en: ["Land hits on bleeding prey.", "Cause continuous bleed status in combat."] }
         },
         { 
+          id: "Hematophagy", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Restaura agua y sed al alimentarte de cadáveres o cuerpos recientes.", en: "Restores thirst while eating corpses." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          unlock: { es: ["Consumir cadáveres frescos o cuerpos en descomposición."], en: ["Eat fresh corpses or carcasses."] }
+        },
+        { 
+          id: "Osteophagic", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Permite consumir huesos para acelerar la regeneración y cura de fracturas.", en: "Unlocks ability to consume bones to speed up fracture regeneration." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          unlock: { es: ["Masticar y consumir restos óseos o cadáveres limpios."], en: ["Eat bone remains from clean carcasses."] }
+        },
+        { 
           id: "Gastronomic Regeneration", cat: 2, restriccionTipo: "universal", soloSalto: false,
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Comer restaura una pequeña cantidad de salud.", en: "Eating restores a small amount of health." },
           unlock: { es: ["Comer inmediatamente después de recibir daño.", "Sana salud mientras te alimentas."], en: ["Eat immediately after taking damage.", "Heal health while eating."] }
+        },
+        { 
+          id: "Cannibalistic", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
+          desc: { es: "Permite comer cadáveres de tu propia especie sin sufrir vómitos ni enfermedad de canibalismo.", en: "Allows eating same-species corpses without getting sick or vomiting." },
+          restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
+          unlock: { es: ["Consumir carne de miembros de tu misma especie."], en: ["Cannibalize corpses of your own species."] }
+        },
+        { 
+          id: "Prolific Reproduction", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
+          desc: { es: "Tus crías nacen con mayor velocidad de crecimiento, más regeneración de salud/estamina y menor gasto de comida.", en: "Offspring receive faster growth, higher health/stamina regen, and lower food intake." },
+          restriccion: { es: "Solo Hembras", en: "Females Only" },
+          sinergia: { es: "Crucial para clanes y acelerar el crecimiento de la siguiente generación.", en: "Crucial for nesting clans and boosting next generation stats." },
+          unlock: { es: ["Crear un nido, incubar y criar al menos a 5 crías hasta la etapa juvenil."], en: ["Build a nest, incubate and raise at least 5 hatchlings to juvenile stage."] }
+        },
+        { 
+          id: "Advanced Gestation", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
+          desc: { es: "Acelera un 50% la velocidad de gestación, incubación y reduce el tiempo de reutilización de huevos.", en: "50% faster egg gestation, incubation, and egg cooldown rate." },
+          restriccion: { es: "Solo Hembras", en: "Females Only" },
+          unlock: { es: ["Poner huevos e incubar nidos exitosamente."], en: ["Lay eggs and incubate nests successfully."] }
+        },
+        { 
+          id: "Parthenogenesis", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
+          desc: { es: "Permite a las hembras poner huevos fértiles sin necesidad de un macho en el nido.", en: "Allows female players to lay fertile eggs without needing a male player." },
+          restriccion: { es: "Solo Hembras", en: "Females Only" },
+          unlock: { es: ["Crear nidos estando sola y completar ciclos de anidación."], en: ["Nest alone as a female player and complete nesting cycles."] }
         },
         { 
           id: "Epidermal Fibrosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
@@ -426,6 +475,18 @@
           unlock: { es: ["Agotar completamente la barra de estamina.", "Empezar a regenerar estamina desde cero múltiples veces."], en: ["Completely drain stamina bar.", "Start regenerating stamina from zero repeatedly."] }
         },
         { 
+          id: "Increased Inspiratory Capacity", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
+          desc: { es: "+15% de capacidad pulmonar de oxígeno al sumergirse en agua.", en: "+15% increased oxygen capacity when submerged." },
+          unlock: { es: ["Aguantar la respiración bajo el agua hasta quedarse casi sin oxígeno."], en: ["Hold breath underwater until oxygen is nearly depleted."] }
+        },
+        { 
+          id: "Infrasound Communication", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Reduce en un 50% el rango de volumen al comunicarte o rugir por chat/voz en tu entorno.", en: "50% lower volume range when talking or broadcasting in local chat." },
+          unlock: { es: ["Usar llamadas y rugidos de comunicación frecuentemente."], en: ["Use vocal calls and broadcasts continuously."] }
+        },
+        { 
           id: "Hypervigilance", cat: 4, restriccionTipo: "herbivoro", soloSalto: false,
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "+50% de rango auditivo y amplía la cámara al comer/beber.", en: "+50% hearing range and wider view while eating/drinking." },
@@ -449,6 +510,12 @@
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Mayor velocidad en aguas poco profundas/pantanos.", en: "Higher speed in shallow waters/swamps." },
           unlock: { es: ["Caminar y correr en orillas o pantanos de poca profundidad.", "Desplazarse por deltas de agua."], en: ["Walk and run along shallow shores or swamps.", "Travel through water deltas."] }
+        },
+        { 
+          id: "Submerged Optical Retention", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
+          desc: { es: "Mejora el rango de visión bajo el agua y la claridad de visión acuática.", en: "Increases underwater vision range and clarity." },
+          unlock: { es: ["Bucear y cazar o buscar recursos bajo el agua."], en: ["Dive and navigate under murky waters."] }
         },
         { 
           id: "Reniculate Kidneys", cat: 4, restriccionTipo: "universal", soloSalto: false,
@@ -479,15 +546,15 @@
         { 
           id: "Nocturnal", cat: 4, restriccionTipo: "universal", soloSalto: false,
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
-          desc: { es: "Mayor regeneración de salud durante la noche.", en: "Faster health recovery during night." },
+          desc: { es: "Mayor regeneración de salud y velocidad durante la noche.", en: "Faster health recovery and movement speed at night." },
           unlock: { es: ["Permanecer activo y recuperarse durante el ciclo nocturno.", "Estar al aire libre en la oscuridad."], en: ["Stay active and heal during night cycle.", "Be outdoors in full darkness."] }
         },
         { 
           id: "Augmented Tapetum", cat: 4, restriccionTipo: "carnivoro", soloSalto: false,
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
-          desc: { es: "Mejora significativamente el campo de visión nocturno.", en: "Extends vision range in total darkness." },
+          desc: { es: "Mejora significativamente el campo de visión y nitidez en la noche.", en: "Extends night vision range and clarity significantly." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
-          unlock: { es: ["Usar la visión nocturna de forma constante.", "Cazar o desplazarse en plena noche."], en: ["Use night vision constantly.", "Hunt or navigate in total darkness."] }
+          unlock: { es: ["Eliminar de 4 a 16 jugadores o presas durante la noche.", "Cazar en la oscuridad completa de forma continua."], en: ["Kill 4 to 16 players during the night.", "Hunt continuously in total darkness."] }
         },
         { 
           id: "Photosynthetic Tissue", cat: 4, restriccionTipo: "universal", soloSalto: false,
