@@ -429,7 +429,7 @@
       let entombMode = 'pelea';
       let mutacionesPoseidas = new Set();
 
-      // BASE DE DATOS DE MUTACIONES VIGENTES EVRIMA (v0.21.784)
+      // BASE DE DATOS DE MUTACIONES EVRIMA (PARCHE ACTIVO)
       const mutacionesDB = [
         { 
           id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", tags: ["pelea", "viaje"],
@@ -534,6 +534,7 @@
           catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
           desc: { es: "Tus crías nacen con mayor velocidad de crecimiento, más regeneración de salud/estamina y menor gasto de comida.", en: "Offspring receive faster growth, higher health/stamina regen, and lower food intake." },
           restriccion: { es: "Solo Hembras", en: "Females Only" },
+          sinergia: { es: "Crucial para clanes y acelerar el crecimiento de la siguiente generación.", en: "Crucial for nesting clans and boosting next generation stats." },
           unlock: { es: ["Crear un nido, incubar y criar al menos a 5 crías hasta la etapa juvenil."], en: ["Build a nest, incubate and raise at least 5 hatchlings to juvenile stage."] }
         },
         { 
@@ -692,8 +693,8 @@
             en: "💡 <strong>Solo Survival Mutations:</strong> <em>Hypervigilance, Sustained Hydration, Photosynthetic Tissue, Multichambered Lungs</em>."
           },
           build: { 
-            es: { desc: "Tanque reactivo enfocado a peleas.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Cellular Regeneration", "Congenital Hypoalgesia"] }, 
-            en: { desc: "Reactive combat tank.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Cellular Regeneration", "Congenital Hypoalgesia"] } 
+            es: { desc: "Tanque reactivo enfocado a peleas.", s: ["Epidermal Fibrosis", "Cellular Regeneration", "Osteosclerosis", "Multichambered Lungs"] }, 
+            en: { desc: "Reactive combat tank.", s: ["Epidermal Fibrosis", "Cellular Regeneration", "Osteosclerosis", "Multichambered Lungs"] } 
           } 
         },
         { nombre: "Stegosaurus", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] } } },
@@ -819,4 +820,132 @@
         const disponibles = mutsCompatibles.filter(m => !mutacionesPoseidas.has(m.id));
 
         disponibles.sort((a, b) => {
-          const aInBuild = dino.build.es
+          const aInBuild = dino.build.es.s.includes(a.id) ? 3 : 0;
+          const bInBuild = dino.build.es.s.includes(b.id) ? 3 : 0;
+          const aTagMatch = (a.tags && a.tags.includes(entombMode)) ? 2 : 0;
+          const bTagMatch = (b.tags && b.tags.includes(entombMode)) ? 2 : 0;
+          return (bInBuild + bTagMatch) - (aInBuild + aTagMatch);
+        });
+
+        const seleccionadas = disponibles.slice(0, 4);
+
+        if (seleccionadas.length === 0) {
+          recomendContainer.innerHTML = `<div style="grid-column: 1/-1; color: #f1c40f;">¡Ya posees todas las mutaciones compatibles disponibles!</div>`;
+          return;
+        }
+
+        let recHtml = '';
+        seleccionadas.forEach((mut, idx) => {
+          recHtml += `
+            <div class="slot-card">
+              <strong>Slot ${idx + 1}: ${mut.id}</strong>
+              <div style="font-size: 0.78rem; color: #b0b0b0;">${mut.desc[idiomaActual]}</div>
+            </div>
+          `;
+        });
+        recomendContainer.innerHTML = recHtml;
+      }
+
+      function mostrarBuild() {
+        const select = document.getElementById("select-dino");
+        const valorSeleccionado = select.value;
+        const contenedor = document.getElementById("resultado-build");
+
+        if (!valorSeleccionado) {
+            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1;" id="txt-placeholder"><em>${
+                idiomaActual === 'es' 
+                ? 'Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.' 
+                : 'Choose a dinosaur from the list to display its 4-mutation build and strategy.'
+            }</em></p>`;
+            return;
+        }
+
+        const dinoEncontrado = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
+        if (dinoEncontrado) {
+            const info = dinoEncontrado.build[idiomaActual];
+            const tipoDino = dinoEncontrado.tipo[idiomaActual];
+            
+            let listHtml = '<ul class="build-list">';
+            info.s.forEach((mutId, index) => {
+              const mutData = mutacionesDB.find(m => m.id === mutId);
+              const desc = mutData ? mutData.desc[idiomaActual] : '';
+              listHtml += `
+                <li>
+                  <strong style="color: #ff4d4d;">Slot ${index + 1}:</strong> <span style="font-weight:bold; color:#fff;">${mutId}</span>
+                  <div style="font-size: 0.85rem; color: #b0b0b0; margin-top:2px;"><em>${desc}</em></div>
+                  ${mutData ? renderBadges(mutData) : ''}
+                  ${mutData ? renderUnlockAccordion(mutData.unlock) : ''}
+                </li>
+              `;
+            });
+            listHtml += '</ul>';
+
+            let soloNoteHtml = dinoEncontrado.soloNote ? `<div class="solo-note">${dinoEncontrado.soloNote[idiomaActual]}</div>` : '';
+
+            const mutacionesCompatibles = mutacionesDB.filter(m => {
+              if (m.restriccionTipo === "carnivoro" && dinoEncontrado.dieta !== "carnivoro") return false;
+              if (m.restriccionTipo === "herbivoro" && dinoEncontrado.dieta !== "herbivoro") return false;
+              if (m.soloSalto && !dinoEncontrado.puedeSaltar) return false;
+              return true;
+            }).map(m => m.id);
+
+            const entombNoteHtml = `
+              <div class="entomb-note">
+                <strong>🪨 ${idiomaActual === 'es' ? 'Mutaciones compatibles con la especie:' : 'Compatible mutations:'}</strong><br>
+                <em>${mutacionesCompatibles.join(', ')}</em>
+              </div>
+            `;
+
+            contenedor.innerHTML = `
+              <div class="card">
+                <h2>${dinoEncontrado.nombre} <small style="font-size: 13px; color: #ff4d4d;">(${tipoDino})</small></h2>
+                <p><strong>${idiomaActual === 'es' ? 'Estrategia principal:' : 'Main strategy:'}</strong> ${info.desc}</p>
+                ${listHtml}
+                ${soloNoteHtml}
+                ${entombNoteHtml}
+              </div>
+            `;
+        }
+      }
+
+      function actualizarTodo() {
+        mostrarBuild();
+        actualizarEntombPlanner();
+      }
+
+      function toggleIdioma() {
+        idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
+        const btn = document.getElementById("lang-toggle");
+
+        if (idiomaActual === 'en') {
+            btn.innerText = "🌐 Cambiar a Español";
+            document.getElementById("btn-skins").innerText = "🎨 Open Skins";
+            document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
+            document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
+            document.getElementById("lbl-select").innerText = "Select Dinosaur:";
+            document.getElementById("opt-default").innerText = "-- Choose an option --";
+            document.getElementById("grp-herbi").label = "Herbi/Omnivores";
+            document.getElementById("grp-carni").label = "Carnivores";
+            document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
+            document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
+        } else {
+            btn.innerText = "🌐 Switch to English";
+            document.getElementById("btn-skins").innerText = "🎨 Abrir Skins";
+            document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
+            document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
+            document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
+            document.getElementById("opt-default").innerText = "-- Elige una opción --";
+            document.getElementById("grp-herbi").label = "Herbi/Omnívoros";
+            document.getElementById("grp-carni").label = "Carnívoros";
+            document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
+            document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
+        }
+
+        renderGlosario();
+        actualizarTodo();
+      }
+
+      renderGlosario();
+    </script>
+</body>
+</html>
