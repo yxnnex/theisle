@@ -90,7 +90,6 @@
         .system-content ul { margin-left: 20px; margin-bottom: 10px; }
         .system-content li { margin-bottom: 4px; }
         .highlight-nesting { background: rgba(46, 204, 113, 0.15); border-left: 3px solid #2ecc71; padding: 8px 12px; border-radius: 4px; margin: 10px 0; }
-        .highlight-entomb { background: rgba(155, 89, 182, 0.15); border-left: 3px solid #9b59b6; padding: 8px 12px; border-radius: 4px; margin: 10px 0; }
 
         label {
             font-family: 'Short Stack', cursive;
@@ -130,7 +129,6 @@
         .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
         .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
 
-        /* ENTOMB OPTIMIZER BOX STYLES */
         .entomb-planner-box {
             padding: 18px;
             margin-bottom: 25px;
@@ -141,6 +139,7 @@
             border-bottom: 2px solid #9b59b6;
             margin-top: 0;
             color: #d8b4fe;
+            font-family: 'Short Stack', cursive;
         }
         .mode-selector {
             display: flex;
@@ -188,17 +187,9 @@
             padding: 4px 6px;
             border-radius: 4px;
         }
-        .mut-check-item:hover {
-            background: rgba(255,255,255,0.05);
-        }
-        .mut-check-item input[type="checkbox"] {
-            accent-color: #9b59b6;
-            cursor: pointer;
-        }
-        .mut-check-item.checked {
-            text-decoration: line-through;
-            color: #888888;
-        }
+        .mut-check-item:hover { background: rgba(255,255,255,0.05); }
+        .mut-check-item input[type="checkbox"] { accent-color: #9b59b6; cursor: pointer; }
+        .mut-check-item.checked { text-decoration: line-through; color: #888888; }
 
         .recommendation-panel {
             background: rgba(46, 204, 113, 0.1);
@@ -225,11 +216,7 @@
             border-radius: 6px;
             font-size: 0.85rem;
         }
-        .slot-card strong {
-            color: #2ecc71;
-            display: block;
-            margin-bottom: 2px;
-        }
+        .slot-card strong { color: #2ecc71; display: block; margin-bottom: 2px; }
 
         .solo-note {
             background: rgba(241, 196, 15, 0.12);
@@ -275,10 +262,8 @@
             width: fit-content;
         }
         .badge-sinergia { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
-        .badge-poca { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
-        .badge-situacional { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
         .badge-restriction { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; }
-        .badge-hidden { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+        .badge-situacional { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
 
         .unlock-box {
             margin-top: 8px;
@@ -444,7 +429,7 @@
       let entombMode = 'pelea';
       let mutacionesPoseidas = new Set();
 
-      // BASE DE DATOS DE MUTACIONES EVRIMA 0.21.784
+      // BASE DE DATOS DE MUTACIONES VIGENTES EVRIMA (v0.21.784)
       const mutacionesDB = [
         { 
           id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", tags: ["pelea", "viaje"],
@@ -458,7 +443,7 @@
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." },
           sinergia: { es: "Útil para especies viajeras de larga distancia.", en: "Useful for long-distance roaming species." },
-          unlock: { es: ["Mantenlos nutrientes llenos por tiempo prolongado.", "Rellena tu estómago al 100% varias veces."], en: ["Keep nutrients full for extended periods.", "Fill stomach to 100% multiple times."] }
+          unlock: { es: ["Mantenlos nutrientes llenos por tiempo prolongado.", "Rellena tu estómago al 100% varias veces."], en: ["Keep diet nutrients full for extended periods.", "Fill stomach to 100% multiple times."] }
         },
         { 
           id: "Enhanced Digestion", cat: 1, restriccionTipo: "universal", tags: ["viaje"],
@@ -549,7 +534,6 @@
           catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
           desc: { es: "Tus crías nacen con mayor velocidad de crecimiento, más regeneración de salud/estamina y menor gasto de comida.", en: "Offspring receive faster growth, higher health/stamina regen, and lower food intake." },
           restriccion: { es: "Solo Hembras", en: "Females Only" },
-          sinergia: { es: "Crucial para clanes y acelerar el crecimiento de la siguiente generación.", en: "Crucial for nesting clans and boosting next generation stats." },
           unlock: { es: ["Crear un nido, incubar y criar al menos a 5 crías hasta la etapa juvenil."], en: ["Build a nest, incubate and raise at least 5 hatchlings to juvenile stage."] }
         },
         { 
@@ -572,13 +556,6 @@
           desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." },
           sinergia: { es: "Mitiga el daño pasivo frente a carnívoros de sangrado.", en: "Mitigates passive damage against bleeders." },
           unlock: { es: ["Sobrevivir a múltiples estados de sangrado severo.", "Sustentar combates recibiendo sangrado."], en: ["Survive severe bleeding status multiple times.", "Endure fights while bleeding."] }
-        },
-        { 
-          id: "Traumatic Thrombosis", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
-          catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
-          desc: { es: "Evita morir por pérdida de sangre si te sientas a descansar.", en: "Prevents death from blood loss while sitting down." },
-          sinergia: { es: "Salvavidas esencial en escapadas a vida o muerte.", en: "Essential lifesaver when escaping critical fights." },
-          unlock: { es: ["Sentarse a descansar con el nivel de sangrado al máximo.", "Evitar morir por sangre al descansar."], en: ["Sit to rest with maximum bleed intensity.", "Avoid death by bleeding out while resting."] }
         },
         { 
           id: "Osteosclerosis", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
@@ -697,7 +674,7 @@
         }
       ];
 
-      // BASE DE DATOS DE DINOSAURIOS CON ATRIBUTOS TÉCNICOS
+      // BASE DE DATOS DE DINOSAURIOS
       const dinosauriosDB = [
         { nombre: "Dryosaurus", dieta: "herbivoro", puedeSaltar: true, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Evasión rápida.", s: ["Featherweight", "Sustained Hydration", "Osteosclerosis", "Cellular Regeneration"] }, en: { desc: "Fast evasion.", s: ["Featherweight", "Sustained Hydration", "Osteosclerosis", "Cellular Regeneration"] } } },
         { nombre: "Hypsilophodon", dieta: "herbivoro", puedeSaltar: true, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Agilidad en las alturas.", s: ["Reinforced Tendons", "Featherweight", "Sustained Hydration", "Multichambered Lungs"] }, en: { desc: "High agility.", s: ["Reinforced Tendons", "Featherweight", "Sustained Hydration", "Multichambered Lungs"] } } },
@@ -715,8 +692,8 @@
             en: "💡 <strong>Solo Survival Mutations:</strong> <em>Hypervigilance, Sustained Hydration, Photosynthetic Tissue, Multichambered Lungs</em>."
           },
           build: { 
-            es: { desc: "Tanque reactivo enfocado a peleas.", s: ["Epidermal Fibrosis", "Traumatic Thrombosis", "Osteosclerosis", "Cellular Regeneration"] }, 
-            en: { desc: "Reactive combat tank.", s: ["Epidermal Fibrosis", "Traumatic Thrombosis", "Osteosclerosis", "Cellular Regeneration"] } 
+            es: { desc: "Tanque reactivo enfocado a peleas.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Cellular Regeneration", "Congenital Hypoalgesia"] }, 
+            en: { desc: "Reactive combat tank.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Cellular Regeneration", "Congenital Hypoalgesia"] } 
           } 
         },
         { nombre: "Stegosaurus", dieta: "herbivoro", puedeSaltar: false, tipo: { es: "Herbívoro", en: "Herbivore" }, build: { es: { desc: "Fortaleza impenetrable.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] }, en: { desc: "Impenetrable fortress.", s: ["Epidermal Fibrosis", "Osteosclerosis", "Congenital Hypoalgesia", "Cellular Regeneration"] } } },
@@ -732,7 +709,7 @@
         { nombre: "Omniraptor", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Ataque en jauría y saltos.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Pack hunter and pouncing.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Dilophosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Caza nocturna.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Night hunter.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Ceratosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carroñero agresivo.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] }, en: { desc: "Aggressive scavenger.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] } } },
-        { nombre: "Carnotaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Embiste a máxima velocidad.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] }, en: { desc: "High-speed charge.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] } },
+        { nombre: "Carnotaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Embiste a máxima velocidad.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] }, en: { desc: "High-speed charge.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] } } },
         { nombre: "Allosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Desangrado de objetivos grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Big target bleeder.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
         { nombre: "Deinosuchus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática marina/fluvial.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] }, en: { desc: "Aquatic ambush.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] } } },
         { 
@@ -747,38 +724,23 @@
         }
       ];
 
-      // RENDERIZADO DE BADGES DE COMPATIBILIDAD Y SINERGIA
       function renderBadges(mut) {
         let html = '<div class="badge-container">';
-        if (mut.sinergia) {
-          html += `<span class="badge badge-sinergia">✨ ${mut.sinergia[idiomaActual]}</span>`;
-        }
-        if (mut.restriccion) {
-          html += `<span class="badge badge-restriction">🔒 ${mut.restriccion[idiomaActual]}</span>`;
-        }
-        if (mut.soloSaltoNote) {
-          html += `<span class="badge badge-situacional">🦘 ${mut.soloSaltoNote[idiomaActual]}</span>`;
-        }
+        if (mut.sinergia) html += `<span class="badge badge-sinergia">✨ ${mut.sinergia[idiomaActual]}</span>`;
+        if (mut.restriccion) html += `<span class="badge badge-restriction">🔒 ${mut.restriccion[idiomaActual]}</span>`;
+        if (mut.soloSaltoNote) html += `<span class="badge badge-situacional">🦘 ${mut.soloSaltoNote[idiomaActual]}</span>`;
         html += '</div>';
         return html;
       }
 
-      // RENDERIZADO DE ACCORDION CON REQUISITOS DE DESBLOQUEO
       function renderUnlockAccordion(unlockData) {
         if (!unlockData) return '';
         const pasos = unlockData[idiomaActual];
         let stepsHtml = '<ol class="unlock-steps">';
         pasos.forEach(p => { stepsHtml += `<li>${p}</li>`; });
         stepsHtml += '</ol>';
-
         const titleText = idiomaActual === 'es' ? '🔓 Pasos para desbloquear en juego:' : '🔓 Steps to unlock in-game:';
-
-        return `
-          <details class="unlock-box">
-            <summary>${titleText}</summary>
-            ${stepsHtml}
-          </details>
-        `;
+        return `<details class="unlock-box"><summary>${titleText}</summary>${stepsHtml}</details>`;
       }
 
       function renderGlosario() {
@@ -814,11 +776,8 @@
       }
 
       function toggleMutacionPoseida(mutId) {
-        if (mutacionesPoseidas.has(mutId)) {
-          mutacionesPoseidas.delete(mutId);
-        } else {
-          mutacionesPoseidas.add(mutId);
-        }
+        if (mutacionesPoseidas.has(mutId)) mutacionesPoseidas.delete(mutId);
+        else mutacionesPoseidas.add(mutId);
         actualizarEntombPlanner();
       }
 
@@ -836,7 +795,6 @@
         const dino = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
         if (!dino) return;
 
-        // Filtrar mutaciones compatibles con esta especie
         const mutsCompatibles = mutacionesDB.filter(m => {
           if (m.restriccionTipo === "carnivoro" && dino.dieta !== "carnivoro") return false;
           if (m.restriccionTipo === "herbivoro" && dino.dieta !== "herbivoro") return false;
@@ -844,7 +802,6 @@
           return true;
         });
 
-        // Renderizar checkboxes de mutaciones poseídas
         const checkGrid = document.getElementById("mut-check-grid");
         let gridHtml = '';
         mutsCompatibles.forEach(mut => {
@@ -858,146 +815,8 @@
         });
         checkGrid.innerHTML = gridHtml;
 
-        // Calcular recomendaciones sin duplicados
         const recomendContainer = document.getElementById("recommend-slots-container");
-        
-        // Mutaciones no poseídas
         const disponibles = mutsCompatibles.filter(m => !mutacionesPoseidas.has(m.id));
 
-        // Priorizar según modo seleccionado (pelea, viaje, crianza) y build sugerida
         disponibles.sort((a, b) => {
-          const aInBuild = dino.build.es.s.includes(a.id) ? 3 : 0;
-          const bInBuild = dino.build.es.s.includes(b.id) ? 3 : 0;
-          
-          const aTagMatch = (a.tags && a.tags.includes(entombMode)) ? 2 : 0;
-          const bTagMatch = (b.tags && b.tags.includes(entombMode)) ? 2 : 0;
-
-          return (bInBuild + bTagMatch) - (aInBuild + aTagMatch);
-        });
-
-        const seleccionadas = disponibles.slice(0, 4);
-
-        if (seleccionadas.length === 0) {
-          recomendContainer.innerHTML = `<div style="grid-column: 1/-1; color: #f1c40f;">¡Ya posees todas las mutaciones compatibles disponibles!</div>`;
-          return;
-        }
-
-        let recHtml = '';
-        seleccionadas.forEach((mut, idx) => {
-          recHtml += `
-            <div class="slot-card">
-              <strong>Slot ${idx + 1}: ${mut.id}</strong>
-              <div style="font-size: 0.78rem; color: #b0b0b0;">${mut.desc[idiomaActual]}</div>
-            </div>
-          `;
-        });
-        recomendContainer.innerHTML = recHtml;
-      }
-
-      function mostrarBuild() {
-        const select = document.getElementById("select-dino");
-        const valorSeleccionado = select.value;
-        const contenedor = document.getElementById("resultado-build");
-
-        if (!valorSeleccionado) {
-            contenedor.innerHTML = `<p style="text-align: center; color: #d1d1d1;" id="txt-placeholder"><em>${
-                idiomaActual === 'es' 
-                ? 'Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.' 
-                : 'Choose a dinosaur from the list to display its 4-mutation build and strategy.'
-            }</em></p>`;
-            return;
-        }
-
-        const dinoEncontrado = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
-
-        if (dinoEncontrado) {
-            const info = dinoEncontrado.build[idiomaActual];
-            const tipoDino = dinoEncontrado.tipo[idiomaActual];
-            
-            let listHtml = '<ul class="build-list">';
-            info.s.forEach((mutId, index) => {
-              const mutData = mutacionesDB.find(m => m.id === mutId);
-              const desc = mutData ? mutData.desc[idiomaActual] : '';
-              listHtml += `
-                <li>
-                  <strong style="color: #ff4d4d;">Slot ${index + 1}:</strong> <span style="font-weight:bold; color:#fff;">${mutId}</span>
-                  <div style="font-size: 0.85rem; color: #b0b0b0; margin-top:2px;"><em>${desc}</em></div>
-                  ${mutData ? renderBadges(mutData) : ''}
-                  ${mutData ? renderUnlockAccordion(mutData.unlock) : ''}
-                </li>
-              `;
-            });
-            listHtml += '</ul>';
-
-            let soloNoteHtml = '';
-            if (dinoEncontrado.soloNote) {
-                soloNoteHtml = `<div class="solo-note">${dinoEncontrado.soloNote[idiomaActual]}</div>`;
-            }
-
-            const mutacionesCompatibles = mutacionesDB.filter(m => {
-              if (m.restriccionTipo === "carnivoro" && dinoEncontrado.dieta !== "carnivoro") return false;
-              if (m.restriccionTipo === "herbivoro" && dinoEncontrado.dieta !== "herbivoro") return false;
-              if (m.soloSalto && !dinoEncontrado.puedeSaltar) return false;
-              return true;
-            }).map(m => m.id);
-
-            const entombNoteHtml = `
-              <div class="entomb-note">
-                <strong>🪨 ${idiomaActual === 'es' ? '16 Mutaciones recomendadas:' : '16 Recommended mutations:'}</strong><br>
-                <em>${mutacionesCompatibles.join(', ')}</em>
-              </div>
-            `;
-
-            contenedor.innerHTML = `
-              <div class="card">
-                <h2>${dinoEncontrado.nombre} <small style="font-size: 13px; color: #ff4d4d;">(${tipoDino})</small></h2>
-                <p><strong>${idiomaActual === 'es' ? 'Estrategia principal:' : 'Main strategy:'}</strong> ${info.desc}</p>
-                ${listHtml}
-                ${soloNoteHtml}
-                ${entombNoteHtml}
-              </div>
-            `;
-        }
-      }
-
-      function actualizarTodo() {
-        mostrarBuild();
-        actualizarEntombPlanner();
-      }
-
-      function toggleIdioma() {
-        idiomaActual = (idiomaActual === 'es') ? 'en' : 'es';
-        const btn = document.getElementById("lang-toggle");
-
-        if (idiomaActual === 'en') {
-            btn.innerText = "🌐 Cambiar a Español";
-            document.getElementById("btn-skins").innerText = "🎨 Open Skins";
-            document.getElementById("btn-mapa").innerText = "🗺️ Open IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Select your dinosaur to check its recommended <span class="highlight-red">mutation</span> build.';
-            document.getElementById("lbl-select").innerText = "Select Dinosaur:";
-            document.getElementById("opt-default").innerText = "-- Choose an option --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnivores";
-            document.getElementById("grp-carni").label = "Carnivores";
-            document.getElementById("titulo-glosario").innerHTML = 'Full <span class="highlight-red">Mutation</span> Glossary';
-            document.getElementById("subtitulo-glosario").innerText = "Complete list extracted from the server to customize your build:";
-        } else {
-            btn.innerText = "🌐 Switch to English";
-            document.getElementById("btn-skins").innerText = "🎨 Abrir Skins";
-            document.getElementById("btn-mapa").innerText = "🗺️ Abrir IsleMaps";
-            document.getElementById("txt-subtitulo").innerHTML = 'Selecciona tu dinosaurio para consultar su build recomendada de <span class="highlight-red">mutaciones</span>.';
-            document.getElementById("lbl-select").innerText = "Seleccionar Dinosaurio:";
-            document.getElementById("opt-default").innerText = "-- Elige una opción --";
-            document.getElementById("grp-herbi").label = "Herbi/Omnívoros";
-            document.getElementById("grp-carni").label = "Carnívoros";
-            document.getElementById("titulo-glosario").innerHTML = 'Glosario Completo de <span class="highlight-red">Mutaciones</span>';
-            document.getElementById("subtitulo-glosario").innerText = "Lista completa extraída del servidor para armar y personalizar tu propia build:";
-        }
-
-        renderGlosario();
-        actualizarTodo();
-      }
-
-      renderGlosario();
-    </script>
-</body>
-</html>
+          const aInBuild = dino.build.es
