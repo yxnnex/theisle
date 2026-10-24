@@ -118,7 +118,7 @@
         select:focus { border-color: #ff4d4d; }
         select option, select optgroup { background-color: #1a1a1a; color: #ffffff; }
 
-        .card, .mutacion-item {
+        .card, .mutacion-item, .entomb-planner-box {
             background: rgba(20, 22, 25, 0.9);
             backdrop-filter: blur(6px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -129,6 +129,107 @@
         .card { padding: 18px; margin-bottom: 25px; border-top: 3px solid #ff4d4d; }
         .card h2 { font-family: 'Short Stack', cursive; font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; }
         .card p { margin-bottom: 12px; color: #e0e0e0; font-size: 0.9rem; }
+
+        /* ENTOMB OPTIMIZER BOX STYLES */
+        .entomb-planner-box {
+            padding: 18px;
+            margin-bottom: 25px;
+            border-top: 3px solid #9b59b6;
+            background: rgba(18, 15, 25, 0.92);
+        }
+        .entomb-planner-box h3 {
+            border-bottom: 2px solid #9b59b6;
+            margin-top: 0;
+            color: #d8b4fe;
+        }
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0 16px 0;
+            flex-wrap: wrap;
+        }
+        .mode-btn {
+            background: rgba(30, 30, 45, 0.8);
+            border: 1px solid rgba(155, 89, 182, 0.5);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .mode-btn.active, .mode-btn:hover {
+            background: #9b59b6;
+            color: #fff;
+            border-color: #c084fc;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+        }
+
+        .mut-check-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+        .mut-check-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .mut-check-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .mut-check-item input[type="checkbox"] {
+            accent-color: #9b59b6;
+            cursor: pointer;
+        }
+        .mut-check-item.checked {
+            text-decoration: line-through;
+            color: #888888;
+        }
+
+        .recommendation-panel {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+            padding: 12px 16px;
+            border-radius: 6px;
+        }
+        .recommendation-panel h4 {
+            color: #2ecc71;
+            font-family: 'Short Stack', cursive;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+        .recommend-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .slot-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #2ecc71;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .slot-card strong {
+            color: #2ecc71;
+            display: block;
+            margin-bottom: 2px;
+        }
 
         .solo-note {
             background: rgba(241, 196, 15, 0.12);
@@ -265,7 +366,7 @@
     </details>
 
     <label for="select-dino" id="lbl-select">Seleccionar Dinosaurio:</label>
-    <select id="select-dino" onchange="mostrarBuild()">
+    <select id="select-dino" onchange="actualizarTodo()">
         <option value="" id="opt-default">-- Elige una opción --</option>
         <optgroup label="Herbi/Omnívoros" id="grp-herbi">
             <option value="Dryosaurus">Dryosaurus</option>
@@ -295,6 +396,36 @@
         </optgroup>
     </select>
 
+    <!-- OPTIMIZADOR DE ENTOMB / GROW PARA EVITAR REPETIDOS -->
+    <div id="entomb-planner-container" style="display: none;">
+        <div class="entomb-planner-box">
+            <h3>⚡ Optimizador de ENTOMB / Grow (Sin 'Empty')</h3>
+            <p style="font-size: 0.85rem; color: #d1d1d1; margin-bottom: 8px;">
+                Selecciona las mutaciones que tu dinosaurio <strong>YA TIENE</strong> actualmente en su genoma. El simulador las descartará automáticamente para que no elijas una duplicada en el panel del servidor y pierdas el slot.
+            </p>
+
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 0.88rem; color: #c084fc;">🎯 Objetivo del próximo Grow:</label>
+                <div class="mode-selector">
+                    <button class="mode-btn active" onclick="setEntombMode('pelea')" id="btn-mode-pelea">⚔️ Pelea / PvP</button>
+                    <button class="mode-btn" onclick="setEntombMode('viaje')" id="btn-mode-viaje">🏕️ Supervivencia / Viaje</button>
+                    <button class="mode-btn" onclick="setEntombMode('crianza')" id="btn-mode-crianza">🥚 Crianza / Nido</button>
+                </div>
+            </div>
+
+            <label style="font-size: 0.88rem; color: #ff4d4d;">☑️ Marca las mutaciones que YA posees:</label>
+            <div class="mut-check-grid" id="mut-check-grid"></div>
+
+            <div class="recommendation-panel">
+                <h4>✨ Mutaciones recomendadas para tus próximos 4 Slots:</h4>
+                <p style="font-size: 0.8rem; color: #e0e0e0; margin-bottom: 6px;">
+                    Selecciona exactamente estas 4 opciones en el panel web de compra o Grow del servidor:
+                </p>
+                <div class="recommend-slots" id="recommend-slots-container"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="resultado-build">
         <p style="text-align: center; color: #d1d1d1;" id="txt-placeholder">
             <em>Elige un dinosaurio de la lista para desplegar su build de 4 mutaciones y estrategia.</em>
@@ -310,52 +441,54 @@
 
     <script>
       let idiomaActual = 'es';
+      let entombMode = 'pelea';
+      let mutacionesPoseidas = new Set();
 
-      // BASE DE DATOS DE MUTACIONES CON DETALLES DE DESBLOQUEO Y BADGES
+      // BASE DE DATOS DE MUTACIONES EVRIMA 0.21.784
       const mutacionesDB = [
         { 
-          id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          id: "Cellular Regeneration", cat: 1, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "+15% velocidad de regeneración de salud.", en: "+15% health regeneration speed." },
           sinergia: { es: "Excelente con sanación acelerada y curación rápida en descanso.", en: "Combines well with fast healing and resting recovery." },
           unlock: { es: ["Mantén tus nutrientes de la dieta por arriba del 50%.", "Sana daño de vida de manera continua mientras descansas."], en: ["Keep diet nutrients above 50%.", "Heal health damage continuously while resting."] }
         },
         { 
-          id: "Efficient Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          id: "Efficient Digestion", cat: 1, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "El hambre se reduce más lento.", en: "Hunger drains slower." },
           sinergia: { es: "Útil para especies viajeras de larga distancia.", en: "Useful for long-distance roaming species." },
           unlock: { es: ["Mantenlos nutrientes llenos por tiempo prolongado.", "Rellena tu estómago al 100% varias veces."], en: ["Keep nutrients full for extended periods.", "Fill stomach to 100% multiple times."] }
         },
         { 
-          id: "Enhanced Digestion", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          id: "Enhanced Digestion", cat: 1, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "Reduce la tasa de pérdida de nutrientes (10%).", en: "Decrease nutrition decay rate (10%)." },
           sinergia: { es: "Mantiene los buffos de la dieta por más tiempo.", en: "Maintains diet buffs for longer durations." },
           unlock: { es: ["Consume los 3 nutrientes diferentes de tu dieta.", "Mantén los 3 íconos activos durante la fase juvenil."], en: ["Consume all 3 diet nutrient types.", "Keep all 3 icons active during juvenile phase."] }
         },
         { 
-          id: "Sustained Hydration", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          id: "Sustained Hydration", cat: 1, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "La sed se reduce más lento.", en: "Thirst drains slower." },
           sinergia: { es: "Ideal para zonas secas o cruces de mapa.", en: "Ideal for dry areas or map travel." },
           unlock: { es: ["Manten la barra de agua por encima del 80%.", "Bebe de fuentes de agua limpia recurrentemente."], en: ["Keep water bar above 80%.", "Drink from clean water sources repeatedly."] }
         },
         { 
-          id: "Xerocole Adaptation", cat: 1, restriccionTipo: "herbivoro", soloSalto: false,
+          id: "Xerocole Adaptation", cat: 1, restriccionTipo: "herbivoro", tags: ["viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "Reduce la pérdida de agua al comer vegetación.", en: "Reduces water loss when eating plants." },
           restriccion: { es: "Solo Herbívoros", en: "Herbivores Only" },
           unlock: { es: ["Comer vegetación mientras la sed está baja.", "Consumir plantas de bioma seco."], en: ["Eat plants while thirst is low.", "Consume dry biome vegetation."] }
         },
         { 
-          id: "Reabsorption", cat: 1, restriccionTipo: "universal", soloSalto: false,
+          id: "Reabsorption", cat: 1, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Supervivencia y Metabolismo (Slot 1)", en: "Survival & Metabolism (Slot 1)" },
           desc: { es: "Recupera una pequeña cantidad de sed mientras llueve o al nadar en agua potable.", en: "Recover a small amount of thirst during rain or while swimming in drinkable water." },
           unlock: { es: ["Permanecer expuesto a la lluvia intensa o nadar en agua dulce."], en: ["Stay exposed to heavy rain or swim in freshwater."] }
         },
         { 
-          id: "Hypermetabolic Inanition", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Hypermetabolic Inanition", cat: 2, restriccionTipo: "carnivoro", tags: ["pelea"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Cuanta menos comida tengas, más daño infligís (hasta +15%).", en: "The lower your food bar, the more damage you deal (up to +15%)." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
@@ -363,13 +496,13 @@
           unlock: { es: ["Atacar u orquestar combates con el hambre por debajo del 30%.", "Infligir daño estando hambriento."], en: ["Attack or fight with hunger under 30%.", "Deal damage while starving."] }
         },
         { 
-          id: "Heightened Ghrelin", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          id: "Heightened Ghrelin", cat: 2, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Aumenta la capacidad máxima del estómago (permite sobrealimentarse).", en: "Increases maximum stomach capacity." },
           unlock: { es: ["Comer hasta el límite máximo de saciedad.", "Mantener el estómago parpadeando de lleno durante varios minutos."], en: ["Eat to maximum satiety limits.", "Keep blinking full stomach for several minutes."] }
         },
         { 
-          id: "Accelerated Prey Drive", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Accelerated Prey Drive", cat: 2, restriccionTipo: "carnivoro", tags: ["pelea"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "+10% de daño a objetivos con menos del 35% de vida.", en: "+10% damage to targets with under 35% health." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
@@ -377,7 +510,7 @@
           unlock: { es: ["Atacar y rematar presas con salud crítica.", "Participar en la muerte de múltiples carcasas."], en: ["Attack and finish low health prey.", "Participate in killing multiple targets."] }
         },
         { 
-          id: "Hemomania", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Hemomania", cat: 2, restriccionTipo: "carnivoro", tags: ["pelea"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "+5% de daño adicional contra enemigos sangrando.", en: "+5% bonus damage against bleeding targets." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
@@ -385,34 +518,34 @@
           unlock: { es: ["Garantizar mordiscos sobre presas sangrando.", "Causar sangrado continuo en combate."], en: ["Land hits on bleeding prey.", "Cause continuous bleed status in combat."] }
         },
         { 
-          id: "Hematophagy", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Hematophagy", cat: 2, restriccionTipo: "carnivoro", tags: ["viaje"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Restaura agua y sed al alimentarte de cadáveres o cuerpos recientes.", en: "Restores thirst while eating corpses." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
           unlock: { es: ["Consumir cadáveres frescos o cuerpos en descomposición."], en: ["Eat fresh corpses or carcasses."] }
         },
         { 
-          id: "Osteophagic", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Osteophagic", cat: 2, restriccionTipo: "carnivoro", tags: ["pelea", "viaje"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Permite consumir huesos para acelerar la regeneración y cura de fracturas.", en: "Unlocks ability to consume bones to speed up fracture regeneration." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
           unlock: { es: ["Masticar y consumir restos óseos o cadáveres limpios."], en: ["Eat bone remains from clean carcasses."] }
         },
         { 
-          id: "Gastronomic Regeneration", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          id: "Gastronomic Regeneration", cat: 2, restriccionTipo: "universal", tags: ["pelea"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Comer restaura una pequeña cantidad de salud.", en: "Eating restores a small amount of health." },
           unlock: { es: ["Comer inmediatamente después de recibir daño.", "Sana salud mientras te alimentas."], en: ["Eat immediately after taking damage.", "Heal health while eating."] }
         },
         { 
-          id: "Cannibalistic", cat: 2, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Cannibalistic", cat: 2, restriccionTipo: "carnivoro", tags: ["viaje"],
           catNombre: { es: "Caza, Dieta y Ataque (Slot 2)", en: "Hunting, Diet & Attack (Slot 2)" },
           desc: { es: "Permite comer cadáveres de tu propia especie sin sufrir vómitos ni enfermedad de canibalismo.", en: "Allows eating same-species corpses without getting sick or vomiting." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
           unlock: { es: ["Consumir carne de miembros de tu misma especie."], en: ["Cannibalize corpses of your own species."] }
         },
         { 
-          id: "Prolific Reproduction", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          id: "Prolific Reproduction", cat: 2, restriccionTipo: "universal", tags: ["crianza"],
           catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
           desc: { es: "Tus crías nacen con mayor velocidad de crecimiento, más regeneración de salud/estamina y menor gasto de comida.", en: "Offspring receive faster growth, higher health/stamina regen, and lower food intake." },
           restriccion: { es: "Solo Hembras", en: "Females Only" },
@@ -420,105 +553,105 @@
           unlock: { es: ["Crear un nido, incubar y criar al menos a 5 crías hasta la etapa juvenil."], en: ["Build a nest, incubate and raise at least 5 hatchlings to juvenile stage."] }
         },
         { 
-          id: "Advanced Gestation", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          id: "Advanced Gestation", cat: 2, restriccionTipo: "universal", tags: ["crianza"],
           catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
           desc: { es: "Acelera un 50% la velocidad de gestación, incubación y reduce el tiempo de reutilización de huevos.", en: "50% faster egg gestation, incubation, and egg cooldown rate." },
           restriccion: { es: "Solo Hembras", en: "Females Only" },
           unlock: { es: ["Poner huevos e incubar nidos exitosamente."], en: ["Lay eggs and incubate nests successfully."] }
         },
         { 
-          id: "Parthenogenesis", cat: 2, restriccionTipo: "universal", soloSalto: false,
+          id: "Parthenogenesis", cat: 2, restriccionTipo: "universal", tags: ["crianza"],
           catNombre: { es: "Reproducción y Cría (Slot 2)", en: "Reproduction & Nesting (Slot 2)" },
           desc: { es: "Permite a las hembras poner huevos fértiles sin necesidad de un macho en el nido.", en: "Allows female players to lay fertile eggs without needing a male player." },
           restriccion: { es: "Solo Hembras", en: "Females Only" },
           unlock: { es: ["Crear nidos estando sola y completar ciclos de anidación."], en: ["Nest alone as a female player and complete nesting cycles."] }
         },
         { 
-          id: "Epidermal Fibrosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Epidermal Fibrosis", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "+15% de resistencia al sangrado.", en: "+15% bleed resistance." },
           sinergia: { es: "Mitiga el daño pasivo frente a carnívoros de sangrado.", en: "Mitigates passive damage against bleeders." },
           unlock: { es: ["Sobrevivir a múltiples estados de sangrado severo.", "Sustentar combates recibiendo sangrado."], en: ["Survive severe bleeding status multiple times.", "Endure fights while bleeding."] }
         },
         { 
-          id: "Traumatic Thrombosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Traumatic Thrombosis", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "Evita morir por pérdida de sangre si te sientas a descansar.", en: "Prevents death from blood loss while sitting down." },
           sinergia: { es: "Salvavidas esencial en escapadas a vida o muerte.", en: "Essential lifesaver when escaping critical fights." },
           unlock: { es: ["Sentarse a descansar con el nivel de sangrado al máximo.", "Evitar morir por sangre al descansar."], en: ["Sit to rest with maximum bleed intensity.", "Avoid death by bleeding out while resting."] }
         },
         { 
-          id: "Osteosclerosis", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Osteosclerosis", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "20% de probabilidad de mitigar o evitar fracturas.", en: "20% chance to prevent or mitigate bone fractures." },
           sinergia: { es: "Indispensable contra rompehuesos como Pachy o T-Rex.", en: "Essential against bonebreakers like Pachy or T-Rex." },
           unlock: { es: ["Recibir golpes contundentes en las piernas o cuerpo.", "Sobrevivir y curar fracturas óseas."], en: ["Take heavy impacts to body or legs.", "Survive and heal broken bone status."] }
         },
         { 
-          id: "Reinforced Tendons", cat: 3, restriccionTipo: "universal", soloSalto: true,
+          id: "Reinforced Tendons", cat: 3, restriccionTipo: "universal", soloSalto: true, tags: ["viaje", "pelea"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "Reduce el gasto de estamina al saltar o brincar.", en: "Reduces stamina cost when jumping." },
           soloSaltoNote: { es: "Requiere capacidad de salto", en: "Requires jump ability" },
           unlock: { es: ["Efectuar saltos continuos gastando estamina.", "Realizar saltos desde alturas medias."], en: ["Perform continuous jumps using stamina.", "Jump from medium heights."] }
         },
         { 
-          id: "Congenital Hypoalgesia", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Congenital Hypoalgesia", cat: 3, restriccionTipo: "universal", tags: ["pelea"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "Reduce el daño recibido al luchar contra especies más grandes (15%).", en: "Reduces incoming damage from larger species (15%)." },
           sinergia: { es: "Crucial en especies medianas que enfrentan Ápex.", en: "Crucial for mid-tiers facing Apexes." },
           unlock: { es: ["Recibir daño y sobrevivir ataques de dinosaurios con mayor peso.", "Pelear contra dinosaurios más grandes."], en: ["Take damage and survive hits from heavier dinos.", "Fight larger species."] }
         },
         { 
-          id: "Multichambered Lungs", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Multichambered Lungs", cat: 3, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "Disminuye el tiempo requerido para empezar a regenerar estamina.", en: "Reduces the delay threshold before stamina starts regenerating." },
           unlock: { es: ["Agotar completamente la barra de estamina.", "Empezar a regenerar estamina desde cero múltiples veces."], en: ["Completely drain stamina bar.", "Start regenerating stamina from zero repeatedly."] }
         },
         { 
-          id: "Increased Inspiratory Capacity", cat: 3, restriccionTipo: "universal", soloSalto: false,
+          id: "Increased Inspiratory Capacity", cat: 3, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Combate y Resistencia (Slot 3)", en: "Combat & Resistance (Slot 3)" },
           desc: { es: "+15% de capacidad pulmonar de oxígeno al sumergirse en agua.", en: "+15% increased oxygen capacity when submerged." },
           unlock: { es: ["Aguantar la respiración bajo el agua hasta quedarse casi sin oxígeno."], en: ["Hold breath underwater until oxygen is nearly depleted."] }
         },
         { 
-          id: "Infrasound Communication", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Infrasound Communication", cat: 4, restriccionTipo: "universal", tags: ["crianza", "viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Reduce en un 50% el rango de volumen al comunicarte o rugir por chat/voz en tu entorno.", en: "50% lower volume range when talking or broadcasting in local chat." },
           unlock: { es: ["Usar llamadas y rugidos de comunicación frecuentemente."], en: ["Use vocal calls and broadcasts continuously."] }
         },
         { 
-          id: "Hypervigilance", cat: 4, restriccionTipo: "herbivoro", soloSalto: false,
+          id: "Hypervigilance", cat: 4, restriccionTipo: "herbivoro", tags: ["viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "+50% de rango auditivo y amplía la cámara al comer/beber.", en: "+50% hearing range and wider view while eating/drinking." },
           restriccion: { es: "Solo Herbívoros", en: "Herbivores Only" },
           unlock: { es: ["Comer o beber detectando sonido en los alrededores.", "Mantenerse en alerta en zonas de agua."], en: ["Eat or drink while detecting nearby sounds.", "Stay alert around water bodies."] }
         },
         { 
-          id: "Hydrodynamic", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Hydrodynamic", cat: 4, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "+15% velocidad de nado.", en: "+15% swim speed." },
           unlock: { es: ["Nadar distancias largas en ríos o mar.", "Cruzar cuerpos de agua profunda."], en: ["Swim long distances in rivers or ocean.", "Cross deep water bodies."] }
         },
         { 
-          id: "Hydroregenerative", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Hydroregenerative", cat: 4, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Recupera salud 25% más rápido durante la lluvia.", en: "Recover health 25% faster during rain." },
           unlock: { es: ["Recibir daño y permanecer a la intemperie mientras llueve.", "Curar vida bajo la tormenta."], en: ["Take damage and remain outdoors during rain.", "Heal health during storms."] }
         },
         { 
-          id: "Wader", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Wader", cat: 4, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Mayor velocidad en aguas poco profundas/pantanos.", en: "Higher speed in shallow waters/swamps." },
           unlock: { es: ["Caminar y correr en orillas o pantanos de poca profundidad.", "Desplazarse por deltas de agua."], en: ["Walk and run along shallow shores or swamps.", "Travel through water deltas."] }
         },
         { 
-          id: "Submerged Optical Retention", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Submerged Optical Retention", cat: 4, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Mejora el rango de visión bajo el agua y la claridad de visión acuática.", en: "Increases underwater vision range and clarity." },
           unlock: { es: ["Bucear y cazar o buscar recursos bajo el agua."], en: ["Dive and navigate under murky waters."] }
         },
         { 
-          id: "Reniculate Kidneys", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Reniculate Kidneys", cat: 4, restriccionTipo: "universal", tags: ["viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Permite beber agua de mar o salada sin sufrir deshidratación ni el debuff de Fluid Deficient.", en: "Allows drinking seawater or saltwater without suffering dehydration or the Fluid Deficient debuff." },
           sinergia: { es: "Perfecta para cazadores costeros, Pteranodon, Deinosuchus o especies viajeras.", en: "Perfect for coastal hunters, Pteranodon, Deinosuchus, or roaming species." },
@@ -538,26 +671,26 @@
           }
         },
         { 
-          id: "Featherweight", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Featherweight", cat: 4, restriccionTipo: "universal", tags: ["viaje", "pelea"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Las huellas desaparecen más rápido.", en: "Footprints disappear faster." },
           unlock: { es: ["Caminar sigilosamente o esprintar por terreno barro/tierra.", "Moverse sin ser detectado."], en: ["Walk stealthily or sprint across muddy soil.", "Move undetected."] }
         },
         { 
-          id: "Nocturnal", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Nocturnal", cat: 4, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Mayor regeneración de salud y velocidad durante la noche.", en: "Faster health recovery and movement speed at night." },
           unlock: { es: ["Permanecer activo y recuperarse durante el ciclo nocturno.", "Estar al aire libre en la oscuridad."], en: ["Stay active and heal during night cycle.", "Be outdoors in full darkness."] }
         },
         { 
-          id: "Augmented Tapetum", cat: 4, restriccionTipo: "carnivoro", soloSalto: false,
+          id: "Augmented Tapetum", cat: 4, restriccionTipo: "carnivoro", tags: ["pelea"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Mejora significativamente el campo de visión y nitidez en la noche.", en: "Extends night vision range and clarity significantly." },
           restriccion: { es: "Solo Carnívoros", en: "Carnivores Only" },
           unlock: { es: ["Eliminar de 4 a 16 jugadores o presas durante la noche.", "Cazar en la oscuridad completa de forma continua."], en: ["Kill 4 to 16 players during the night.", "Hunt continuously in total darkness."] }
         },
         { 
-          id: "Photosynthetic Tissue", cat: 4, restriccionTipo: "universal", soloSalto: false,
+          id: "Photosynthetic Tissue", cat: 4, restriccionTipo: "universal", tags: ["pelea", "viaje"],
           catNombre: { es: "Movilidad, Entorno y Visión", en: "Mobility, Environment & Vision" },
           desc: { es: "Aumenta la velocidad y regeneración diurna.", en: "Increases daytime movement speed and health regen." },
           unlock: { es: ["Estar expuesto a la luz solar directa durante el día.", "Realizar actividad en pleno mediodía."], en: ["Be exposed to direct sunlight during daytime.", "Stay active at noon."] }
@@ -599,7 +732,7 @@
         { nombre: "Omniraptor", dieta: "carnivoro", puedeSaltar: true, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Ataque en jauría y saltos.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Pack hunter and pouncing.", s: ["Reinforced Tendons", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Dilophosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Caza nocturna.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] }, en: { desc: "Night hunter.", s: ["Nocturnal", "Hemomania", "Accelerated Prey Drive", "Featherweight"] } } },
         { nombre: "Ceratosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Carroñero agresivo.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] }, en: { desc: "Aggressive scavenger.", s: ["Gastronomic Regeneration", "Epidermal Fibrosis", "Hypermetabolic Inanition", "Osteosclerosis"] } } },
-        { nombre: "Carnotaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Embiste a máxima velocidad.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] }, en: { desc: "High-speed charge.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] } } },
+        { nombre: "Carnotaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Embiste a máxima velocidad.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] }, en: { desc: "High-speed charge.", s: ["Multichambered Lungs", "Hypermetabolic Inanition", "Accelerated Prey Drive", "Epidermal Fibrosis"] } },
         { nombre: "Allosaurus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Desangrado de objetivos grandes.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] }, en: { desc: "Big target bleeder.", s: ["Hemomania", "Accelerated Prey Drive", "Epidermal Fibrosis", "Cellular Regeneration"] } } },
         { nombre: "Deinosuchus", dieta: "carnivoro", puedeSaltar: false, tipo: { es: "Carnívoro", en: "Carnivore" }, build: { es: { desc: "Emboscada acuática marina/fluvial.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] }, en: { desc: "Aquatic ambush.", s: ["Reniculate Kidneys", "Hydrodynamic", "Wader", "Hypermetabolic Inanition"] } } },
         { 
@@ -673,6 +806,94 @@
         container.innerHTML = html;
       }
 
+      function setEntombMode(mode) {
+        entombMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`btn-mode-${mode}`).classList.add('active');
+        actualizarEntombPlanner();
+      }
+
+      function toggleMutacionPoseida(mutId) {
+        if (mutacionesPoseidas.has(mutId)) {
+          mutacionesPoseidas.delete(mutId);
+        } else {
+          mutacionesPoseidas.add(mutId);
+        }
+        actualizarEntombPlanner();
+      }
+
+      function actualizarEntombPlanner() {
+        const select = document.getElementById("select-dino");
+        const valorSeleccionado = select.value;
+        const plannerContainer = document.getElementById("entomb-planner-container");
+
+        if (!valorSeleccionado) {
+          plannerContainer.style.display = "none";
+          return;
+        }
+
+        plannerContainer.style.display = "block";
+        const dino = dinosauriosDB.find(d => d.nombre === valorSeleccionado);
+        if (!dino) return;
+
+        // Filtrar mutaciones compatibles con esta especie
+        const mutsCompatibles = mutacionesDB.filter(m => {
+          if (m.restriccionTipo === "carnivoro" && dino.dieta !== "carnivoro") return false;
+          if (m.restriccionTipo === "herbivoro" && dino.dieta !== "herbivoro") return false;
+          if (m.soloSalto && !dino.puedeSaltar) return false;
+          return true;
+        });
+
+        // Renderizar checkboxes de mutaciones poseídas
+        const checkGrid = document.getElementById("mut-check-grid");
+        let gridHtml = '';
+        mutsCompatibles.forEach(mut => {
+          const isChecked = mutacionesPoseidas.has(mut.id);
+          gridHtml += `
+            <label class="mut-check-item ${isChecked ? 'checked' : ''}">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleMutacionPoseida('${mut.id}')">
+              <span>${mut.id}</span>
+            </label>
+          `;
+        });
+        checkGrid.innerHTML = gridHtml;
+
+        // Calcular recomendaciones sin duplicados
+        const recomendContainer = document.getElementById("recommend-slots-container");
+        
+        // Mutaciones no poseídas
+        const disponibles = mutsCompatibles.filter(m => !mutacionesPoseidas.has(m.id));
+
+        // Priorizar según modo seleccionado (pelea, viaje, crianza) y build sugerida
+        disponibles.sort((a, b) => {
+          const aInBuild = dino.build.es.s.includes(a.id) ? 3 : 0;
+          const bInBuild = dino.build.es.s.includes(b.id) ? 3 : 0;
+          
+          const aTagMatch = (a.tags && a.tags.includes(entombMode)) ? 2 : 0;
+          const bTagMatch = (b.tags && b.tags.includes(entombMode)) ? 2 : 0;
+
+          return (bInBuild + bTagMatch) - (aInBuild + aTagMatch);
+        });
+
+        const seleccionadas = disponibles.slice(0, 4);
+
+        if (seleccionadas.length === 0) {
+          recomendContainer.innerHTML = `<div style="grid-column: 1/-1; color: #f1c40f;">¡Ya posees todas las mutaciones compatibles disponibles!</div>`;
+          return;
+        }
+
+        let recHtml = '';
+        seleccionadas.forEach((mut, idx) => {
+          recHtml += `
+            <div class="slot-card">
+              <strong>Slot ${idx + 1}: ${mut.id}</strong>
+              <div style="font-size: 0.78rem; color: #b0b0b0;">${mut.desc[idiomaActual]}</div>
+            </div>
+          `;
+        });
+        recomendContainer.innerHTML = recHtml;
+      }
+
       function mostrarBuild() {
         const select = document.getElementById("select-dino");
         const valorSeleccionado = select.value;
@@ -713,7 +934,6 @@
                 soloNoteHtml = `<div class="solo-note">${dinoEncontrado.soloNote[idiomaActual]}</div>`;
             }
 
-            // FILTRAR AUTOMÁTICAMENTE LAS MUTACIONES COMPATIBLES PARA LA NOTA DE EMBOSCADA
             const mutacionesCompatibles = mutacionesDB.filter(m => {
               if (m.restriccionTipo === "carnivoro" && dinoEncontrado.dieta !== "carnivoro") return false;
               if (m.restriccionTipo === "herbivoro" && dinoEncontrado.dieta !== "herbivoro") return false;
@@ -738,6 +958,11 @@
               </div>
             `;
         }
+      }
+
+      function actualizarTodo() {
+        mostrarBuild();
+        actualizarEntombPlanner();
       }
 
       function toggleIdioma() {
@@ -769,7 +994,7 @@
         }
 
         renderGlosario();
-        mostrarBuild();
+        actualizarTodo();
       }
 
       renderGlosario();
